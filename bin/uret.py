@@ -183,11 +183,33 @@ def main():
     for g in girisler:
         gecmis_yaz(g)
 
+    sitemap_yaz(girisler)
+
     eksik = [g for g in girisler if not g["es"]]
     if eksik:
         print(f"\ncevirisi olmayan {len(eksik)} giris:")
         for g in eksik:
             print(f"  {g['yol']}")
+
+
+def sitemap_yaz(girisler):
+    """Tum sayfalari sitemap.xml'e yazar. Sabit sayfalar + tum girisler."""
+    yollar = ["/", "/tr/", "/en/", "/tr/arsiv/", "/en/archive/",
+              "/tr/hakkinda/", "/en/about/", "/tr/cv/", "/en/cv/"]
+    yollar += [g["yol"] for g in girisler]
+    # Yil ve ay indeksleri
+    aylar = sorted({(g["dil"], g["yil"], g["ay"]) for g in girisler})
+    yillar = sorted({(g["dil"], g["yil"]) for g in girisler})
+    yollar += [f"/{d}/{y}/" for d, y in yillar]
+    yollar += [f"/{d}/{y}/{a}/" for d, y, a in aylar]
+    kok = "https://efekurucay.com"
+    satirlar = "\n".join(
+        f"  <url><loc>{kok}{y}</loc></url>" for y in sorted(set(yollar)))
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+           + satirlar + "\n</urlset>\n")
+    open(os.path.join(KOK, "sitemap.xml"), "w", encoding="utf-8").write(xml)
+    print(f"  sitemap.xml: {len(set(yollar))} url")
 
 
 def gecmis_yaz(g):
