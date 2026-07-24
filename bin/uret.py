@@ -180,11 +180,69 @@ def main():
                 sayfa_yaz(os.path.join(KOK, dil, yil, a, "index.html"), dil, sz,
                           f"{sz['aylar'][a]} {yil}", govde)
 
+    for g in girisler:
+        gecmis_yaz(g)
+
     eksik = [g for g in girisler if not g["es"]]
     if eksik:
         print(f"\ncevirisi olmayan {len(eksik)} giris:")
         for g in eksik:
             print(f"  {g['yol']}")
+
+
+def gecmis_yaz(g):
+    """Her giris icin gecmis.html: git log'dan surumler. Repo yoksa atlar."""
+    ipath = os.path.join(g["dil"], g["yil"], g["ay"], g["slug"], "index.html")
+    try:
+        cikti = subprocess.run(
+            ["git", "log", "--follow", "--date=short",
+             "--format=%ad\t%h\t%s", "--", ipath],
+            cwd=KOK, capture_output=True, text=True, timeout=15,
+        ).stdout.strip()
+    except Exception:
+        return
+    if not cikti:
+        return
+
+    tr = g["dil"] == "tr"
+    surumler = [x.split("\t", 2) for x in cikti.splitlines()]
+    satirlar = []
+    for i, (tarih, kisa, konu) in enumerate(surumler):
+        etiket = ("yayımlandı" if tr else "published") if i == len(surumler) - 1 \
+            else (konu or ("düzenlendi" if tr else "edited"))
+        satirlar.append(f"  <dt>{tarih} &middot; <code>{kisa}</code></dt>\n"
+                        f"  <dd>{html.escape(etiket)}</dd>")
+
+    yol = g["yol"]
+    sayfa = f"""<!DOCTYPE html>
+<html lang="{g['dil']}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(g['baslik'])} &mdash; {'geçmiş' if tr else 'history'}</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/stil.css">
+</head>
+<body>
+
+<nav>
+<a href="{yol}">&larr; {html.escape(g['baslik'])}</a> &middot;
+<a href="/{g['dil']}/">{'Ana sayfa' if tr else 'Home'}</a>
+</nav>
+
+<h1>{html.escape(g['baslik'])} &mdash; {'geçmiş' if tr else 'history'}</h1>
+
+<dl>
+{chr(10).join(satirlar)}
+</dl>
+
+<p><small>{'Bu sayfa git geçmişinden üretildi.' if tr else 'Generated from git history.'}</small></p>
+
+</body>
+</html>
+"""
+    open(os.path.join(KOK, os.path.dirname(ipath), "gecmis.html"), "w",
+         encoding="utf-8").write(sayfa)
 
 
 SAYFA = """<!DOCTYPE html>
