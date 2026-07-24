@@ -59,23 +59,9 @@ Akdeniz University, and founded
 
 <h2 id="assistant">Assistant</h2>
 
-<p>An assistant that has read everything on this site.
-Ask it instead of asking me.</p>
-
-<form onsubmit="return false">
-  <label for="q">Question:</label>
-  <input type="text" id="q" name="q" size="40" value="What is he working on lately?">
-  <input type="submit" value="Ask">
-</form>
-
-<blockquote>
-<p><b>Assistant:</b> Two directions lately. One is developer tooling &mdash;
-small programs that shorten daily work, like
-<a href="/en/2026/06/plexcode/">plexcode</a> and
-<a href="/en/2026/03/tam-cli/">tam-cli</a>.
-The other is on-device AI; <a href="/en/2026/04/rleon/">RLeon</a> is the macOS side of that.
-He is also rewriting this site itself.</p>
-</blockquote>
+<p>An assistant that has read everything on this site sits in the bottom-right
+corner. Ask it instead of asking me. It runs on
+<a href="https://github.com/efekurucay/docentic">docentic</a> &mdash; my own, open source.</p>
 
 <hr>
 
@@ -88,5 +74,8 @@ He is also rewriting this site itself.</p>
 </address>
 
 <script src="/dil.js"></script>
+<script src="https://docentic.efekurucay.com/widget.js"
+        data-endpoint="https://docentic.efekurucay.com"
+        data-key="efekurucay" data-title="Ask this site"></script>
 </body>
 </html>

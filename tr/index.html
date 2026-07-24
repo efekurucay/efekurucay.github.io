@@ -58,21 +58,9 @@ okuyorum, <a href="https://github.com/AkdenizOS">AkdenizOS</a> topluluğunu kurd
 
 <h2 id="asistan">Asistan</h2>
 
-<p>Bu sitedeki her şeyi okumuş bir asistan. Bana sormak yerine ona sorabilirsin.</p>
-
-<form onsubmit="return false">
-  <label for="soru">Soru:</label>
-  <input type="text" id="soru" name="soru" size="40" value="En son ne üzerinde çalışıyor?">
-  <input type="submit" value="Sor">
-</form>
-
-<blockquote>
-<p><b>Asistan:</b> Son dönemde iki yöne gidiyor. Biri geliştirici araçları &mdash;
-<a href="/tr/2026/06/plexcode/">plexcode</a> ve
-<a href="/tr/2026/03/tam-cli/">tam-cli</a> gibi günlük işi kısaltan küçük programlar.
-Diğeri cihaz üstünde çalışan yapay zekâ; <a href="/tr/2026/04/rleon/">RLeon</a>
-bunun macOS tarafı. Bir de bu sitenin kendisini yeniden yazıyor.</p>
-</blockquote>
+<p>Bu sitedeki her şeyi okumuş bir asistan sağ alt köşede. Bana sormak yerine
+ona sorabilirsin. <a href="https://github.com/efekurucay/docentic">docentic</a>
+ile çalışıyor &mdash; kendi yazdığım, açık kaynak.</p>
 
 <hr>
 
@@ -85,5 +73,8 @@ bunun macOS tarafı. Bir de bu sitenin kendisini yeniden yazıyor.</p>
 </address>
 
 <script src="/dil.js"></script>
+<script src="https://docentic.efekurucay.com/widget.js"
+        data-endpoint="https://docentic.efekurucay.com"
+        data-key="efekurucay" data-title="Bu siteye sor"></script>
 </body>
 </html>
