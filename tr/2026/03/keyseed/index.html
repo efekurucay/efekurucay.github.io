@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>keyseed &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="proje">
+<meta name="ozet" content="Secret saklamak yerine yeniden üretmek. Aynı girdi ve aynı ana anahtar birebir aynı çıktıyı verir. Rust, npm ile.">
+<meta name="etiket" content="rust, crypto, cli">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2026/03/keyseed/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/03/keyseed/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/03/keyseed/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>keyseed</h1>
+
+<p><small>Mart 2026 &middot; proje &middot; Rust &middot;
+<a href="https://github.com/efekurucay/keyseed">kaynak kod</a> &middot;
+<a href="/tr/2026/03/keyseed/gecmis.html">geçmiş</a></small></p>
+
+<p>Secret'ları saklamak yerine <b>yeniden üreten</b> yerel bir CLI. Bir etiket
+ve bir ana anahtar veriyorsun, sana bir çıktı dönüyor. Aynı etiket ve aynı
+ana anahtar her zaman aynı çıktıyı verir.</p>
+
+<h2>Neden</h2>
+
+<p>Parola yöneticisi secret'larını bir yerde tutar. keyseed hiçbir şey
+tutmaz: secret, yazdığın bir şeyle hatırladığın bir şeyden anında türetilir.
+Sızacak bir şey yok, eşitlenecek bir şey yok.</p>
+
+<h2>Nasıl çalışıyor</h2>
+
+<ul>
+  <li>Anahtar türetmede PBKDF2 (SHA-256, 210 bin tur)</li>
+  <li>Deterministik çıktı için sabit nonce ve salt ile AES-256-GCM-SIV</li>
+  <li>Sürümlü format: <code>hashit:v2:…</code></li>
+  <li>Anahtar materyali işlem sonrası sıfırlanır</li>
+  <li>Rust ikilisi, npm ile dağıtılıyor (<code>npx keyseed</code>)</li>
+</ul>
+
+<pre>
+keyseed encrypt "efe.facebook" -k "master-key"
+keyseed decrypt "hashit:v2:..."  -k "master-key"
+</pre>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/keyseed">github.com/efekurucay/keyseed</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

@@ -145,7 +145,7 @@ def main():
 
         # Ana sayfa: son bes giris. Muzik ayri tutulur, akisa girmez.
         akis = [g for g in kendi if g["tur"] not in ("müzik", "music")]
-        blok = "<dl>\n" + "\n\n".join(satir(g, sz) for g in akis[:5]) + "\n</dl>"
+        blok = "<dl>\n" + "\n\n".join(satir(g, sz) for g in akis[:8]) + "\n</dl>"
         blok += f'\n\n<p><a href="{sz["arsiv_yol"]}">&rarr; {sz["tum"]}</a></p>'
         yaz(os.path.join(KOK, dil, "index.html"), blok)
 

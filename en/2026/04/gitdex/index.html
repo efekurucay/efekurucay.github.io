@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gitdex &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="project">
+<meta name="ozet" content="Scans a codebase and turns it into clean text bundles an LLM can read whole, with less noise and a navigation map.">
+<meta name="etiket" content="javascript, llm, cli">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2026/04/gitdex/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/04/gitdex/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/04/gitdex/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>gitdex</h1>
+
+<p><small>April 2026 &middot; project &middot; JavaScript &middot;
+<a href="https://github.com/efekurucay/gitdex">source</a> &middot;
+<a href="/en/2026/04/gitdex/gecmis.html">history</a></small></p>
+
+<p>Makes a whole repository understandable for an LLM. <code>gitdex</code>
+scans a local codebase and converts it into clean text bundles with less noise
+and a clearer structure.</p>
+
+<h2>Why</h2>
+
+<p>Feeding a repo to a model file by file loses the shape of it. gitdex packs
+the whole thing so the model sees the structure, not just fragments &mdash; and
+spends fewer tokens doing it.</p>
+
+<h2>What it does</h2>
+
+<ul>
+  <li>Root files become separate <code>.txt</code> files; each top-level
+      directory merges into one</li>
+  <li>Every block starts with its relative path</li>
+  <li>Skips binaries, <code>.git</code>, <code>node_modules</code>, lockfiles,
+      minified bundles and build dirs</li>
+  <li>Compresses whitespace, license headers and comments to cut tokens</li>
+  <li>Splits oversized output at safe boundaries, never mid-function</li>
+  <li>Writes a <code>00-index.txt</code> map so the model can navigate</li>
+</ul>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/gitdex">github.com/efekurucay/gitdex</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

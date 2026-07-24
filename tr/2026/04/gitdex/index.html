@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gitdex &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="proje">
+<meta name="ozet" content="Bir kod tabanını tarayıp LLM'in bütününü okuyabileceği temiz metin paketlerine çevirir; daha az gürültü, gezinme haritası.">
+<meta name="etiket" content="javascript, llm, cli">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2026/04/gitdex/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/04/gitdex/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/04/gitdex/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>gitdex</h1>
+
+<p><small>Nisan 2026 &middot; proje &middot; JavaScript &middot;
+<a href="https://github.com/efekurucay/gitdex">kaynak kod</a> &middot;
+<a href="/tr/2026/04/gitdex/gecmis.html">geçmiş</a></small></p>
+
+<p>Bir depoyu bütün olarak LLM için anlaşılır hâle getirir. <code>gitdex</code>
+yerel bir kod tabanını tarar ve daha az gürültü, daha net yapıyla temiz metin
+paketlerine çevirir.</p>
+
+<h2>Neden</h2>
+
+<p>Bir depoyu modele dosya dosya vermek onun bütününü kaybettiriyor. gitdex
+her şeyi paketliyor ki model parçaları değil yapıyı görsün &mdash; üstelik
+daha az token harcayarak.</p>
+
+<h2>Ne yapıyor</h2>
+
+<ul>
+  <li>Kök dosyalar ayrı <code>.txt</code> olur; her üst klasör tek dosyada birleşir</li>
+  <li>Her blok kendi göreli yoluyla başlar</li>
+  <li>İkili dosyaları, <code>.git</code>, <code>node_modules</code>, lock ve
+      build dosyalarını atlar</li>
+  <li>Boşluk, lisans başlığı ve yorumları sıkıştırıp token kısar</li>
+  <li>Büyük çıktıyı güvenli sınırlardan böler, fonksiyon ortasından değil</li>
+  <li>Modelin gezinmesi için <code>00-index.txt</code> haritası yazar</li>
+</ul>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/gitdex">github.com/efekurucay/gitdex</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

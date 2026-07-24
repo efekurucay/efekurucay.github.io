@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>callscoot &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="project">
+<meta name="ozet" content="Turns a Linux laptop into a call runtime for an Android phone — the computer acts as the phone's Bluetooth headset.">
+<meta name="etiket" content="python, linux, bluetooth, telephony">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2026/04/callscoot/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/04/callscoot/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/04/callscoot/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>callscoot</h1>
+
+<p><small>April 2026 &middot; project &middot; Python &middot;
+<a href="https://github.com/efekurucay/callscoot">source</a> &middot;
+<a href="/en/2026/04/callscoot/gecmis.html">history</a></small></p>
+
+<p>Turns an always-on Linux box into a call console for an Android phone.
+The laptop behaves like the phone's Bluetooth headset: call audio comes over
+Bluetooth, the laptop mic goes back to the phone, the speakers play the caller.</p>
+
+<h2>Why</h2>
+
+<p>A self-hosted call runtime. Outside apps hit a local HTTP API, so there is
+no business logic on this side &mdash; the phone (via ADB and Bluetooth) or a
+SIP server is just the call source. What sits in the middle is yours to shape.</p>
+
+<h2>What is in it</h2>
+
+<ul>
+  <li>Bluetooth HFP/HSP audio bridge, echo cancellation on by default</li>
+  <li>ADB helpers to dial, answer and hang up Android calls</li>
+  <li>Optional SIP mode: register to a server and place calls directly</li>
+  <li>Call policies: auto-answer / auto-reject</li>
+  <li>Real-time voice-agent mode inside the call (tried OpenAI models,
+      settled on ElevenLabs for streaming)</li>
+  <li>Local HTTP API so another app can use it as a call runtime</li>
+  <li>Runs as a headless user service</li>
+</ul>
+
+<p>Linux-first: Debian 13, BlueZ 5.82, PipeWire 1.4.x. Next: fully local model
+and agent orchestration, and exposing the phone's connection as a SIP server
+to peel off the ADB/Bluetooth layer.</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/callscoot">github.com/efekurucay/callscoot</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

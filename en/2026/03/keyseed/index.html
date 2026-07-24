@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>keyseed &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="project">
+<meta name="ozet" content="Deterministic secret generation instead of storage. Same input plus same master key yields the same ciphertext. Rust, via npm.">
+<meta name="etiket" content="rust, crypto, cli">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2026/03/keyseed/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/03/keyseed/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/03/keyseed/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>keyseed</h1>
+
+<p><small>March 2026 &middot; project &middot; Rust &middot;
+<a href="https://github.com/efekurucay/keyseed">source</a> &middot;
+<a href="/en/2026/03/keyseed/gecmis.html">history</a></small></p>
+
+<p>A local-first CLI that <b>reproduces</b> secrets instead of storing them.
+Give it a label and a master key; it returns a payload. Same label plus same
+master key always returns the same output.</p>
+
+<h2>Why</h2>
+
+<p>A password manager stores your secrets somewhere. keyseed keeps nothing:
+the secret is derived on demand from something you type and something you
+remember. Nothing to leak, nothing to sync.</p>
+
+<h2>How it works</h2>
+
+<ul>
+  <li>Key derivation with PBKDF2 (SHA-256, 210k iterations)</li>
+  <li>AES-256-GCM-SIV with fixed nonce and salt for deterministic output</li>
+  <li>Versioned format: <code>hashit:v2:…</code></li>
+  <li>Key material zeroized after use</li>
+  <li>Rust binary, distributed through npm (<code>npx keyseed</code>)</li>
+</ul>
+
+<pre>
+keyseed encrypt "efe.facebook" -k "master-key"
+keyseed decrypt "hashit:v2:..."  -k "master-key"
+</pre>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/keyseed">github.com/efekurucay/keyseed</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

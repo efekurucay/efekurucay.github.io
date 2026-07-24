@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>docentic &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="proje">
+<meta name="ozet" content="Statik siteler için gömülebilir, self-hosted agentic asistan. Tek script etiketi; model sitenin kendi içeriğini gezip cevaplar.">
+<meta name="etiket" content="javascript, llm, ajan, statik-site">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2026/07/docentic/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/07/docentic/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/07/docentic/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>docentic</h1>
+
+<p><small>Temmuz 2026 &middot; proje &middot; JavaScript &middot;
+<a href="https://github.com/efekurucay/docentic">kaynak kod</a> &middot;
+<a href="/tr/2026/07/docentic/gecmis.html">geçmiş</a></small></p>
+
+<p>Statik siteler için gömülebilir, self-hosted bir agentic asistan. Ziyaretçi
+soru sorar; docentic sitenin kendi içeriğini araçlarla gezer &mdash; arama,
+sayfa okuma &mdash; ve ziyaretçinin dilinde, akan biçimde cevaplar.</p>
+
+<p>Web3Forms gibi düşün, ama form ucu yerine siteni tanıyan küçük bir yapay
+zekâ ajanı alıyorsun. Kendi sunucunda, kendi model anahtarınla çalıştırıyor
+ve herhangi bir statik siteye tek bir <code>&lt;script&gt;</code> etiketi
+bırakıyorsun.</p>
+
+<h2>Nasıl çalışıyor</h2>
+
+<ul>
+  <li>İstemci tarafında framework yok, derleme yok &mdash; tek <code>widget.js</code></li>
+  <li>Taranan içerik (FTS5), oturumlar ve mesajlar tek bir SQLite dosyasında</li>
+  <li>Salt-okunur bir araç seti üzerinde ajan döngüsü; neyi okuyacağına model karar verir</li>
+  <li>Model katmanı OpenRouter (tek anahtarla her model), yedek modelle</li>
+  <li>İzole oturumlar &mdash; bir ziyaretçi başkasının konuşmasını görmez</li>
+</ul>
+
+<p>Bu sitedeki asistan da aynı fikir: okuyucu bana sormak yerine siteye
+sorabilir.</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/docentic">github.com/efekurucay/docentic</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

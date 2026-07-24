@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>docentic &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="project">
+<meta name="ozet" content="An embeddable, self-hosted agentic assistant for static sites. One script tag; the model walks your site's own content and answers.">
+<meta name="etiket" content="javascript, llm, agent, static-site">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2026/07/docentic/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/07/docentic/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/07/docentic/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>docentic</h1>
+
+<p><small>July 2026 &middot; project &middot; JavaScript &middot;
+<a href="https://github.com/efekurucay/docentic">source</a> &middot;
+<a href="/en/2026/07/docentic/gecmis.html">history</a></small></p>
+
+<p>An embeddable, self-hosted agentic assistant for static sites. A visitor
+asks a question; docentic walks the site's own content with tools &mdash;
+search, read pages &mdash; and answers, streamed, in the visitor's language.</p>
+
+<p>Think Web3Forms, but instead of a form endpoint you get a small AI agent
+that knows your site. You run it on your own server, with your own model key,
+and drop one <code>&lt;script&gt;</code> tag into any static site.</p>
+
+<h2>How it works</h2>
+
+<ul>
+  <li>No framework, no build for the client &mdash; one <code>widget.js</code></li>
+  <li>One SQLite file holds the crawled content (FTS5), sessions and messages</li>
+  <li>An agentic loop over a read-only toolset; the model decides what to read</li>
+  <li>OpenRouter for the model layer (any model via one key), with a fallback</li>
+  <li>Isolated sessions &mdash; one visitor never sees another's conversation</li>
+</ul>
+
+<p>The assistant on this site is the same idea: a reader can ask the site
+instead of asking me.</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/docentic">github.com/efekurucay/docentic</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>
