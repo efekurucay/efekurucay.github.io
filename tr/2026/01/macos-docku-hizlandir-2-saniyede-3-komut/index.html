@@ -22,15 +22,15 @@
 
 <p><small>15 Ocak 2026 &middot; yazı &middot; <a href="/tr/2026/01/macos-docku-hizlandir-2-saniyede-3-komut/gecmis.html">geçmiş</a></small></p>
 
-<p><img src="/tr/2026/01/macos-docku-hizlandir-2-saniyede-3-komut/g1.png" alt=""></p><p>macOS Dock&#39;un otomatik gizlenirken ne kadar yavaş hissettirdiğini fark ettin mi? İmleci ekranın altına götürüyorsun ve Dock bir türlü gelmiyor. Apple bu animasyon hızını Sistem Ayarları&#39;ndan değiştirmene izin vermiyor.</p><h2>Çözüm: Terminal</h2><p>Terminal&#39;i aç ve şu komutları yapıştır:</p><pre>defaults write com.apple.dock autohide-delay -int 0<br>defaults write com.apple.dock autohide-time-modifier -float 0.45<br>killall Dock</pre><p>Bu kadar. Dock artık anında açılıyor.</p><h2>Ne Yaptık?</h2><ul><li>autohide-delay -int 0: İmleç ekranın altına değdiğinde oluşan gecikmeyi kaldırdık</li><li>autohide-time-modifier -float 0.45: Animasyon süresini 0.45 saniyeye ayarladık</li><li>killall Dock: Değişikliklerin uygulanması için Dock&#39;u yeniden başlattık</li></ul><p>0.45 değerini kendi zevkine göre ayarlayabilirsin. Daha hızlı mı istiyorsun? 0.2 dene. Daha yavaş mı? 0.8 dene.</p><h2>Varsayılanlara Dönmek İçin</h2><pre>defaults delete com.apple.dock autohide-delay<br>defaults delete com.apple.dock autohide-time-modifier<br>killall Dock</pre><p>Kaynak: <a href="https://apple.stackexchange.com/questions/33600/how-can-i-make-auto-hide-show-for-the-dock-faster">Apple Stack Exchange</a></p>
+<p><img src="/tr/2026/01/macos-docku-hizlandir-2-saniyede-3-komut/g1.png" alt=""></p><p>macOS Dock&#39;un otomatik gizlenirken ne kadar yavaş hissettirdiğini fark ettin mi? İmleci ekranın altına götürüyorsun ve Dock bir türlü gelmiyor. Apple bu animasyon hızını Sistem Ayarları&#39;ndan değiştirmene izin vermiyor.</p><h2>Çözüm: Terminal</h2><p>Terminal&#39;i aç ve şu komutları yapıştır:</p><pre>defaults write com.apple.dock autohide-delay -int 0<br>defaults write com.apple.dock autohide-time-modifier -float 0.45<br>killall Dock</pre><p>Bu kadar. Dock artık anında açılıyor.</p><h2>Ne Yaptık?</h2><ul><li>autohide-delay -int 0: İmleç ekranın altına değdiğinde oluşan gecikmeyi kaldırdık</li><li>autohide-time-modifier -float 0.45: Animasyon süresini 0.45 saniyeye ayarladık</li><li>killall Dock: Değişikliklerin uygulanması için Dock&#39;u yeniden başlattık</li></ul><p>0.45 değerini kendi zevkine göre ayarlayabilirsin. Daha hızlı mı istiyorsun? 0.2 dene. Daha yavaş mı? 0.8 dene.</p><h2>Varsayılanlara Dönmek İçin</h2><pre>defaults delete com.apple.dock autohide-delay<br>defaults delete com.apple.dock autohide-time-modifier<br>killall Dock</pre><p>Kaynak: <a target="_blank" rel="noopener" href="https://apple.stackexchange.com/questions/33600/how-can-i-make-auto-hide-show-for-the-dock-faster">Apple Stack Exchange</a></p>
 
 <hr>
 
-<p><small>İlk olarak burada yayımlandı: <a href="https://efekurucay.medium.com/speed-up-macos-dock-3-commands-in-2-seconds-bffc1c46ac1b?source=rss-1c384aaa47bc------2">Medium</a>.</small></p>
+<p><small>İlk olarak burada yayımlandı: <a target="_blank" rel="noopener" href="https://efekurucay.medium.com/speed-up-macos-dock-3-commands-in-2-seconds-bffc1c46ac1b?source=rss-1c384aaa47bc------2">Medium</a>.</small></p>
 
 <address>
 <a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
-<a href="https://github.com/efekurucay">GitHub</a>
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay">GitHub</a>
 </address>
 
 <script src="/dil.js"></script>
