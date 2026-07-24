@@ -59,9 +59,11 @@ Akdeniz University, and founded
 
 <h2 id="assistant">Assistant</h2>
 
-<p>An assistant that has read everything on this site sits in the bottom-right
-corner. Ask it instead of asking me. It runs on
-<a href="https://github.com/efekurucay/docentic">docentic</a> &mdash; my own, open source.</p>
+<p>An assistant that has read everything on this site &mdash; the writing, the
+projects, all of it. Ask it instead of asking me. It runs on
+<a href="https://github.com/efekurucay/docentic">docentic</a>, my own open source.</p>
+
+<div id="assistant-chat"></div>
 
 <hr>
 
@@ -75,7 +77,8 @@ corner. Ask it instead of asking me. It runs on
 
 <script src="/dil.js"></script>
 <script src="https://docentic.efekurucay.com/widget.js"
-        data-endpoint="https://docentic.efekurucay.com"
-        data-key="efekurucay" data-title="Ask this site"></script>
+        data-endpoint="https://docentic.efekurucay.com" data-key="efekurucay"
+        data-mode="inline" data-mount="#assistant-chat"
+        data-placeholder="Ask something…"></script>
 </body>
 </html>
