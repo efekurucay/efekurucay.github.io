@@ -100,7 +100,15 @@ def girisleri_tara():
                         "es": es.group(2) if es else "",
                         "git_ilk": ilk, "git_son": guncel,
                     })
-    girisler.sort(key=lambda g: (g["yil"], g["ay"], g["slug"]), reverse=True)
+    # Iki dilde ayni sira icin ortak anahtar: es (karsilik) yolundaki slug.
+    # TR girisin es'i EN yolu, EN girisin es'i TR yolu; ikisini de EN slug'a
+    # gore siralamak icin EN olani sec.
+    def ortak(g):
+        yol = g["yol"] if g["dil"] == "en" else g["es"]
+        m = re.search(r"/\d{4}/\d{2}/([^/]+)/", yol or g["yol"])
+        return m.group(1) if m else g["slug"]
+
+    girisler.sort(key=lambda g: (g["yil"], g["ay"], ortak(g)), reverse=True)
     return girisler
 
 
