@@ -149,16 +149,17 @@ def main():
         blok += f'\n\n<p><a href="{sz["arsiv_yol"]}">&rarr; {sz["tum"]}</a></p>'
         yaz(os.path.join(KOK, dil, "index.html"), blok)
 
-        # Arsiv: yila gore gruplanmis tam liste.
+        # Arsiv: ture gore bolunmus, her grup icinde tarih sirasi.
+        gruplar = ([("proje", "Projeler"), ("yazı", "Yazılar"), ("müzik", "Müzik")]
+                   if dil == "tr" else
+                   [("project", "Projects"), ("writing", "Writing"), ("music", "Music")])
         parcalar = []
-        for yil in sorted({g["yil"] for g in kendi}, reverse=True):
-            oyil = [g for g in kendi if g["yil"] == yil]
-            parcalar.append(f"<h2>{yil}</h2>\n\n<dl>\n"
-                            + "\n\n".join(satir(g, sz) for g in oyil) + "\n</dl>")
-            aylar = sorted({g["ay"] for g in oyil}, reverse=True)
-            baglar = " &middot; ".join(
-                f'<a href="/{dil}/{yil}/{a}/">{sz["aylar"][a]}</a>' for a in aylar)
-            parcalar.append(f"<p><small>{baglar}</small></p>")
+        for tur, baslik in gruplar:
+            grup = [g for g in kendi if g["tur"] == tur]
+            if not grup:
+                continue
+            parcalar.append(f"<h2>{baslik}</h2>\n\n<dl>\n"
+                            + "\n\n".join(satir(g, sz) for g in grup) + "\n</dl>")
         arsiv_dosya = os.path.join(KOK, dil, "arsiv" if dil == "tr" else "archive", "index.html")
         yaz(arsiv_dosya, "\n\n".join(parcalar))
 
