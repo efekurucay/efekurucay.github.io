@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Sohbet Arayüzlerindeki Eksik Katman: Bir Alt Oturum Protokolü &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="yazı">
+<meta name="ozet" content="Bu proje hâlâ geliştirme aşamasında. Ama çözdüğü problem gerçek. Her LLM sohbet arayüzü aynı şekilde çalışır: tek, düz, doğrusal bir bağlam penceresi.…">
+<meta name="etiket" content="context, llm, ai, mcps, large-language-models">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2026/03/the-missing-layer-in-llm-chat-interfaces-a-sub-session/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/03/llm-sohbet-arayuzlerindeki-eksik-katman/" data-dil="tr">Türkçe</a> | <a href="/en/2026/03/the-missing-layer-in-llm-chat-interfaces-a-sub-session/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>LLM Sohbet Arayüzlerindeki Eksik Katman: Bir Alt Oturum Protokolü</h1>
+
+<p><small>21 Mart 2026 &middot; yazı &middot; <a href="/tr/2026/03/llm-sohbet-arayuzlerindeki-eksik-katman/gecmis.html">geçmiş</a></small></p>
+
+<p><img src="/tr/2026/03/llm-sohbet-arayuzlerindeki-eksik-katman/g1.png" alt=""></p><p><em>Bu proje hâlâ geliştirme aşamasında. Ama çözdüğü problem gerçek.</em></p><p>Her LLM sohbet arayüzü aynı şekilde çalışıyor: tek, düz, doğrusal bir bağlam penceresi. Bir matematik sorusuyla başlıyorsunuz, sonra kod hata ayıklamaya geçiyorsunuz, ardından felsefi bir şeye atlıyorsunuz — ve bütün geçmiş üst üste yığılmaya devam ediyor. Token token. Konu konu.</p><p>Başta bu görünmez gibi gelir. Ta ki her fizik sorusu sorduğunuzda modelin hâlâ türevlerle ilgili yirmi mesajı okuduğunu fark edene kadar.</p><h2>Aslında Ne Oluyor</h2><p>Türevler üzerine 20 mesajın ardından kinematiğe geçiyorsunuz. Peki modele gönderilen bağlam? Hâlâ bütün kalkülüs geçmişinizi taşıyor. Her. Tek. Soruda.</p><p>Buna <strong>bağlam şişmesi</strong> deniyor ve sonuçları çok somut:</p><ul><li>Modelin dikkati alakasız geçmişe dağılıyor</li><li>Kullanıcılar odakta kalabilmek için yeni sohbetler açmak ya da elle özet çıkarmak zorunda kalıyor</li><li>Hiçbir platform bunu standart bir şekilde ele almıyor</li></ul><p>Mevcut yaklaşımlar — RAG, özetleme, pencere kırpma — hepsi tepkisel. Problem çoktan oluştuktan sonra devreye giriyorlar.</p><h2>Fikir: Model Subsession Protocol</h2><p>MSP, tek bir ana sohbetin içinde <strong>iç içe geçmiş, izole konu oturumları</strong> için hafif ve açık bir standart önerisi.</p><p>Fikir şu: Her konu değiştirdiğinizde yeni bir sohbet açmak yerine, mevcut konuşmanızın içinde bir <strong>alt oturum</strong> açıyorsunuz. Bu alt oturum:</p><ul><li><strong>İzole</strong> — mesajları varsayılan olarak ana bağlamı kirletmez</li><li><strong>Bağlam farkında</strong> — ana oturumdan seçmeli olarak bir özet ya da son mesajları çekebilir</li><li><strong>Özetlenebilir</strong> — kapandığında, isteğe bağlı olarak ana oturuma geri işlenebilecek kompakt bir özet üretir</li></ul><pre>Main Session<br>├── [messages 1-20] ← Topic: Calculus<br>├── SubSession: &quot;calculus-limits&quot; (isolated)<br>│   ├── &quot;what is a limit?&quot;<br>│   └── &quot;explain epsilon-delta&quot;<br>├── [messages 21-35] ← Topic: Physics<br>└── SubSession: &quot;physics-kinematics&quot; (isolated)<br>    ├── &quot;what is velocity?&quot;<br>    └── &quot;solve this kinematics problem&quot;</pre><h2>Şu An Nerede</h2><p>Proje v0.1.0’da — aktif olarak geliştiriliyor, bitmiş değil. Ama çekirdek çalışıyor:</p><ul><li>Resmî protokol spesifikasyonu yazıldı (spec/SPEC.md)</li><li>JSON Schema tanımları tamamlandı (Draft-07)</li><li>TypeScript referans kütüphanesi kuruldu: SessionManager, SubsessionManager, ContextBuilder</li><li>Birim testler yazıldı, CI/CD hattı çalışır durumda</li></ul><p>Somutlaştırmak gerekirse:</p><pre>const session = new SessionManager(&#39;study-session&#39;);<br>session.addMessage(&#39;user&#39;, &#39;I need to study for my exam.&#39;);<br>session.addMessage(&#39;assistant&#39;, &#39;What subject should we start with?&#39;);<br><br>const calculus = session.openSubsession(&#39;calculus-review&#39;);<br>calculus.addMessage(&#39;user&#39;, &#39;Explain limits&#39;);<br>calculus.addMessage(&#39;assistant&#39;, &#39;A limit is the value a function approaches...&#39;);<br><br>calculus.close(&#39;Covered limit fundamentals.&#39;);<br>calculus.mergeToParent();</pre><p>Ardından bir fizik alt oturumu açtığınızda, kalkülüs detayları bağlamın dışında kalır — içeri sadece özeti girer.</p><h2>Neden Şimdi</h2><p>Bağlam yönetimi, LLM mühendisliğinin en çok konuşulan problemlerinden biri hâline geldi. Daha uzun bağlam pencereleri bu problemi çözmüyor — sadece erteliyor. Daha büyük bir kova da sonuçta dolan bir kova.</p><p>MSP farklı bir yol izliyor: Bağlamı genişletmek yerine <strong>yapısal izolasyon</strong> öneriyor — bağlamı konuya ve niyete göre şekillendirmek. Modelden ve platformdan bağımsız; alttaki LLM API’lerinde hiçbir değişiklik gerektirmiyor.</p><h2>Sırada Ne Var</h2><p>Bir npm paketi geliyor. Python SDK planlanıyor. MCP sunucu entegrasyonu yol haritasında. Ama asıl hedef bir araç daha üretmek değil — <strong>bir standart</strong> oluşturmak.</p><p>Bu problemi siz de yaşadıysanız, repo açık:<br><a href="https://github.com/efekurucay/llm-subsession-protocol">github.com/efekurucay/llm-subsession-protocol</a></p><p>PR’lar, issue’lar, eleştiriler — hepsi memnuniyetle karşılanır.</p><p><em>Sinirle ve kahveyle yapıldı.</em></p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=72e4c2cc9ca0" width="1" height="1" alt="">
+
+<hr>
+
+<p><small>İlk olarak burada yayımlandı: <a href="https://efekurucay.medium.com/the-missing-layer-in-llm-chat-interfaces-a-sub-session-protocol-72e4c2cc9ca0?source=rss-1c384aaa47bc------2">Medium</a>.</small></p>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

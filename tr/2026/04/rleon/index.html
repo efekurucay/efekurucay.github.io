@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RLeon &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="proje">
+<meta name="ozet" content="Yerelde çalışan macOS uygulaması: cihaz üstü konuşma tanıma, Vision OCR, Ollama sohbeti ve araç çağırma.">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2026/04/rleon/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/04/rleon/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/04/rleon/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>RLeon</h1>
+
+<p><small>5 Nisan 2026 &middot; proje &middot; Swift &middot;
+<a href="https://github.com/efekurucay/RLeon">kaynak kod</a> &middot;
+<a href="/tr/2026/04/rleon/gecmis.html">geçmiş</a></small></p>
+
+<p>Her şeyi cihazda yapan bir macOS uygulaması: konuşma tanıma, Vision ile
+ekrandan metin okuma, Ollama üzerinden yerel model sohbeti ve modelin
+sistem araçlarını çağırabilmesi.</p>
+
+<h2>Neden</h2>
+
+<p>Sesli asistanların hepsi konuştuğunu bir sunucuya gönderiyor. Ekranındaki
+metni okuyan araçlar da öyle. Aynı işi yapan yerel modeller varken, mikrofon
+ve ekran görüntüsünün dışarı çıkması gereksiz.</p>
+
+<h2>Ne var</h2>
+
+<ul>
+  <li>Cihaz üstü konuşma tanıma &mdash; ağ yok</li>
+  <li>Vision OCR ile ekrandan metin çıkarma</li>
+  <li>Ollama ile yerel sohbet</li>
+  <li>Yerel araç çağırma: model sistemdeki işlemleri tetikleyebiliyor</li>
+</ul>
+
+<h2>Notlar</h2>
+
+<p>Sınırı donanım çiziyor. 7B civarı modeller dizüstünde makul, üstü ısınma
+ve pil demek. Kalite bulut modellerinin altında; karşılığında hiçbir şey
+dışarı çıkmıyor.</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/RLeon">github.com/efekurucay/RLeon</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

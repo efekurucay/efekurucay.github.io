@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Türkçe dezenformasyon gerekçe üretici &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="proje">
+<meta name="ozet" content="Türkçe iddialar için fact-check gerekçesi üreten LoRA. Qwen3.6-35B-A3B, Tinker SFT.">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2026/05/turkish-disinfo-rationale/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/05/turkce-dezenformasyon-gerekce/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/05/turkish-disinfo-rationale/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>Türkçe dezenformasyon gerekçe üretici</h1>
+
+<p><small>8 Mayıs 2026 &middot; proje &middot; Python &middot;
+<a href="https://github.com/efekurucay/turkish-disinfo-rationale">kaynak kod</a> &middot;
+<a href="/tr/2026/05/turkce-dezenformasyon-gerekce/gecmis.html">geçmiş</a></small></p>
+
+<p>Türkçe bir iddia verildiğinde, o iddianın neden doğru ya da yanlış
+olduğunu gerekçelendiren metni üreten bir LoRA. Qwen3.6-35B-A3B üzerine
+Tinker ile denetimli ince ayar.</p>
+
+<h2>Neden</h2>
+
+<p>Doğruluk kontrolünde asıl değerli olan etiket değil gerekçe. "Yanlış"
+demek kimseyi ikna etmiyor; hangi veriyle, hangi kaynakla, hangi adımla
+yanlış olduğunu göstermek ikna ediyor.</p>
+
+<p>Bir de Türkçe tarafı var. Büyük modellerin Türkçedeki performansı
+İngilizceye göre belirgin şekilde düşük, dezenformasyon gibi bağlam ve
+üslup gerektiren bir işte fark daha da açılıyor.</p>
+
+<h2>Durum</h2>
+
+<p>Ağırlıklar Hugging Face'te: <code>efekurucay/turkish-disinfo-rationale</code>.
+Araştırma amaçlı; ürün değil.</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/turkish-disinfo-rationale">github.com/efekurucay/turkish-disinfo-rationale</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

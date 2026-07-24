@@ -1,0 +1,14 @@
+/* Tek is: uzun satiri kir. Font, renk, boyut - hepsi tarayici defaulti. */
+body {
+  max-width: 42em;
+  margin: 2em auto;
+  padding: 0 1em;
+  line-height: 1.5;
+}
+
+/* CV yazdirilirken temiz ciksin. */
+@media print {
+  body { max-width: none; margin: 0; font-size: 11pt; }
+  nav, form, blockquote, .yazdirma { display: none; }
+  a { text-decoration: none; color: inherit; }
+}

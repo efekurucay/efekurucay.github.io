@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>~/.zshrc&#39;yi Elle Düzenlemeyi Bırakmak İçin Yerel Bir macOS Uygulaması Yazdım &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="yazı">
+<meta name="ozet" content="~/.zshrc dosyamda 40&#39;tan fazla alias vardı; bazıları bozuk, bazıları mükerrer, çoğu belgesiz. Hepsini görsel olarak yönetmek için yerel bir macOS uygulaması yazdım.">
+<meta name="etiket" content="apps, macos, cli">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2026/03/i-built-a-native-macos-app-to-stop-editing-zshrc-by/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/03/zshrc-elle-duzenlemeyi-birakmak-icin-macos-uygulamasi/" data-dil="tr">Türkçe</a> | <a href="/en/2026/03/i-built-a-native-macos-app-to-stop-editing-zshrc-by/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>~/.zshrc&#39;yi Elle Düzenlemeyi Bırakmak İçin Yerel Bir macOS Uygulaması Yazdım</h1>
+
+<p><small>16 Mart 2026 &middot; yazı &middot; <a href="/tr/2026/03/zshrc-elle-duzenlemeyi-birakmak-icin-macos-uygulamasi/gecmis.html">geçmiş</a></small></p>
+
+<p><img src="/tr/2026/03/zshrc-elle-duzenlemeyi-birakmak-icin-macos-uygulamasi/g1.png" alt=""></p><p>~/.zshrc dosyamda 40&#39;tan fazla terminal alias&#39;ı vardı — bazıları bozuk, bazıları mükerrer, çoğu da belgesiz. Birini yönetmek istediğimde dosyayı Vim&#39;de açıyor, yüzlerce satır arasında geziniyor, değişikliği yapıyor ve ardından elle source ~/.zshrc çalıştırıyordum.</p><p>Ben de <strong>Terminal Alias Manager</strong>&#39;ı yazdım: tüm shell alias&#39;larını Finder tarzı bir arayüzden yönetmeni sağlayan yerel bir macOS uygulaması. Artık ham dosya düzenlemek yok.</p><h2>Sorun</h2><p>~/.zshrc sadece alias&#39;lardan ibaret değil. Yıllar içinde birikmiş export&#39;ların, PATH ayarlarının, eklentilerin ve rastgele parçaların karışımı. Sıkıntılar da fazlasıyla gerçek:</p><ul><li>Alias&#39;ları arama ya da filtreleme imkânı yok</li><li>Birini geçici olarak kapatmak, elle yorum satırına almak demek</li><li>Yeni bir makineye geçmek kopyala-yapıştır kâbusu</li><li>Üç ay sonra yarısının ne işe yaradığını hatırlamıyorsun</li></ul><h2>Ne Yapıyor</h2><p>Terminal Alias Manager ~/.zshrc dosyanı okuyor, her alias&#39;ı ayrıştırıyor ve hepsini görsel olarak yönetmene izin veriyor. Öne çıkan özellikler:</p><ul><li><strong>Ekle / Düzenle / Sil</strong> — doğrulama ve mükerrer tespitiyle birlikte</li><li><strong>Aç / Kapat</strong> — tek dokunuşla, elle yorum satırına almadan</li><li><strong>Arama</strong> — isme, komuta ya da açıklamaya göre</li><li><strong>Otomatik source</strong> — her değişiklikten sonra source ~/.zshrc çalıştırır</li><li><strong>JSON içe/dışa aktarma</strong> — makineler arasında taşınmak için</li><li><strong>Zaman damgalı yedekler</strong> — yıkıcı her işlemden önce</li></ul><h2>Asıl Zorluk: .zshrc&#39;yi Bozmamak</h2><p>En zor kısım arayüz değildi — uygulamanın mevcut yapılandırmanı asla bozmadığından emin olmaktı. ZshrcService dosyanın tamamını okuyor, yalnızca alias satırlarını ayıklıyor, geri kalan her şeyi olduğu gibi koruyor ve dosyanın sonuna açıkça işaretlenmiş bir blok yazıyor:</p><pre># ═══════════════════════════════════════════<br># 🚀 Aliases (Managed by AliasManager)<br># ═══════════════════════════════════════════<br>alias gs=&#39;git status&#39;<br># alias gpo=&#39;git push origin&#39;   ← kapalı<br># ═══════════════════════════════════════════</pre><p>Kapatılan alias&#39;lar basitçe yorum satırına alınıyor — tekrar açtığın anda anında devreye giriyorlar.</p><h2>Teknoloji</h2><p><strong>Swift 5.9 + SwiftUI</strong> ile, temiz bir <strong>MVVM</strong> mimarisi izlenerek yazıldı. macOS 14.0 (Sonoma) veya üstünü gerektiriyor. Uygulamanın ~/.zshrc dosyasına doğrudan erişmesi gerektiği için App Sandbox bilinçli olarak kapalı — hiçbir ağ isteği yapmıyor ve yalnızca o dosyaya dokunuyor.</p><h2>Dene</h2><p>Ücretsiz ve MIT lisansıyla açık kaynak.</p><p><strong>→ </strong><a href="https://github.com/efekurucay/tam-cli">github.com/efekurucay/tam-cli</a></p><p>Kendini yüzüncü kez ~/.zshrc&#39;yi elle düzenlerken yakaladıysan bir dene. PR&#39;lar açık. ⌨️</p><p>— https://efekurucay.com</p>
+
+<hr>
+
+<p><small>İlk olarak burada yayımlandı: <a href="https://efekurucay.medium.com/i-built-a-native-macos-app-to-stop-editing-zshrc-by-hand-8eee5c382272?source=rss-1c384aaa47bc------2">Medium</a>.</small></p>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

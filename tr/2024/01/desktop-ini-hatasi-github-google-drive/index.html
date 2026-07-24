@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub ve Google Drive'da desktop.ini hatası &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="yazı">
+<meta name="ozet" content="GitHub Desktop ile Google Drive aynı klasörü paylaşınca çıkan fatal: git show-ref bad ref refs/tags/desktop.ini hatasının çözümü.">
+<meta name="etiket" content="git, github, google-drive, python">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="en" href="/en/2024/01/desktop-ini-error-github-google-drive/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2024/01/desktop-ini-hatasi-github-google-drive/" data-dil="tr">Türkçe</a> |
+<a href="/en/2024/01/desktop-ini-error-github-google-drive/" data-dil="en">English</a> &middot;
+<a href="/tr/">Ana sayfa</a> &middot;
+<a href="/tr/arsiv/">Arşiv</a>
+</nav>
+
+<h1>GitHub ve Google Drive'ı birlikte kullanınca çıkan desktop.ini hatası</h1>
+
+<p><small>12 Ocak 2024 &middot; yazı &middot;
+<a href="/tr/2024/01/desktop-ini-hatasi-github-google-drive/gecmis.html">geçmiş</a></small></p>
+
+<p>GitHub Desktop ile Google Drive'ı aynı klasörde kullanıp yedek almaya
+çalışınca çıkan <code>fatal: git show-ref: bad ref refs/tags/desktop.ini</code>
+hatasının çözümü.</p>
+
+<p>Tek yapmamız gereken, Google Drive'ın oluşturduğu <code>desktop.ini</code>
+dosyalarını silmek. Tek tek silmek yerine, seçilen klasörde belirtilen isimdeki
+dosyaları bulup silen küçük bir Python kodu yazdım. Kod
+<a href="https://github.com/efekurucay/file_deleter">GitHub'da</a>.</p>
+
+<h2>Çalıştırma</h2>
+
+<ul>
+  <li>Bilgisayarında Python kurulu olsun.</li>
+  <li>Terminali aç ve proje klasörüne geç.</li>
+  <li>Programı çalıştır.</li>
+</ul>
+
+<p>Taranacak klasör ve silinecek dosya adı sorulacak:</p>
+
+<pre>
+&gt; Hangi klasörü taramak istiyorsun?  C:\Users\efe\Desktop\Lecture Notes\...
+&gt; Dosya adı nedir?  desktop.ini
+</pre>
+
+<p>Tarama sonrası program kaç dosya bulduğunu söyler ve silmeden önce onay
+ister. Dosyalar silinince GitHub yeniden normal çalışır.</p>
+
+<hr>
+
+<p><small>İlk olarak burada yayımlandı:
+<a href="https://efekurucay.medium.com/guide-for-resolving-the-desktop-ini-error-when-using-github-and-google-drive-applications-together-1da9f3b45e55">Medium</a>.</small></p>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

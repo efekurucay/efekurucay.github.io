@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Missing Layer in LLM Chat Interfaces: A Sub-Session Protocol &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="writing">
+<meta name="ozet" content="This project is still a work in progress. But the problem it solves is real. Every LLM chat interface works the same way: one flat, linear context window.…">
+<meta name="etiket" content="context, llm, ai, mcps, large-language-models">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2026/03/llm-sohbet-arayuzlerindeki-eksik-katman/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/03/llm-sohbet-arayuzlerindeki-eksik-katman/" data-dil="tr">Türkçe</a> | <a href="/en/2026/03/the-missing-layer-in-llm-chat-interfaces-a-sub-session/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>The Missing Layer in LLM Chat Interfaces: A Sub-Session Protocol</h1>
+
+<p><small>21 March 2026 &middot; writing &middot; <a href="/en/2026/03/the-missing-layer-in-llm-chat-interfaces-a-sub-session/gecmis.html">history</a></small></p>
+
+<p><img src="/en/2026/03/the-missing-layer-in-llm-chat-interfaces-a-sub-session/g1.png" alt=""></p><p><em>This project is still a work in progress. But the problem it solves is real.</em></p><p>Every LLM chat interface works the same way: one flat, linear context window. You start with a math question, shift to debugging code, then jump to something philosophical — and the entire history keeps stacking up. Token by token. Topic by topic.</p><p>It feels invisible at first. Until you realize the model is still reading twenty messages about calculus every time you ask a physics question.</p><h2>What’s Actually Happening</h2><p>After 20 messages on derivatives, you switch to kinematics. The context sent to the model? Still carrying your entire calculus thread. On every. Single. Query.</p><p>This is <strong>context bloat</strong> — and the consequences are real:</p><ul><li>Model attention dilutes across irrelevant history</li><li>Users resort to opening new chats or manually summarizing just to stay focused</li><li>No platform handles this in any standardized way</li></ul><p>Existing approaches — RAG, summarization, window trimming — are all reactive. They kick in after the problem has already formed.</p><h2>The Idea: Model Subsession Protocol</h2><p>MSP is a lightweight, open standard proposal for <strong>nested, isolated topic sessions</strong> inside a single parent chat.</p><p>The concept: instead of opening a new chat every time you switch topics, you open a <strong>sub-session</strong> within your current conversation. That sub-session is:</p><ul><li><strong>Isolated</strong> — its messages don’t pollute the parent context by default</li><li><strong>Context-aware</strong> — it can selectively pull a summary or recent messages from the parent</li><li><strong>Summarizable</strong> — when closed, it produces a compact summary that can optionally merge back into the parent</li></ul><pre>Main Session<br>├── [messages 1-20] ← Topic: Calculus<br>├── SubSession: &quot;calculus-limits&quot; (isolated)<br>│   ├── &quot;what is a limit?&quot;<br>│   └── &quot;explain epsilon-delta&quot;<br>├── [messages 21-35] ← Topic: Physics<br>└── SubSession: &quot;physics-kinematics&quot; (isolated)<br>    ├── &quot;what is velocity?&quot;<br>    └── &quot;solve this kinematics problem&quot;</pre><h2>Where It Stands</h2><p>The project is at v0.1.0 — actively in progress, not finished. But the core is working:</p><ul><li>Formal protocol specification written (spec/SPEC.md)</li><li>JSON Schema definitions complete (Draft-07)</li><li>TypeScript reference library built: SessionManager, SubsessionManager, ContextBuilder</li><li>Unit tests written, CI/CD pipeline live</li></ul><p>To make it concrete:</p><pre>const session = new SessionManager(&#39;study-session&#39;);<br>session.addMessage(&#39;user&#39;, &#39;I need to study for my exam.&#39;);<br>session.addMessage(&#39;assistant&#39;, &#39;What subject should we start with?&#39;);<br><br>const calculus = session.openSubsession(&#39;calculus-review&#39;);<br>calculus.addMessage(&#39;user&#39;, &#39;Explain limits&#39;);<br>calculus.addMessage(&#39;assistant&#39;, &#39;A limit is the value a function approaches...&#39;);<br><br>calculus.close(&#39;Covered limit fundamentals.&#39;);<br>calculus.mergeToParent();</pre><p>When you open a physics sub-session afterward, the calculus detail stays out of context — only its summary comes through.</p><h2>Why Now</h2><p>Context management has become one of the most talked-about challenges in LLM engineering. Longer context windows don’t solve the problem — they just delay it. A bigger bucket is still a full bucket.</p><p>MSP takes a different approach: instead of expanding context, it proposes <strong>structured isolation</strong> — shaping context per topic, per intent. It’s model-agnostic, platform-agnostic, and requires no changes to underlying LLM APIs.</p><h2>What’s Next</h2><p>An npm package is coming. A Python SDK is planned. MCP server integration is on the roadmap. But the real goal isn’t just another tool — it’s <strong>a standard</strong>.</p><p>If you’ve felt this problem, the repo is open:<br><a href="https://github.com/efekurucay/llm-subsession-protocol">github.com/efekurucay/llm-subsession-protocol</a></p><p>PRs, issues, critique — all welcome.</p><p><em>Made with frustration and coffee.</em></p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=72e4c2cc9ca0" width="1" height="1" alt="">
+
+<hr>
+
+<p><small>Originally published on <a href="https://efekurucay.medium.com/the-missing-layer-in-llm-chat-interfaces-a-sub-session-protocol-72e4c2cc9ca0?source=rss-1c384aaa47bc------2">Medium</a>.</small></p>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

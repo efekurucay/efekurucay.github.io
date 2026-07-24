@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three sites in five years &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="writing">
+<meta name="ozet" content="I built three sites. All three are gone. I am building the fourth one so it cannot disappear.">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2026/07/bes-yilda-uc-site/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/07/bes-yilda-uc-site/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/07/three-sites-five-years/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>Three sites in five years</h1>
+
+<p><small>24 July 2026 &middot; writing &middot;
+<a href="/en/2026/07/three-sites-five-years/gecmis.html">history</a></small></p>
+
+<p>I built three personal sites in five years. All three are gone. What I
+wrote, what I made, what I was thinking at the time &mdash; none of it
+survived. I did not delete them; they died. A service shut down, a theme
+update broke things, a database did not migrate, and while setting up the
+new site I could not be bothered to import the old one.</p>
+
+<p>Meanwhile <a href="http://info.cern.ch">info.cern.ch</a>, built in 1991,
+still opens. My two-year-old site does not. The difference is not skill.
+It is the number of dependencies.</p>
+
+<h2>I looked at what actually died</h2>
+
+<p>In all three cases the content lived in a database. The database lived
+inside a service. The service belonged to a company, and the company to a
+pricing decision. Seeing a page required a running program, and the day the
+program stopped running, the page stopped existing.</p>
+
+<p>The real problem: <b>my content was never something I could hold.</b> I
+could not open a folder and look at it. Even a backup was useless without a
+system that could read it back.</p>
+
+<h2>What is different this time</h2>
+
+<p>The page you are reading is a file on my disk, as it is. It was not
+compiled, not generated, not pulled from a database. Download the repository,
+double-click the file, and you get this exact page. You need no server, no
+internet, and no me.</p>
+
+<p>Four rules:</p>
+
+<ol>
+  <li>The browser opens a file; it does not execute a program.</li>
+  <li>No published address ever dies.</li>
+  <li>Tools are mortal, the site is not. The build script, the CI, the chat
+  service &mdash; if all of them vanish tomorrow, the site still stands.</li>
+  <li>Nothing gets deleted. If I change my mind, the history stays.</li>
+</ol>
+
+<p>The fourth rule has a consequence: every page has a
+<a href="/en/2026/07/three-sites-five-years/gecmis.html">history page</a>.
+If I edit this piece three years from now, the old version stays there. Git
+already keeps it, but the <code>.git</code> folder is not served to visitors
+and is not human-readable; if history is meant to be browsable, it has to
+be HTML.</p>
+
+<h2>The cost</h2>
+
+<p>There is no admin panel. Writing a new entry means creating a file. I do
+not count that as a loss &mdash; I am a developer, my editor is already open.
+Building a panel, then maintaining the panel, then losing access to my
+content when the panel breaks: that was the shared story of the three sites
+I lost.</p>
+
+<p>There are no visual ambitions either. Times New Roman, blue links, eight
+lines of CSS. The fewer aesthetic decisions, the less there is to go stale.</p>
+
+<hr>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

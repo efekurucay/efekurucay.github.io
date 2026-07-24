@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turkish disinformation rationale generator &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="project">
+<meta name="ozet" content="A LoRA generating fact-check rationales for Turkish claims. Qwen3.6-35B-A3B, Tinker SFT.">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2026/05/turkce-dezenformasyon-gerekce/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/05/turkce-dezenformasyon-gerekce/" data-dil="tr">Türkçe</a> |
+<a href="/en/2026/05/turkish-disinfo-rationale/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>Turkish disinformation rationale generator</h1>
+
+<p><small>8 May 2026 &middot; project &middot; Python &middot;
+<a href="https://github.com/efekurucay/turkish-disinfo-rationale">source</a> &middot;
+<a href="/en/2026/05/turkish-disinfo-rationale/gecmis.html">history</a></small></p>
+
+<p>Given a claim in Turkish, this LoRA writes out the reasoning for why the
+claim holds or fails. Supervised fine-tuning on Qwen3.6-35B-A3B with Tinker.</p>
+
+<h2>Why</h2>
+
+<p>In fact-checking, the label is not the valuable part &mdash; the reasoning
+is. Saying "false" convinces nobody. Showing which data, which source and
+which step makes it false does.</p>
+
+<p>There is also the Turkish side of it. Large models perform noticeably
+worse in Turkish than in English, and the gap widens on tasks like
+disinformation that depend on context and tone.</p>
+
+<h2>Status</h2>
+
+<p>Weights on Hugging Face: <code>efekurucay/turkish-disinfo-rationale</code>.
+Research work, not a product.</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/turkish-disinfo-rationale">github.com/efekurucay/turkish-disinfo-rationale</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>

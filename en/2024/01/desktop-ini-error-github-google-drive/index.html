@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resolving the desktop.ini Error with GitHub and Google Drive &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="writing">
+<meta name="ozet" content="Fixing the fatal: git show-ref bad ref refs/tags/desktop.ini error when GitHub Desktop and Google Drive share a directory.">
+<meta name="etiket" content="git, github, google-drive, python">
+<link rel="stylesheet" href="/stil.css">
+<link rel="alternate" hreflang="tr" href="/tr/2024/01/desktop-ini-hatasi-github-google-drive/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2024/01/desktop-ini-hatasi-github-google-drive/" data-dil="tr">Türkçe</a> |
+<a href="/en/2024/01/desktop-ini-error-github-google-drive/" data-dil="en">English</a> &middot;
+<a href="/en/">Home</a> &middot;
+<a href="/en/archive/">Archive</a>
+</nav>
+
+<h1>Resolving the desktop.ini Error When Using GitHub and Google Drive Together</h1>
+
+<p><small>12 January 2024 &middot; writing &middot;
+<a href="/en/2024/01/desktop-ini-error-github-google-drive/gecmis.html">history</a></small></p>
+
+<p>Here is a fix for the <code>fatal: git show-ref: bad ref refs/tags/desktop.ini</code>
+error that shows up when you try to back up files with both GitHub Desktop and
+Google Drive in the same directory.</p>
+
+<p>All we need to do is delete the <code>desktop.ini</code> files that Google
+Drive creates. Rather than delete them one by one, I wrote a small Python script
+that finds and removes files with a given name in a chosen directory. The code
+is on <a href="https://github.com/efekurucay/file_deleter">GitHub</a>.</p>
+
+<h2>Running it</h2>
+
+<ul>
+  <li>Make sure Python is installed.</li>
+  <li>Open a terminal and go to the project directory.</li>
+  <li>Run the program.</li>
+</ul>
+
+<p>You will be asked for the directory to scan and the file name to delete:</p>
+
+<pre>
+&gt; Which directory do you want to scan?  C:\Users\efe\Desktop\Lecture Notes\...
+&gt; What is the file name?  desktop.ini
+</pre>
+
+<p>After scanning, the program reports how many files it found and asks for
+confirmation before deleting them. Once they are gone, GitHub works normally
+again.</p>
+
+<hr>
+
+<p><small>Originally published on
+<a href="https://efekurucay.medium.com/guide-for-resolving-the-desktop-ini-error-when-using-github-and-google-drive-applications-together-1da9f3b45e55">Medium</a>.</small></p>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>
