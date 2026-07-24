@@ -6,6 +6,16 @@ body {
   line-height: 1.5;
 }
 
+/* Sosyal ikonlar: tek renk, currentColor, cizgi ustunde. */
+.sosyal {
+  display: flex;
+  gap: .9em;
+  margin: .6em 0 1.6em;
+}
+.sosyal a { color: inherit; line-height: 0; }
+.sosyal svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+.sosyal a:hover { opacity: .6; }
+
 /* CV yazdirilirken temiz ciksin. */
 @media print {
   body { max-width: none; margin: 0; font-size: 11pt; }
