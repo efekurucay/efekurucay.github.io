@@ -130,7 +130,7 @@ def satir(g, sz, tarih_goster=True):
     tarih = f"{int(g['ay'])}" if False else sz["aylar"][g["ay"]]
     ik = TUR_IKON.get(g["tur"])
     ikon = f'<span class="tur-ikon" title="{ik[0]}">{ik[1]}</span>' if ik else ""
-    ust = f'  <dt>{ikon}<a href="{g["yol"]}">{html.escape(g["baslik"])}</a></dt>'
+    ust = f'  <dt><a href="{g["yol"]}">{html.escape(g["baslik"])}</a>{ikon}</dt>'
     parcalar = []
     if tarih_goster:
         parcalar.append(f"{tarih} {g['yil']}")
