@@ -50,8 +50,8 @@
     });
     window.docentic({
       endpoint: ENDPOINT, key: 'efekurucay', mode: 'contact', mount: '#iletisim-form',
-      nameLabel: tr ? 'Adın (opsiyonel)' : 'Your name (optional)',
-      emailLabel: tr ? 'E-posta (opsiyonel)' : 'Email (optional)',
+      nameLabel: tr ? 'Adın' : 'Your name',
+      emailLabel: tr ? 'E-posta' : 'Email',
       messageLabel: tr ? 'Mesajın…' : 'Your message…',
       sendLabel: tr ? 'gönder →' : 'send →',
       emptyLabel: tr ? 'Mesaj boş.' : 'Message is empty.',

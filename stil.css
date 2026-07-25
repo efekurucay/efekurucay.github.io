@@ -22,6 +22,10 @@ body {
 .sosyal .urun:hover img { filter: none; }
 .sosyal .urun:hover { opacity: 1; }
 
+/* Girdi turu ikonu: baslik onunde, kucuk ve soluk. */
+.tur-ikon { display: inline-block; width: .8em; margin-right: .4em; opacity: .4; vertical-align: -.05em; }
+.tur-ikon svg { width: 100%; height: auto; fill: currentColor; }
+
 /* Ana sayfa: genis ekranda iki sutun. Icerik solda, asistan+iletisim sag panelde.
    Dar ekranda tek sutun (panel alta iner). Ic sayfalar tek sutun kalir. */
 @media (min-width: 62em) {
