@@ -16,6 +16,30 @@ body {
 .sosyal svg { width: 20px; height: 20px; fill: currentColor; display: block; }
 .sosyal a:hover { opacity: .6; }
 
+/* Urun logolari: ayni satirda, sosyal ikonlarin devami. Gri; hover'da renk. */
+.sosyal .ayrac { width: .7em; }
+.sosyal .urun img { height: 22px; width: auto; display: block; border-radius: 4px; filter: grayscale(1); }
+.sosyal .urun:hover img { filter: none; }
+.sosyal .urun:hover { opacity: 1; }
+
+/* Ana sayfa: genis ekranda iki sutun. Icerik solda, asistan+iletisim sag panelde.
+   Dar ekranda tek sutun (panel alta iner). Ic sayfalar tek sutun kalir. */
+@media (min-width: 62em) {
+  body.home {
+    max-width: 66em;
+    display: grid;
+    grid-template-columns: 1fr 21em;
+    grid-template-areas: "nav nav" "icerik yan";
+    column-gap: 3.5em;
+    align-items: start;
+  }
+  body.home > nav { grid-area: nav; }
+  body.home > .icerik { grid-area: icerik; min-width: 0; }
+  body.home > .yan { grid-area: yan; position: sticky; top: 2em; }
+  body.home > .yan hr:first-child { display: none; }
+  body.home > .yan h2 { margin-top: 0; }
+}
+
 /* CV yazdirilirken temiz ciksin. */
 @media print {
   body { max-width: none; margin: 0; font-size: 11pt; }
