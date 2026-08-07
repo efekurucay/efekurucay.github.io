@@ -169,12 +169,6 @@ def main():
         sz = SOZLUK[dil]
         kendi = [g for g in girisler if g["dil"] == dil]
 
-        # Ana sayfa: son bes giris. Muzik ayri tutulur, akisa girmez.
-        akis = [g for g in kendi if g["tur"] not in ("müzik", "music")]
-        blok = "<dl>\n" + "\n\n".join(satir(g, sz) for g in akis[:5]) + "\n</dl>"
-        blok += f'\n\n<p><a href="{sz["arsiv_yol"]}">&rarr; {sz["tum"]}</a></p>'
-        yaz(os.path.join(KOK, dil, "index.html"), blok)
-
         # Arsiv: ture gore bolunmus, her grup icinde tarih sirasi.
         gruplar = ([("proje", "Projeler"), ("yazı", "Yazılar"), ("müzik", "Müzik")]
                    if dil == "tr" else
@@ -224,7 +218,8 @@ def sitemap_yaz(girisler):
     yollar = ["/", "/tr/", "/en/", "/tr/arsiv/", "/en/archive/",
               "/tr/hakkinda/", "/en/about/", "/tr/cv/", "/en/cv/",
               "/tr/ventures/", "/en/ventures/", "/tr/contact/", "/en/contact/",
-              "/tr/bilmok/", "/en/bilmok/", "/tr/hsd/", "/en/hsd/"]
+              "/tr/bilmok/", "/en/bilmok/", "/tr/hsd/", "/en/hsd/",
+              "/tr/giraffe/", "/en/giraffe/"]
     yollar += [g["yol"] for g in girisler]
     # Yil ve ay indeksleri
     aylar = sorted({(g["dil"], g["yil"], g["ay"]) for g in girisler})

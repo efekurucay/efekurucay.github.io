@@ -56,6 +56,17 @@ blockquote {
 .buton.fitbrand, .buton.fitbrand:hover { background: #13234e; }
 .buton.tiro, .buton.tiro:hover { background: #a63a3f; }
 
+/* Foto mozaigi: ilk foto buyuk, geri kalani esit karolar. */
+.mozaik {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-auto-rows: 160px;
+  gap: .6em;
+  margin: 1.2em 0;
+}
+.mozaik img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block; }
+.mozaik img:first-child { grid-column: span 2; grid-row: span 2; }
+
 /* Ventures kartlari: ince cerceve, ic bosluk. */
 .kartlar {
   display: grid;

@@ -1,5 +1,6 @@
-// Her sayfaya asistan + iletisim yan panelini ekler. Ana sayfa panelini elle
-// tasidigi icin (id zaten var) orada atlar. dil.js gibi her sayfada yuklenir.
+// Her sayfaya iletisim yan panelini ekler. Asistan sadece ana sayfada
+// (orada elle kurulu). Ana sayfa panelini elle tasidigi icin (id zaten var)
+// orada atlar. dil.js gibi her sayfada yuklenir.
 (function () {
   if (document.querySelector('#asistan-chat, #assistant-chat')) return; // ana sayfa: elle kurulu
   var ENDPOINT = 'https://docentic.efekurucay.com';
@@ -20,11 +21,6 @@
   yan.className = 'yan';
   yan.innerHTML =
     '<hr>' +
-    '<h2 id="asistan">' + (tr ? 'Asistan' : 'Assistant') + '</h2>' +
-    '<p>' + (tr ? 'Bu siteyi okumuş bir asistan. Bana değil, ona sor.'
-                : 'An assistant that has read this site. Ask it, not me.') + '</p>' +
-    '<div id="asistan-chat"></div>' +
-    '<hr>' +
     '<h2 id="iletisim">' + (tr ? 'İletişim' : 'Contact') + '</h2>' +
     '<p>' + (tr ? 'Bir şey söylemek istersen doğrudan buradan yaz.'
                 : 'Want to say something? Write here directly.') + '</p>' +
@@ -36,18 +32,9 @@
   body.insertBefore(icerik, yan);
   body.classList.add('home');
 
-  var VERBS_TR = 'Düşünüyor,Kurcalıyor,Eşeliyor,Deşiyor,Kotarıyor,Demleniyor,Mayalanıyor,Didikliyor,Karıştırıyor,Churuchaing,Efessing,Kurucaying';
-  var VERBS_EN = 'Thinking,Cerebrating,Noodling,Percolating,Pondering,Cogitating,Ruminating,Mulling,Conjuring,Tinkering,Untangling,Vibing,Churuchaing,Efessing,Kurucaying';
-
   var w = document.createElement('script');
   w.src = ENDPOINT + '/widget.js';
   w.onload = function () {
-    window.docentic({
-      endpoint: ENDPOINT, key: 'efekurucay', mode: 'inline', mount: '#asistan-chat',
-      label: tr ? 'asistan' : 'assistant',
-      placeholder: tr ? 'Bir şey sor…' : 'Ask something…',
-      verbs: tr ? VERBS_TR : VERBS_EN,
-    });
     window.docentic({
       endpoint: ENDPOINT, key: 'efekurucay', mode: 'contact', mount: '#iletisim-form',
       nameLabel: tr ? 'Adın' : 'Your name',
