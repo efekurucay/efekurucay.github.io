@@ -44,7 +44,7 @@
   w.onload = function () {
     window.docentic({
       endpoint: ENDPOINT, key: 'efekurucay', mode: 'inline', mount: '#asistan-chat',
-      label: tr ? 'asistan' : 'assistant', avatar: '/logo.svg',
+      label: tr ? 'asistan' : 'assistant',
       placeholder: tr ? 'Bir şey sor…' : 'Ask something…',
       verbs: tr ? VERBS_TR : VERBS_EN,
     });

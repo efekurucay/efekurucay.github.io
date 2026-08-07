@@ -25,6 +25,8 @@ SON = "<!-- URETILDI:SON -->"
 SOZLUK = {
     "tr": {
         "arsiv_yol": "/tr/arsiv/", "arsiv": "Arşiv", "ana": "Ana sayfa",
+        "about_yol": "/tr/hakkinda/", "ventures_yol": "/tr/ventures/",
+        "contact_yol": "/tr/contact/",
         "son": "Son girişler", "tum": "Tüm arşiv", "giris": "giriş",
         "aylar": {"01": "Ocak", "02": "Şubat", "03": "Mart", "04": "Nisan",
                   "05": "Mayıs", "06": "Haziran", "07": "Temmuz", "08": "Ağustos",
@@ -33,6 +35,8 @@ SOZLUK = {
     },
     "en": {
         "arsiv_yol": "/en/archive/", "arsiv": "Archive", "ana": "Home",
+        "about_yol": "/en/about/", "ventures_yol": "/en/ventures/",
+        "contact_yol": "/en/contact/",
         "son": "Recent entries", "tum": "Full archive", "giris": "entries",
         "aylar": {"01": "January", "02": "February", "03": "March", "04": "April",
                   "05": "May", "06": "June", "07": "July", "08": "August",
@@ -167,7 +171,7 @@ def main():
 
         # Ana sayfa: son bes giris. Muzik ayri tutulur, akisa girmez.
         akis = [g for g in kendi if g["tur"] not in ("müzik", "music")]
-        blok = "<dl>\n" + "\n\n".join(satir(g, sz) for g in akis[:8]) + "\n</dl>"
+        blok = "<dl>\n" + "\n\n".join(satir(g, sz) for g in akis[:5]) + "\n</dl>"
         blok += f'\n\n<p><a href="{sz["arsiv_yol"]}">&rarr; {sz["tum"]}</a></p>'
         yaz(os.path.join(KOK, dil, "index.html"), blok)
 
@@ -218,7 +222,9 @@ def main():
 def sitemap_yaz(girisler):
     """Tum sayfalari sitemap.xml'e yazar. Sabit sayfalar + tum girisler."""
     yollar = ["/", "/tr/", "/en/", "/tr/arsiv/", "/en/archive/",
-              "/tr/hakkinda/", "/en/about/", "/tr/cv/", "/en/cv/"]
+              "/tr/hakkinda/", "/en/about/", "/tr/cv/", "/en/cv/",
+              "/tr/ventures/", "/en/ventures/", "/tr/contact/", "/en/contact/",
+              "/tr/bilmok/", "/en/bilmok/", "/tr/hsd/", "/en/hsd/"]
     yollar += [g["yol"] for g in girisler]
     # Yil ve ay indeksleri
     aylar = sorted({(g["dil"], g["yil"], g["ay"]) for g in girisler})
@@ -301,7 +307,11 @@ SAYFA = """<!DOCTYPE html>
 <body>
 
 <nav>
-<a href="/{dil}/">{ana}</a> &middot; <a href="{arsiv_yol}">{arsiv}</a>
+<a href="/{dil}/" class="logo" aria-label="{ana}"><img src="/logo.svg" alt="" width="22" height="22"></a>
+<a href="{ventures_yol}">ventures</a>
+<a href="{arsiv_yol}">log</a>
+<a href="{about_yol}">about</a>
+<a href="{contact_yol}">contact</a>
 </nav>
 
 <h1>{ad}</h1>
@@ -324,7 +334,9 @@ def sayfa_yaz(dosya, dil, sz, ad, govde):
         return
     open(dosya, "w", encoding="utf-8").write(SAYFA.format(
         dil=dil, ad=ad, ana=sz["ana"], arsiv=sz["arsiv"],
-        arsiv_yol=sz["arsiv_yol"], govde=govde, BAS=BAS, SON=SON))
+        arsiv_yol=sz["arsiv_yol"], ventures_yol=sz["ventures_yol"],
+        about_yol=sz["about_yol"], contact_yol=sz["contact_yol"],
+        govde=govde, BAS=BAS, SON=SON))
     print(f"  olusturuldu: {os.path.relpath(dosya, KOK)}")
 
 
