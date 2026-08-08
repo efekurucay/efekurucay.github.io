@@ -22,8 +22,6 @@
   yan.innerHTML =
     '<hr>' +
     '<h2 id="iletisim">' + (tr ? 'İletişim' : 'Contact') + '</h2>' +
-    '<p>' + (tr ? 'Bir şey söylemek istersen doğrudan buradan yaz.'
-                : 'Want to say something? Write here directly.') + '</p>' +
     '<div id="iletisim-form"></div>';
 
   // nav'dan hemen sonra: once yan, sonra icerik (insertBefore ters sira ile dogru yerlesir).
