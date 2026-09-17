@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI ajanına literatür taraması yaptırmak &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="yazı">
+<meta name="ozet" content="NotebookLM ve Zotero&#x27;yu MCP ile Claude Code&#x27;a bağladım. Makaleyi okuma bende kaldı; toplama, tutarlı özetleme ve arşivleme ajana geçti.">
+<meta name="etiket" content="mcp, notebooklm, zotero, claude-code, akademik">
+<meta name="description" content="NotebookLM ve Zotero&#x27;yu MCP ile Claude Code&#x27;a bağladım. Makaleyi okuma bende kaldı; toplama, tutarlı özetleme ve arşivleme ajana geçti.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI ajanına literatür taraması yaptırmak">
+<meta property="og:description" content="NotebookLM ve Zotero&#x27;yu MCP ile Claude Code&#x27;a bağladım. Makaleyi okuma bende kaldı; toplama, tutarlı özetleme ve arşivleme ajana geçti.">
+<meta property="og:url" content="https://efekurucay.com/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Yahya Efe Kuruçay">
+<meta property="og:image" content="https://efekurucay.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-09-18">
+<meta property="article:author" content="Yahya Efe Kuruçay">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="https://efekurucay.com/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="en" href="/en/2026/09/literature-review-with-notebooklm-and-zotero/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/" class="logo" aria-label="Ana sayfa"><img src="/logo.svg" alt="" width="22" height="22"></a>
+<a href="/tr/ventures/">ventures</a>
+<a href="/tr/arsiv/">log</a>
+<a href="/tr/hakkinda/">about</a>
+<a href="/tr/contact/">contact</a>
+<span class="dil"><a href="/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/" data-dil="tr">TR</a> · <a href="/en/2026/09/literature-review-with-notebooklm-and-zotero/" data-dil="en">EN</a></span>
+</nav>
+
+<h1>AI ajanına literatür taraması yaptırmak</h1>
+
+<p><small>18 Eylül 2026 &middot; yazı &middot;
+<a href="/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/gecmis.html">geçmiş</a></small></p>
+
+<p><a href="/tr/giraffe/">Bitirme projem</a> için ekibimle bir çalışma planı
+oluşturduk. İlk adım olarak herkes kendi konusu üzerine kapsamlı bir literatür
+taraması yapacak. Akademik dünyaya henüz çok hâkim değilim; bu yüzden yanlış
+kullandığım bir ifade olursa şimdiden affola.</p>
+
+<p>Şu ana kadar anladığım kadarıyla araştırma sürecinin en çok zaman alan ama
+en az görünür kısmı literatür taraması. Onlarca makaleyi &mdash; hatta bazen
+konuyla doğrudan ilgisi olmayanları bile &mdash; indiriyor, tek tek açıp
+okumaya çalışıyor, önemli noktaları not alıyoruz. Elbette tüm bunları düzenli
+ve sistematik şekilde yönetmek gerekiyor. Bunun için farklı referans yönetim
+araçları, not alma uygulamaları ve özetleme yapan birçok AI aracı mevcut.</p>
+
+<p>Ben bu yazıda, akademik dünyaya yeni adım atan biri olarak, literatür tarama
+sürecini benim için önemli ölçüde kolaylaştıran ajan akışımı paylaşacağım.</p>
+
+<h2>MCP nedir, neden önemli?</h2>
+
+<p>MCP (Model Context Protocol), bir AI ajanına harici araçları kullanma
+yeteneği veren bir protokol. Yani örneğin Claude Code gibi bir ajan artık
+sadece metin üretmiyor; NotebookLM’deki bir not defterini açıp arayabiliyor,
+Zotero kütüphanene makale ekleyebiliyor, notlarını yazabiliyor. Ajan, senin
+tıkladığın arayüzlerin ardındaki fonksiyonları doğrudan çağırıyor.</p>
+
+<p>Benim için kritik olan şey şu oldu: bu iki aracı aynı oturumda birbirine
+bağladığında, &ldquo;makale &rarr; özet &rarr; kütüphane&rdquo; zinciri elle
+kopyala-yapıştır olmaktan çıkıp tek bir akışa dönüşüyor.</p>
+
+<h2>Adım 1 &mdash; Her makaleye ayrı bir beyin</h2>
+
+<p>İlk olarak NotebookLM MCP’yi kurdum. NotebookLM’in en güçlü tarafı,
+cevaplarını yalnızca yüklediğin kaynaklara dayandırması ve her iddiayı metindeki
+kaynağına tıklanabilir bir alıntıyla bağlaması.</p>
+
+<p>Yaptığım şey şuydu: taradığım makalelerin her birini ayrı bir not defterine
+yükledim. Neden ayrı ayrı? Çünkü her makalenin kendi bağlamında, birbirine
+karışmadan sorgulanmasını istedim. Bir makaleye &ldquo;bu çalışmanın
+metodolojik zayıflığı ne?&rdquo; diye sorduğumda, cevabın başka bir makaleden
+sızmasını istemedim.</p>
+
+<p><img src="/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/g1.webp" alt="NotebookLM&#x27;de her makale için ayrı bir not defteri" width="1600" height="676" decoding="async"></p>
+
+<h2>Adım 2 &mdash; Tutarlı özet: tek istem, her makale</h2>
+
+<p>Burası benim için işin can alıcı kısmıydı. Rastgele &ldquo;özetle&rdquo;
+demek yerine, ekip toplantısında danışman hocamızın bize sağladığı standart bir
+literatür değerlendirme istemini kullandım. Bu istem her makale için aynı
+yapıda bir çıktı üretiyor:</p>
+
+<ul>
+  <li>Çalışmanın amacı ve katkısı</li>
+  <li>Metodoloji ve veri seti</li>
+  <li>Ana bulgular</li>
+  <li>Sınırlılıklar ve eleştiriler</li>
+  <li>Bizim araştırmamızla ilişkisi</li>
+</ul>
+
+<p>Sonra ajana, her not defteri için bu aynı istemi çalıştırıp çıktıyı
+&ldquo;Akademik Review&rdquo; notu olarak kaydettirdim. Sonuç: onlarca makale,
+birbiriyle karşılaştırılabilir, aynı iskelette özetlenmiş notlar.</p>
+
+<p>Bu arada tarama konusu da benim için öğreticiydi: LLM ve RAG değerlendirme
+literatürü &mdash; ARES, BARTScore, BERTScore, BLEU, BLEURT ve
+&ldquo;Evaluating LLMs&rdquo; üzerine sistematik derlemeler. Yani ironik
+biçimde, yapay zekâyı değerlendiren makaleleri yapay zekâ ile taradım.</p>
+
+<h2>Adım 3 &mdash; Her şeyi tek kütüphanede toplamak</h2>
+
+<p>Notlar üretildikten sonra ikinci parçayı bağladım: Zotero MCP. Zotero
+akademik dünyanın standardı gibi görünüyor. MCP ile bağlanınca ajan
+kütüphanene DOI ya da URL üzerinden makale ekleyebiliyor, üstveri çekebiliyor,
+koleksiyon yönetebiliyor.</p>
+
+<p><img src="/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/g2.webp" alt="Zotero kütüphanesi ve ajanın çalışma özeti" width="1600" height="807" loading="lazy" decoding="async"></p>
+
+<p>Benim için en işe yarayan hamle şuydu: aynı oturum içinde tüm makaleleri
+Zotero’ya ekledim ve NotebookLM’in ürettiği &ldquo;Akademik Review&rdquo;
+notlarını her makaleye iliştirdim. Böylece Zotero kütüphanemde her kaynağın
+altında hem PDF’i, hem üstverisi, hem de standart formatta yapay zekâ özeti
+yan yana duruyor. Kaynak yönetimi, özet ve tam metin &mdash; üçü tek yerde.</p>
+
+<p><img src="/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/g3.webp" alt="Zotero&#x27;da bir makalenin altında PDF ve Akademik Review notu yan yana" width="760" height="355" loading="lazy" decoding="async"></p>
+
+<h2>Sonuç</h2>
+
+<p>Bu akışın bana asıl öğrettiği şey &ldquo;yapay zekâ makaleleri benim yerime
+okusun&rdquo; değil. Makaleyi okuma ve yargılama kısmı hâlâ bende; devrettiğim
+şey toplama, tutarlı özetleme ve arşivleme gibi tekrarlı, hataya açık kısımlar.
+Yani okumayı değil, okumanın etrafındaki angaryayı otomatikleştirdim.</p>
+
+<p>Elle epey zaman alabilecek bir taramanın mekanik yükü ciddi biçimde
+düşüyor; kalan vakti asıl önemli olana, yani makaleler arasındaki bağlantıları
+kurmaya ayırabiliyorsun.</p>
+
+<p><img src="/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/g4.webp" alt="Notlardan çıkan literatür bölümü taslağı" width="1180" height="780" loading="lazy" decoding="async"></p>
+
+<p>Dediğim gibi bu işlere yeni giriyorum, o yüzden bunu kesin doğru değil,
+&ldquo;benim işime yaradı&rdquo; diye okuyun. Daha iyi bir akış kuran, farklı
+araçlar deneyen varsa duymayı çok isterim.</p>
+
+<h2>Kullandığım araçlar</h2>
+
+<ul>
+  <li><a target="_blank" rel="noopener" href="https://github.com/jacob-bd/notebooklm-mcp-cli">NotebookLM MCP</a></li>
+  <li><a target="_blank" rel="noopener" href="https://stevenyuyy.com/zotero-mcp/">Zotero MCP</a></li>
+</ul>
+
+<hr>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+<script src="/asistan.js"></script>
+</body>
+</html>
