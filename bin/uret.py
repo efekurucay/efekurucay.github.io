@@ -18,6 +18,8 @@ import sys
 KOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DILLER = ("tr", "en")
 
+SITE = "https://efekurucay.com"
+
 # Script sadece bu isaretlerin arasini yazar.
 BAS = "<!-- URETILDI:BAS -->"
 SON = "<!-- URETILDI:SON -->"
@@ -32,6 +34,7 @@ SOZLUK = {
                   "05": "Mayıs", "06": "Haziran", "07": "Temmuz", "08": "Ağustos",
                   "09": "Eylül", "10": "Ekim", "11": "Kasım", "12": "Aralık"},
         "yalnizca": "yalnızca İngilizce",
+        "ozet": "{ad} girişleri.", "locale": "tr_TR", "diger": "Diğer",
     },
     "en": {
         "arsiv_yol": "/en/archive/", "arsiv": "Archive", "ana": "Home",
@@ -42,6 +45,7 @@ SOZLUK = {
                   "05": "May", "06": "June", "07": "July", "08": "August",
                   "09": "September", "10": "October", "11": "November", "12": "December"},
         "yalnizca": "only in Turkish",
+        "ozet": "Entries from {ad}.", "locale": "en_US", "diger": "Other",
     },
 }
 
@@ -120,6 +124,7 @@ _KALEM = '<svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentCol
 _KOD = '<svg viewBox="0 0 24 24" width="14" height="14"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg>'
 _NOTA = '<svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M12 3v10.55A4 4 0 1014 17V7h4V3h-6z"/></svg>'
 _LISTE = '<svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/></svg>'
+_DURDUR = '<svg viewBox="0 0 24 24" width="14" height="14"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 3.5a8.5 8.5 0 100 17 8.5 8.5 0 000-17zM6 6l12 12"/></svg>'
 
 # Tur -> ikon. tr ve en turleri.
 TUR_IKON = {
@@ -127,11 +132,12 @@ TUR_IKON = {
     "proje": ("proje", _KOD), "project": ("project", _KOD),
     "müzik": ("müzik", _NOTA), "music": ("music", _NOTA),
     "not": ("not", _LISTE), "note": ("note", _LISTE),
+    "terk": ("terk", _DURDUR), "abandoned": ("abandoned", _DURDUR),
 }
 
 
 def satir(g, sz, tarih_goster=True):
-    tarih = f"{int(g['ay'])}" if False else sz["aylar"][g["ay"]]
+    tarih = sz["aylar"][g["ay"]]
     ik = TUR_IKON.get(g["tur"])
     ikon = f'<span class="tur-ikon" title="{ik[0]}">{ik[1]}</span>' if ik else ""
     ust = f'  <dt><a href="{g["yol"]}">{html.escape(g["baslik"])}</a>{ikon}</dt>'
@@ -165,20 +171,30 @@ def main():
     girisler = girisleri_tara()
     print(f"{len(girisler)} giris bulundu")
 
+    # Hangi dil/yil/ay kombinasyonlarinda giris var: hreflang ve dil secici
+    # yalnizca gercekten dolu olan kardes sayfaya baglanir.
+    dolu = {(g["dil"], g["yil"], g["ay"]) for g in girisler}
+
     for dil in DILLER:
         sz = SOZLUK[dil]
         kendi = [g for g in girisler if g["dil"] == dil]
 
         # Arsiv: ture gore bolunmus, her grup icinde tarih sirasi.
-        gruplar = ([("proje", "Projeler"), ("yazı", "Yazılar"), ("müzik", "Müzik")]
+        gruplar = ([("proje", "Projeler"), ("yazı", "Yazılar"), ("müzik", "Müzik"),
+                    ("not", "Notlar"), ("terk", "Terk edilenler")]
                    if dil == "tr" else
-                   [("project", "Projects"), ("writing", "Writing"), ("music", "Music")])
+                   [("project", "Projects"), ("writing", "Writing"), ("music", "Music"),
+                    ("note", "Notes"), ("abandoned", "Abandoned")])
+        # Tanimsiz tur arsivden dusmesin; son grup her seyi toplar.
+        gruplar.append((None, sz["diger"]))
+        bilinen = {t for t, _ in gruplar}
         parcalar = []
-        for tur, baslik in gruplar:
-            grup = [g for g in kendi if g["tur"] == tur]
+        for tur, grup_adi in gruplar:
+            grup = [g for g in kendi
+                    if g["tur"] == tur or (tur is None and g["tur"] not in bilinen)]
             if not grup:
                 continue
-            parcalar.append(f"<h2>{baslik}</h2>\n\n<dl>\n"
+            parcalar.append(f"<h2>{grup_adi}</h2>\n\n<dl>\n"
                             + "\n\n".join(satir(g, sz) for g in grup) + "\n</dl>")
         arsiv_dosya = os.path.join(KOK, dil, "arsiv" if dil == "tr" else "archive", "index.html")
         yaz(arsiv_dosya, "\n\n".join(parcalar))
@@ -192,14 +208,19 @@ def main():
                 + "\n\n".join(satir(g, sz, tarih_goster=False)
                               for g in oyil if g["ay"] == a) + "\n</dl>"
                 for a in aylar)
-            sayfa_yaz(os.path.join(KOK, dil, yil, "index.html"), dil, sz, yil, govde)
+            obur = "en" if dil == "tr" else "tr"
+            es = (f"/{obur}/{yil}/"
+                  if any(d == obur and y == yil for d, y, _ in dolu) else "")
+            sayfa_yaz(os.path.join(KOK, dil, yil, "index.html"), dil, sz, yil,
+                      govde, es)
 
             for a in aylar:
                 oay = [g for g in oyil if g["ay"] == a]
                 govde = "<dl>\n" + "\n\n".join(
                     satir(g, sz, tarih_goster=False) for g in oay) + "\n</dl>"
+                es = f"/{obur}/{yil}/{a}/" if (obur, yil, a) in dolu else ""
                 sayfa_yaz(os.path.join(KOK, dil, yil, a, "index.html"), dil, sz,
-                          f"{sz['aylar'][a]} {yil}", govde)
+                          f"{sz['aylar'][a]} {yil}", govde, es)
 
     for g in girisler:
         gecmis_yaz(g)
@@ -214,26 +235,33 @@ def main():
 
 
 def sitemap_yaz(girisler):
-    """Tum sayfalari sitemap.xml'e yazar. Sabit sayfalar + tum girisler."""
-    yollar = ["/", "/tr/", "/en/", "/tr/arsiv/", "/en/archive/",
-              "/tr/hakkinda/", "/en/about/", "/tr/cv/", "/en/cv/",
-              "/tr/ventures/", "/en/ventures/", "/tr/contact/", "/en/contact/",
-              "/tr/bilmok/", "/en/bilmok/", "/tr/hsd/", "/en/hsd/",
-              "/tr/giraffe/", "/en/giraffe/"]
-    yollar += [g["yol"] for g in girisler]
-    # Yil ve ay indeksleri
-    aylar = sorted({(g["dil"], g["yil"], g["ay"]) for g in girisler})
-    yillar = sorted({(g["dil"], g["yil"]) for g in girisler})
-    yollar += [f"/{d}/{y}/" for d, y in yillar]
-    yollar += [f"/{d}/{y}/{a}/" for d, y, a in aylar]
-    kok = "https://efekurucay.com"
+    """Tum sayfalari sitemap.xml'e yazar. Sabit sayfalar + tum girisler.
+
+    lastmod git'ten gelir. Hesaplanamayan sayfada alan hic yazilmaz; yanlis
+    tarih, tarih yoklugundan kotudur.
+    """
+    sabit = ["/", "/tr/", "/en/", "/tr/arsiv/", "/en/archive/",
+             "/tr/hakkinda/", "/en/about/", "/tr/cv/", "/en/cv/",
+             "/tr/ventures/", "/en/ventures/", "/tr/contact/", "/en/contact/",
+             "/tr/bilmok/", "/en/bilmok/", "/tr/hsd/", "/en/hsd/",
+             "/tr/giraffe/", "/en/giraffe/"]
+    tarih = {}
+    for y in sabit:
+        tarih[y] = git_tarihleri(y.lstrip("/") + ("index.html" if y.endswith("/") else ""))[1]
+    for g in girisler:
+        tarih[g["yol"]] = g["git_son"]
+        # Yil ve ay indeksleri uretilir; listeledikleri en yeni giris kadar tazedir.
+        for y in (f"/{g['dil']}/{g['yil']}/", f"/{g['dil']}/{g['yil']}/{g['ay']}/"):
+            tarih[y] = max(tarih.get(y, ""), g["git_son"])
     satirlar = "\n".join(
-        f"  <url><loc>{kok}{y}</loc></url>" for y in sorted(set(yollar)))
+        f"  <url><loc>{SITE}{y}</loc>"
+        + (f"<lastmod>{tarih[y]}</lastmod>" if tarih[y] else "")
+        + "</url>" for y in sorted(tarih))
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
            + satirlar + "\n</urlset>\n")
     open(os.path.join(KOK, "sitemap.xml"), "w", encoding="utf-8").write(xml)
-    print(f"  sitemap.xml: {len(set(yollar))} url")
+    print(f"  sitemap.xml: {len(tarih)} url")
 
 
 def gecmis_yaz(g):
@@ -297,8 +325,21 @@ SAYFA = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{ad} &mdash; Yahya Efe Kuruçay</title>
+<meta name="ozet" content="{ozet}">
+<meta name="description" content="{ozet}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{ad}">
+<meta property="og:description" content="{ozet}">
+<meta property="og:url" content="{site}{yol}">
+<meta property="og:locale" content="{locale}">
+{locale_alt}<meta property="og:site_name" content="Yahya Efe Kuruçay">
+{gorsel}<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="{site}{yol}">
 <link rel="stylesheet" href="/stil.css">
-</head>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+{alternate}</head>
 <body>
 
 <nav>
@@ -307,6 +348,7 @@ SAYFA = """<!DOCTYPE html>
 <a href="{arsiv_yol}">log</a>
 <a href="{about_yol}">about</a>
 <a href="{contact_yol}">contact</a>
+<span class="dil"><a href="{tr_yol}" data-dil="tr">TR</a> · <a href="{en_yol}" data-dil="en">EN</a></span>
 </nav>
 
 <h1>{ad}</h1>
@@ -316,21 +358,43 @@ SAYFA = """<!DOCTYPE html>
 {SON}
 
 <script src="/dil.js"></script>
+<script src="/asistan.js"></script>
 </body>
 </html>
 """
 
 
-def sayfa_yaz(dosya, dil, sz, ad, govde):
-    """Yil/ay indeksleri tamamen uretilir; elle yazilmis icerikleri yok."""
+def sayfa_yaz(dosya, dil, sz, ad, govde, es):
+    """Yil/ay indeksleri tamamen uretilir; elle yazilmis icerikleri yok.
+
+    es: obur dildeki ayni yil/ay sayfasi. Karsilik yoksa bos gelir; o zaman
+    dil secici yalnizca dil kokune bakar, hreflang hic yazilmaz.
+    """
     os.makedirs(os.path.dirname(dosya), exist_ok=True)
     if os.path.isfile(dosya):
         yaz(dosya, govde)
         return
+    yol = "/" + os.path.dirname(os.path.relpath(dosya, KOK)).replace(os.sep, "/") + "/"
+    obur = "en" if dil == "tr" else "tr"
+    # og:image yalnizca gorsel gercekten varsa; kirik onizleme yazmayalim.
+    gorsel = (f'<meta property="og:image" content="{SITE}/assets/og.png">\n'
+              '<meta property="og:image:width" content="1200">\n'
+              '<meta property="og:image:height" content="630">\n'
+              if os.path.isfile(os.path.join(KOK, "assets", "og.png")) else "")
+    locale_alt = (f'<meta property="og:locale:alternate" content="{SOZLUK[obur]["locale"]}">\n'
+                  if es else "")
+    alternate = (f'<link rel="alternate" hreflang="{obur}" href="{es}">\n'
+                 if es else "")
+    oteki = es or f"/{obur}/"
     open(dosya, "w", encoding="utf-8").write(SAYFA.format(
         dil=dil, ad=ad, ana=sz["ana"], arsiv=sz["arsiv"],
         arsiv_yol=sz["arsiv_yol"], ventures_yol=sz["ventures_yol"],
         about_yol=sz["about_yol"], contact_yol=sz["contact_yol"],
+        ozet=html.escape(sz["ozet"].format(ad=ad), quote=True),
+        site=SITE, yol=yol, locale=sz["locale"], locale_alt=locale_alt, gorsel=gorsel,
+        alternate=alternate,
+        tr_yol=yol if dil == "tr" else oteki,
+        en_yol=yol if dil == "en" else oteki,
         govde=govde, BAS=BAS, SON=SON))
     print(f"  olusturuldu: {os.path.relpath(dosya, KOK)}")
 
