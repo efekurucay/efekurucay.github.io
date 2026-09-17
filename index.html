@@ -22,7 +22,8 @@
 
 <script>
   var s = localStorage.getItem("dil");
-  location.replace("/" + (s || "en") + "/");
+  var d = (navigator.languages || [navigator.language || ""]).join(",");
+  location.replace("/" + (s || (/(^|,)tr\b/i.test(d) ? "tr" : "en")) + "/");
 </script>
 
 </body>

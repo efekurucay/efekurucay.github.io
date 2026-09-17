@@ -64,6 +64,9 @@
 <h2>Yazılar</h2>
 
 <dl>
+  <dt><a href="/tr/2026/09/literatur-taramasi-notebooklm-zotero-mcp/">AI ajanına literatür taraması yaptırmak</a><span class="tur-ikon" title="yazı"><svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span></dt>
+  <dd>Eylül 2026 &middot; NotebookLM ve Zotero&#x27;yu MCP ile Claude Code&#x27;a bağladım. Makaleyi okuma bende kaldı; toplama, tutarlı özetleme ve arşivleme ajana geçti.</dd>
+
   <dt><a href="/tr/2026/07/bes-yilda-uc-site/">Beş yılda üç site</a><span class="tur-ikon" title="yazı"><svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span></dt>
   <dd>Temmuz 2026 &middot; Üç site kurdum, üçü de kayboldu. Dördüncüsünü kaybolmayacak şekilde kuruyorum.</dd>
 
@@ -115,14 +118,21 @@ var liste = document.getElementById("liste");
 var sayac = document.getElementById("sayac");
 ara.addEventListener("input", function () {
   var q = ara.value.toLocaleLowerCase("tr");
-  var dt = liste.querySelectorAll("dt");
   var bulunan = 0;
-  dt.forEach(function (baslik) {
-    var ozet = baslik.nextElementSibling;
-    var metin = (baslik.textContent + " " + ozet.textContent).toLocaleLowerCase("tr");
-    var uyar = metin.indexOf(q) !== -1;
-    baslik.hidden = ozet.hidden = !uyar;
-    if (uyar) bulunan++;
+  // Her tur grubu bir h2 ve onu izleyen dl; grup tamamen elenince basligi da gizleniyor.
+  liste.querySelectorAll("dl").forEach(function (grup) {
+    var grupta = 0;
+    grup.querySelectorAll("dt").forEach(function (baslik) {
+      var ozet = baslik.nextElementSibling;
+      var metin = (baslik.textContent + " " + ozet.textContent).toLocaleLowerCase("tr");
+      var uyar = metin.indexOf(q) !== -1;
+      baslik.hidden = ozet.hidden = !uyar;
+      if (uyar) grupta++;
+    });
+    var grupBasligi = grup.previousElementSibling;
+    grup.hidden = grupta === 0;
+    if (grupBasligi && grupBasligi.tagName === "H2") grupBasligi.hidden = grupta === 0;
+    bulunan += grupta;
   });
   sayac.textContent = q ? bulunan + " sonuç" : "";
 });

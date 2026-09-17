@@ -6,6 +6,13 @@ body {
   line-height: 1.5;
 }
 
+/* Gorsel sutunu asmasin. width/height nitelikleri kutuyu pesinen ayirdigi icin
+   height:auto sart; yoksa dar ekranda genislik kuculurken yukseklik sabit kalir. */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Ust nav: logo solda, sayfa linkleri ortada, dil sagda. */
 nav {
   display: flex;
