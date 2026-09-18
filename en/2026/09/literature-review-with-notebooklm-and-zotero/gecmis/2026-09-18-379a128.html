@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Making an AI agent do the literature review &mdash; 2026-09-18</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<nav>
+<a href="/en/2026/09/literature-review-with-notebooklm-and-zotero/gecmis.html">&larr; history</a> &middot;
+<a href="/en/2026/09/literature-review-with-notebooklm-and-zotero/">current version</a>
+</nav>
+
+<p><small>This is how the entry read on <b>2026-09-18 01:26</b>
+. The current version is
+<a href="/en/2026/09/literature-review-with-notebooklm-and-zotero/">here</a>.</small></p>
+
+<hr>
+
+<h1>Making an AI agent do the literature review</h1>
+
+<p><small>18 September 2026 &middot; writing &middot;
+<a href="/en/2026/09/literature-review-with-notebooklm-and-zotero/gecmis.html">history</a></small></p>
+
+<p>My team and I put together a work plan for <a href="/en/giraffe/">my final
+year project</a>. The first step is that everyone does a thorough literature
+review on their own topic. I am still new to the academic world, so forgive me
+in advance if I use a term wrongly.</p>
+
+<p>As far as I understand it so far, the literature review is the part of
+research that takes the most time and shows the least. You download dozens of
+papers &mdash; sometimes even ones with no direct bearing on the topic &mdash;
+open them one by one, try to read them, and take notes on what matters. All of
+that has to be kept orderly and systematic, of course. There are plenty of
+reference managers, note-taking apps and summarising AI tools for the job.</p>
+
+<p>In this post I want to share the agent workflow that, as someone just
+stepping into academia, made my literature review considerably easier.</p>
+
+<h2>What MCP is, and why it matters</h2>
+
+<p>MCP (Model Context Protocol) is a protocol that gives an AI agent the
+ability to use external tools. An agent like Claude Code no longer only
+produces text: it can open and search a NotebookLM notebook, add a paper to
+your Zotero library, write your notes. The agent calls the functions behind
+the interfaces you would otherwise be clicking.</p>
+
+<p>The critical part for me was this: once you connect both tools inside the
+same session, the &ldquo;paper &rarr; summary &rarr; library&rdquo; chain stops
+being copy-paste and becomes a single flow.</p>
+
+<h2>Step 1 &mdash; A separate brain per paper</h2>
+
+<p>I set up the NotebookLM MCP first. NotebookLM&rsquo;s strength is that it
+grounds its answers only in the sources you upload, and ties every claim back
+to its place in the text with a clickable citation.</p>
+
+<p>What I did was this: I uploaded each paper I was reviewing into its own
+notebook. Why separate ones? Because I wanted every paper to be questioned
+within its own context, without bleeding into the others. When I ask a paper
+&ldquo;what is the methodological weakness of this study?&rdquo;, I do not want
+the answer leaking in from a different paper.</p>
+
+<p><img src="/en/2026/09/literature-review-with-notebooklm-and-zotero/g1.webp" alt="A separate NotebookLM notebook per paper" width="1600" height="676" decoding="async"></p>
+
+<h2>Step 2 &mdash; Consistent summaries: one prompt, every paper</h2>
+
+<p>This was the crux of it for me. Instead of saying &ldquo;summarise
+this&rdquo; at random, I used the standard literature-review prompt our
+supervisor gave us in a team meeting. It produces output with the same shape
+for every paper:</p>
+
+<ul>
+  <li>Aim and contribution of the study</li>
+  <li>Methodology and dataset</li>
+  <li>Main findings</li>
+  <li>Limitations and criticisms</li>
+  <li>Relation to our own research</li>
+</ul>
+
+<p>Then I had the agent run that same prompt for every notebook and save the
+output as an &ldquo;Akademik Review&rdquo; note. The result: dozens of papers,
+comparable with one another, summarised on the same skeleton.</p>
+
+<p>The subject of the review taught me something too: the literature on
+evaluating LLMs and RAG &mdash; ARES, BARTScore, BERTScore, BLEU, BLEURT, and
+systematic surveys on evaluating LLMs. So, ironically, I reviewed the papers
+that evaluate AI using AI.</p>
+
+<h2>Step 3 &mdash; Collecting it all in one library</h2>
+
+<p>Once the notes existed, I connected the second piece: the Zotero MCP.
+Zotero looks to be the standard in academia. Connected over MCP, the agent can
+add papers to your library by DOI or URL, pull metadata, and manage
+collections.</p>
+
+<p><img src="/en/2026/09/literature-review-with-notebooklm-and-zotero/g2.webp" alt="The Zotero library alongside the agent&#x27;s run summary" width="1600" height="807" loading="lazy" decoding="async"></p>
+
+<p>The move that paid off most for me: inside the same session, I added all the
+papers to Zotero and attached the &ldquo;Akademik Review&rdquo; notes
+NotebookLM had produced to each paper. So in my Zotero library every source now
+carries its PDF, its metadata and an AI summary in a standard format, side by
+side. Reference management, summary and full text &mdash; all three in one
+place.</p>
+
+<p><img src="/en/2026/09/literature-review-with-notebooklm-and-zotero/g3.webp" alt="A Zotero item with its PDF and the Akademik Review note side by side" width="760" height="355" loading="lazy" decoding="async"></p>
+
+<h2>What it comes to</h2>
+
+<p>What this workflow actually taught me is not &ldquo;let the AI read the
+papers for me&rdquo;. Reading and judging a paper is still mine; what I handed
+over is the repetitive, error-prone part &mdash; collecting, summarising
+consistently, filing. I automated the drudgery around reading, not the
+reading.</p>
+
+<p>The mechanical weight of a review that would take a long time by hand drops
+sharply, and the time left over goes to what actually matters: drawing the
+connections between the papers.</p>
+
+<p><img src="/en/2026/09/literature-review-with-notebooklm-and-zotero/g4.webp" alt="The literature section drafted out of the notes" width="1180" height="780" loading="lazy" decoding="async"></p>
+
+<p>As I said, I am new to this, so read it as &ldquo;it worked for me&rdquo;
+rather than as settled advice. If you have built a better flow or tried
+different tools, I would very much like to hear it.</p>
+
+<h2>Tools I used</h2>
+
+<ul>
+  <li><a target="_blank" rel="noopener" href="https://github.com/jacob-bd/notebooklm-mcp-cli">NotebookLM MCP</a></li>
+  <li><a target="_blank" rel="noopener" href="https://stevenyuyy.com/zotero-mcp/">Zotero MCP</a></li>
+</ul>
+
+<hr>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+</body>
+</html>
