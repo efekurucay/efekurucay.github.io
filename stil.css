@@ -106,6 +106,10 @@ body.giraffe small { color: #8b95a7; }
 .sosyal svg { width: 20px; height: 20px; fill: currentColor; display: block; }
 .sosyal a:hover { opacity: .6; }
 
+/* Ana sayfada ikonlar asistanin altinda alt bilgi gibi duruyor: arasi acik, ton soluk. */
+#asistan-chat, #assistant-chat { margin-bottom: 3em; }
+hr + .sosyal { margin-top: 1.2em; opacity: .7; }
+
 /* Girdi turu ikonu: basligin saginda, etiket gibi. Kucuk ve soluk. */
 .tur-ikon { display: inline-block; width: .75em; margin-left: .5em; opacity: .35; vertical-align: baseline; }
 .tur-ikon svg { width: 100%; height: auto; fill: currentColor; }
