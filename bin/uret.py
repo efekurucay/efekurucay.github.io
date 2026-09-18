@@ -358,7 +358,6 @@ SAYFA = """<!DOCTYPE html>
 {SON}
 
 <script src="/dil.js"></script>
-<script src="/asistan.js"></script>
 </body>
 </html>
 """

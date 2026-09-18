@@ -9,7 +9,6 @@ Tarayıcı dosyaları olduğu gibi açar.
 index.html            dil seçimi (tarayıcı diline göre yönlendirir, tercih hatırlanır)
 stil.css              tüm stil (max-width + print)
 dil.js                dil tercihini hatırlar
-asistan.js            her sayfaya iletişim panelini ekler
 robots.txt            her şey serbest, sitemap'i gösterir
 sitemap.xml           üretilir (lastmod git'ten)
 CNAME .nojekyll       GitHub Pages
