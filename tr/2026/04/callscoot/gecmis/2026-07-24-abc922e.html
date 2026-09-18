@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>callscoot &mdash; 2026-07-24</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/04/callscoot/gecmis.html">&larr; geçmiş</a> &middot;
+<a href="/tr/2026/04/callscoot/">güncel hâli</a>
+</nav>
+
+<p><small>Bu, yazının <b>2026-07-24 21:38</b>
+tarihli hâli. Güncel sürüm
+<a href="/tr/2026/04/callscoot/">burada</a>.</small></p>
+
+<hr>
+
+<h1>callscoot</h1>
+
+<p><small>Nisan 2026 &middot; proje &middot; Python &middot;
+<a href="https://github.com/efekurucay/callscoot">kaynak kod</a> &middot;
+<a href="/tr/2026/04/callscoot/gecmis.html">geçmiş</a></small></p>
+
+<p>Sürekli açık bir Linux makineyi Android telefon için çağrı konsoluna
+çevirir. Dizüstü, telefonun bluetooth kulaklığı gibi davranır: çağrı sesi
+bluetooth'tan gelir, dizüstünün mikrofonu telefona döner, hoparlör karşıdakini
+çalar.</p>
+
+<h2>Neden</h2>
+
+<p>Tamamen self-hosted bir çağrı altyapısı. Dış uygulamalar yerel bir HTTP
+API'ye istek atar, yani bu tarafta iş mantığı yok &mdash; telefon (ADB ve
+bluetooth ile) ya da SIP sunucu sadece çağrı kaynağı. Aradaki işleme katmanını
+sen şekillendiriyorsun.</p>
+
+<h2>Ne var</h2>
+
+<ul>
+  <li>Bluetooth HFP/HSP ses köprüsü, yankı engelleme varsayılan açık</li>
+  <li>ADB yardımcıları: Android çağrılarını açma, cevaplama, kapatma</li>
+  <li>Opsiyonel SIP kipi: sunucuya kayıt olup doğrudan arama</li>
+  <li>Çağrı politikaları: otomatik cevapla / otomatik reddet</li>
+  <li>Çağrı içinde gerçek zamanlı ses ajanı (OpenAI modellerini denedim,
+      streaming için ElevenLabs'te karar kıldım)</li>
+  <li>Başka bir uygulamanın çağrı çalışma zamanı olarak kullanabilmesi için
+      yerel HTTP API</li>
+  <li>Başsız kullanıcı servisi olarak çalışır</li>
+</ul>
+
+<p>Linux öncelikli: Debian 13, BlueZ 5.82, PipeWire 1.4.x. Sıradaki: tamamen
+yerel model ve ajan orkestrasyonu, bir de telefonun bağlantısını SIP sunucu
+olarak dışarı açıp ADB/bluetooth katmanını ayırmak.</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/efekurucay/callscoot">github.com/efekurucay/callscoot</a>
+</address>
+
+</body>
+</html>

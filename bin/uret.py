@@ -12,6 +12,7 @@ Kullanim:  python3 bin/uret.py
 import html
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -264,59 +265,179 @@ def sitemap_yaz(girisler):
     print(f"  sitemap.xml: {len(tarih)} url")
 
 
-def gecmis_yaz(g):
-    """Her giris icin gecmis.html: git log'dan surumler. Repo yoksa atlar."""
-    ipath = os.path.join(g["dil"], g["yil"], g["ay"], g["slug"], "index.html")
+def _govde(sayfa):
+    """Girisin okunur kismi: nav ile kapanis script'leri arasi."""
+    if "</nav>" not in sayfa or "<script" not in sayfa:
+        return ""
+    bas = sayfa.index("</nav>") + len("</nav>")
+    son = sayfa.index("<script", bas)
+    return sayfa[bas:son].strip()
+
+
+def _metin(govde):
+    """Karsilastirma anahtari: yalniz metin. Etiket degisikligi surum sayilmaz."""
+    return " ".join(re.sub(r"<[^>]+>", " ", govde).split())
+
+
+def _gorselleri_tazele(govde, klasor):
+    """Eski govdedeki gorsel yollarini bugun diskte olanla esler.
+
+    Bir zamanlar .png olan gorseller .webp'e cevrildi; eski surum sayfasi
+    kirik gorsel gostermesin. Karsiligi da yoksa gorsel tamamen dusuruluyor.
+    """
+    def degistir(m):
+        yol = m.group(1)
+        if os.path.isfile(os.path.join(KOK, yol.lstrip("/"))):
+            return m.group(0)
+        webp = re.sub(r"\.(png|jpg|jpeg)$", ".webp", yol)
+        if os.path.isfile(os.path.join(KOK, webp.lstrip("/"))):
+            return m.group(0).replace(yol, webp)
+        return ""
+    govde = re.sub(r'<img[^>]+src="([^"]+)"[^>]*>', degistir, govde)
+    return re.sub(r"<p>\s*</p>", "", govde)
+
+
+def _surumler(ipath):
+    """Metni gercekten degismis commit'ler, eskiden yeniye.
+
+    Site geneli degisiklikler (nav, head, gorsel bicimi) surum sayilmaz;
+    okuyucu icin yeni bir sey yok.
+    """
     try:
         cikti = subprocess.run(
-            ["git", "log", "--follow", "--date=short",
-             "--format=%ad\t%h\t%s", "--", ipath],
-            cwd=KOK, capture_output=True, text=True, timeout=15,
+            ["git", "log", "--follow", "--date=format:%Y-%m-%d %H:%M",
+             "--format=%ad\t%h", "--", ipath],
+            cwd=KOK, capture_output=True, text=True, timeout=30,
         ).stdout.strip()
     except Exception:
-        return
+        return []
     if not cikti:
+        return []
+    cikti = list(reversed(cikti.splitlines()))
+    surumler, onceki = [], None
+    for satir in cikti:
+        damga, kisa = satir.split("\t")
+        tarih = damga.split(" ")[0]
+        try:
+            icerik = subprocess.run(
+                ["git", "show", f"{kisa}:{ipath}"],
+                cwd=KOK, capture_output=True, text=True, timeout=15,
+            ).stdout
+        except Exception:
+            continue
+        govde = _govde(icerik)
+        if not govde:
+            continue
+        anahtar = _metin(govde)
+        if anahtar != onceki:
+            surumler.append({"tarih": tarih, "damga": damga,
+                             "kisa": kisa, "govde": govde})
+            onceki = anahtar
+    return surumler
+
+
+def _surum_sayfasi(g, s, tr):
+    """Bir surumun kendi sayfasi: o gunku metin, bugunku sablonda."""
+    yol = g["yol"]
+    govde = _gorselleri_tazele(s["govde"], os.path.dirname(yol))
+    baslik = html.escape(g["baslik"])
+    return f"""<!DOCTYPE html>
+<html lang="{g['dil']}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{baslik} &mdash; {s['tarih']}</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<nav>
+<a href="{yol}gecmis.html">&larr; {'geçmiş' if tr else 'history'}</a> &middot;
+<a href="{yol}">{'güncel hâli' if tr else 'current version'}</a>
+</nav>
+
+<p><small>{'Bu, yazının' if tr else 'This is how the entry read on'} <b>{s['damga']}</b>
+{'tarihli hâli. Güncel sürüm' if tr else '. The current version is'}
+<a href="{yol}">{'burada' if tr else 'here'}</a>.</small></p>
+
+<hr>
+
+{govde}
+
+</body>
+</html>
+"""
+
+
+def gecmis_yaz(g):
+    """Girisin surum listesi ve her eski surumun kendi sayfasi.
+
+    Listede commit mesaji yok: okuyucuyu ilgilendiren sey metnin o gunku
+    hali, onu degistiren isin adi degil.
+    """
+    ipath = os.path.join(g["dil"], g["yil"], g["ay"], g["slug"], "index.html")
+    klasor = os.path.join(KOK, os.path.dirname(ipath))
+    surumler = _surumler(ipath)
+    if not surumler:
         return
 
     tr = g["dil"] == "tr"
-    surumler = [x.split("\t", 2) for x in cikti.splitlines()]
-    satirlar = []
-    for i, (tarih, kisa, konu) in enumerate(surumler):
-        etiket = ("yayımlandı" if tr else "published") if i == len(surumler) - 1 \
-            else (konu or ("düzenlendi" if tr else "edited"))
-        satirlar.append(f"  <dt>{tarih} &middot; <code>{kisa}</code></dt>\n"
-                        f"  <dd>{html.escape(etiket)}</dd>")
-
+    baslik = html.escape(g["baslik"])
     yol = g["yol"]
+    gecmis_klasor = os.path.join(klasor, "gecmis")
+
+    # Eski surumler diske: en yenisi zaten girisin kendisi.
+    eskiler = surumler[:-1]
+    if os.path.isdir(gecmis_klasor):
+        shutil.rmtree(gecmis_klasor)
+    if eskiler:
+        os.makedirs(gecmis_klasor, exist_ok=True)
+    for s in eskiler:
+        ad = f"{s['tarih']}-{s['kisa']}.html"
+        open(os.path.join(gecmis_klasor, ad), "w", encoding="utf-8").write(
+            _surum_sayfasi(g, s, tr))
+
+    if len(surumler) == 1:
+        govde = (f"<p>{'Bu yazı yayımlandığından beri değişmedi.' if tr else 'This entry has not changed since it was published.'} "
+                 f"{'Yayım tarihi' if tr else 'Published'} {surumler[0]['tarih']}.</p>")
+    else:
+        gunler = [x["tarih"] for x in surumler]
+        alan = "damga" if len(set(gunler)) != len(gunler) else "tarih"
+        satirlar = [f'  <dt>{surumler[-1][alan]}</dt>\n'
+                    f'  <dd><a href="{yol}">{"güncel hâli" if tr else "current version"}</a></dd>']
+        for s in reversed(eskiler):
+            ad = f"{s['tarih']}-{s['kisa']}.html"
+            satirlar.append(f'  <dt>{s[alan]}</dt>\n'
+                            f'  <dd><a href="{yol}gecmis/{ad}">{"o zamanki hâli" if tr else "as it read then"}</a></dd>')
+        govde = "<dl>\n" + "\n\n".join(satirlar) + "\n</dl>"
+
     sayfa = f"""<!DOCTYPE html>
 <html lang="{g['dil']}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(g['baslik'])} &mdash; {'geçmiş' if tr else 'history'}</title>
+<title>{baslik} &mdash; {'geçmiş' if tr else 'history'}</title>
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
 <nav>
-<a href="{yol}">&larr; {html.escape(g['baslik'])}</a> &middot;
+<a href="{yol}">&larr; {baslik}</a> &middot;
 <a href="/{g['dil']}/">{'Ana sayfa' if tr else 'Home'}</a>
 </nav>
 
-<h1>{html.escape(g['baslik'])} &mdash; {'geçmiş' if tr else 'history'}</h1>
+<h1>{baslik} &mdash; {'geçmiş' if tr else 'history'}</h1>
 
-<dl>
-{chr(10).join(satirlar)}
-</dl>
-
-<p><small>{'Bu sayfa git geçmişinden üretildi.' if tr else 'Generated from git history.'}</small></p>
+{govde}
 
 </body>
 </html>
 """
-    open(os.path.join(KOK, os.path.dirname(ipath), "gecmis.html"), "w",
-         encoding="utf-8").write(sayfa)
+    open(os.path.join(klasor, "gecmis.html"), "w", encoding="utf-8").write(sayfa)
 
 
 SAYFA = """<!DOCTYPE html>
