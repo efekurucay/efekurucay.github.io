@@ -62,6 +62,7 @@ blockquote {
 /* Urun butonlari: kendi marka rengi. */
 .buton.fitbrand, .buton.fitbrand:hover { background: #13234e; }
 .buton.tiro, .buton.tiro:hover { background: #a63a3f; }
+.buton.giraffe, .buton.giraffe:hover { background: #d4a451; color: #0f1724; }
 
 /* Foto mozaigi: ilk foto buyuk, geri kalani esit karolar. */
 .mozaik {
