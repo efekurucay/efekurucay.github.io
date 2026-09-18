@@ -64,6 +64,15 @@ blockquote {
 .buton.tiro, .buton.tiro:hover { background: #a63a3f; }
 .buton.giraffe, .buton.giraffe:hover { background: #d4a451; color: #0f1724; }
 
+/* GiraffeGraph sayfasi urunun kendi kimligini tasiyor: lacivert zemin, altin vurgu.
+   Arka plan body'den kok tuvale yayildigi icin kenarlar da lacivert kalir. */
+body.giraffe { background: #0f1724; color: #d7dce4; }
+body.giraffe a { color: #d4a451; }
+body.giraffe h1, body.giraffe .kart h2 { color: #f1e6cf; }
+body.giraffe .etiket { color: #d4a451; }
+body.giraffe .kart { background: #151f30; border-color: #26324a; }
+body.giraffe small { color: #8b95a7; }
+
 /* Foto mozaigi: ilk foto buyuk, geri kalani esit karolar. */
 .mozaik {
   display: grid;
