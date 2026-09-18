@@ -110,24 +110,6 @@ body.giraffe small { color: #8b95a7; }
 .tur-ikon { display: inline-block; width: .75em; margin-left: .5em; opacity: .35; vertical-align: baseline; }
 .tur-ikon svg { width: 100%; height: auto; fill: currentColor; }
 
-/* Ana sayfa: genis ekranda iki sutun. Icerik solda, asistan+iletisim sag panelde.
-   Dar ekranda tek sutun (panel alta iner). Ic sayfalar tek sutun kalir. */
-@media (min-width: 62em) {
-  body.home {
-    max-width: 66em;
-    display: grid;
-    grid-template-columns: 1fr 21em;
-    grid-template-areas: "nav nav" "icerik yan";
-    column-gap: 3.5em;
-    align-items: start;
-  }
-  body.home > nav { grid-area: nav; }
-  body.home > .icerik { grid-area: icerik; min-width: 0; }
-  body.home > .yan { grid-area: yan; position: sticky; top: 2em; }
-  body.home > .yan hr:first-child { display: none; }
-  body.home > .yan h2 { margin-top: 0; }
-}
-
 /* CV yazdirilirken temiz ciksin. */
 @media print {
   body { max-width: none; margin: 0; font-size: 11pt; }
