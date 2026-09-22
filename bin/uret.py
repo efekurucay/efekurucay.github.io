@@ -181,10 +181,10 @@ def main():
         kendi = [g for g in girisler if g["dil"] == dil]
 
         # Arsiv: ture gore bolunmus, her grup icinde tarih sirasi.
-        gruplar = ([("proje", "Projeler"), ("yazı", "Yazılar"), ("müzik", "Müzik"),
+        gruplar = ([("yazı", "Yazılar"), ("proje", "Projeler"), ("müzik", "Müzik"),
                     ("not", "Notlar"), ("terk", "Terk edilenler")]
                    if dil == "tr" else
-                   [("project", "Projects"), ("writing", "Writing"), ("music", "Music"),
+                   [("writing", "Writing"), ("project", "Projects"), ("music", "Music"),
                     ("note", "Notes"), ("abandoned", "Abandoned")])
         # Tanimsiz tur arsivden dusmesin; son grup her seyi toplar.
         gruplar.append((None, sz["diger"]))
