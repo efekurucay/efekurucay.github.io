@@ -13,6 +13,14 @@ img {
   height: auto;
 }
 
+/* Gomulu video de sutuna sigsin; en/boy orani height:auto'da korunur. */
+iframe {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
 /* Ust nav: logo solda, sayfa linkleri ortada, dil sagda. */
 nav {
   display: flex;
