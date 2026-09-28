@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CSE 427 &middot; Week 1 &mdash; Yahya Efe Kuruçay</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="CSE 427 Wireless Sensor Networks, week 1 work.">
+<meta name="description" content="CSE 427 Wireless Sensor Networks, week 1 lab: Instant Contiki, Cooja, Sky motes and a Rime broadcast.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CSE 427 &middot; Week 1">
-<meta property="og:description" content="CSE 427 Wireless Sensor Networks, week 1 work.">
+<meta property="og:description" content="CSE 427 Wireless Sensor Networks, week 1 lab: Instant Contiki, Cooja, Sky motes and a Rime broadcast.">
 <meta property="og:url" content="https://efekurucay.com/cse427/week-1-xkq6sx/">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Yahya Efe Kuruçay">
@@ -26,9 +26,119 @@
 
 <p class="etiket">CSE 427 &middot; Wireless Sensor Networks</p>
 
-<h1>Week 1</h1>
+<h1>Week 1 &mdash; Introduction &amp; Hardware Anatomy</h1>
 
-<p>Introduction and hardware anatomy.</p>
+<p>Yahya Efe Kuruçay &middot; Akdeniz University, Computer Engineering &middot; lab recorded 28 September 2026</p>
+
+<!-- VIDEO -->
+
+<h2>Task</h2>
+
+<p>The Thursday practice session was replaced by a video submission. The task was to show the VMware installation, the Instant Contiki 3.0 virtual machine and its configuration, and a basic Sky mote project that sends packets while the simulation is running. The week 1 slides add the lab steps: create a Cooja simulation with the Network, Mote output, Timeline and Simulation control windows, compile a Sky mote type from <code>hello-world</code>, run three motes, and save the simulation.</p>
+
+<h2>Environment</h2>
+
+<table>
+<thead>
+<tr><th>Component</th><th>Value</th></tr>
+</thead>
+<tbody>
+<tr><td>Host</td><td>Windows 11 Pro laptop</td></tr>
+<tr><td>Hypervisor</td><td>VMware Workstation Pro 26H1 (free for personal use, from the Broadcom support portal)</td></tr>
+<tr><td>Guest image</td><td>Instant Contiki 3.0 (Ubuntu 14.04, 32-bit) from SourceForge</td></tr>
+<tr><td>VM configuration</td><td>4 GB RAM, 2 vCPU, NAT network (the image ships with 1 GB and 1 CPU)</td></tr>
+<tr><td>Toolchain</td><td>msp430-gcc 4.7.0, Java 7, Apache Ant 1.9.3</td></tr>
+<tr><td>Contiki</td><td><code>~/contiki</code>, git commit <code>eaa8760</code></td></tr>
+<tr><td>Simulator</td><td>Cooja with MSPSim (Sky mote = MSP430 + CC2420, IEEE 802.15.4 at 2.4 GHz)</td></tr>
+</tbody>
+</table>
+
+<p>Memory and CPUs were raised because Cooja is a Java application and every Sky mote is a full MSP430 emulation.</p>
+
+<figure>
+<img src="./vm-settings.webp" width="760" height="745" alt="VMware virtual machine settings showing 4 GB memory, 2 processors and a NAT network adapter">
+<figcaption>VM settings: 4 GB memory, 2 processors, NAT.</figcaption>
+</figure>
+
+<h2>Problem: no Sky mote in Cooja</h2>
+
+<p>In the image, <code>tools/mspsim</code> was empty. MSPSim is a git submodule that was never downloaded, so Cooja offered no Sky mote type (the lab notes mention the same symptom: &ldquo;Could not find the MSPSim build file&rdquo;). The usual fix, <code>git submodule update --init</code>, failed because the guest’s CA certificates are too old to reach GitHub.</p>
+
+<p>Fix: fetch MSPSim at the commit this Contiki checkout pins (<code>58f1873</code>, read with <code>git ls-tree HEAD tools/mspsim</code>), place it in <code>tools/mspsim</code>, and rebuild Cooja:</p>
+
+<pre><code>cd ~/contiki/tools/cooja
+ant jar</code></pre>
+
+<figure>
+<img src="./mspsim.webp" width="740" height="260" loading="lazy" alt="Terminal listing of the populated tools/mspsim folder">
+<figcaption><code>tools/mspsim</code> after the fix.</figcaption>
+</figure>
+
+<h2>Experiment 1 &mdash; hello-world on three Sky motes</h2>
+
+<p>New simulation <code>Week1-Hello</code>, radio medium UDGM (Distance Loss), Sky mote type compiled from <code>examples/hello-world/hello-world.c</code> (Cooja runs <code>make hello-world.sky TARGET=sky</code>), three motes.</p>
+
+<p>Each mote prints its boot log (Rime address, <code>nullsec CSMA ContikiMAC</code>) and then <code>Hello, world</code> once. The program prints only at start-up and sends no packets, so this run only proves that the compiler, MSPSim and Cooja work together.</p>
+
+<figure>
+<img src="./hello-output.webp" width="1512" height="245" loading="lazy" alt="Cooja Mote output with boot messages and Hello, world from each mote">
+<figcaption>Mote output of the hello-world run.</figcaption>
+</figure>
+
+<h2>Experiment 2 &mdash; Rime broadcast: packets on the air</h2>
+
+<p>The packet project is Contiki’s Rime broadcast example, <code>examples/rime/example-broadcast.c</code>:</p>
+
+<ul>
+<li><code>broadcast_open(&amp;broadcast, 129, &amp;broadcast_call)</code> opens a broadcast connection on Rime channel 129. This is a software channel ID, not the 802.15.4 radio channel.</li>
+<li><code>etimer_set(&amp;et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4))</code> sets the send interval. The comment above it says &ldquo;2-4 seconds&rdquo;, but the expression gives <strong>4 to 8 seconds</strong>. The random part keeps motes from transmitting in lockstep.</li>
+<li><code>PROCESS_WAIT_EVENT_UNTIL</code> sleeps until the timer expires (no busy waiting); then <code>packetbuf_copyfrom("Hello", 6)</code> and <code>broadcast_send</code> transmit the packet.</li>
+<li>The receive callback prints the sender address and the payload.</li>
+</ul>
+
+<figure>
+<img src="./code.webp" width="705" height="655" loading="lazy" alt="gedit showing the process thread of example-broadcast.c">
+<figcaption>The process thread of <code>example-broadcast.c</code>.</figcaption>
+</figure>
+
+<p>Simulation <code>Week1-Broadcast</code>: three Sky motes in UDGM, all inside mote 1’s transmission range (green), with the Mote IDs, Radio environment and Radio traffic views enabled.</p>
+
+<figure>
+<img src="./broadcast-network.webp" width="412" height="392" loading="lazy" alt="Cooja Network view with mote 1 selected, its green transmission range and grey interference range, motes 2 and 3 inside at 100 percent">
+<figcaption>Network view: green = transmission range, grey = interference range.</figcaption>
+</figure>
+<figure>
+<img src="./radio-messages.webp" width="718" height="505" loading="lazy" alt="Cooja Radio messages window listing frames with repeat counts such as plus 36">
+<figcaption>Radio messages: frames on the air.</figcaption>
+</figure>
+
+<figure>
+<img src="./broadcast-output.webp" width="1515" height="235" loading="lazy" alt="Mote output with broadcast message sent and broadcast message received from lines">
+<figcaption>Every <code>broadcast message sent</code> is followed by <code>received from</code> lines on the other two motes.</figcaption>
+</figure>
+
+<h2>Observations</h2>
+
+<ul>
+<li><strong>Delivery.</strong> Every broadcast is received by both other motes, so all three links are inside the UDGM range.</li>
+<li><strong>ContikiMAC repeats broadcasts.</strong> In Radio messages, entries such as <code>11418+36</code> mean the same frame was sent 36 times in a row. ContikiMAC keeps the radio off most of the time, so a broadcast is repeated for a whole wake-up interval until sleeping neighbours catch it. The payload bytes <code>48 65 6C 6C 6F</code> are &ldquo;Hello&rdquo;.</li>
+<li><strong>Duty cycling.</strong> The Timeline shows short periodic channel checks on every mote and a long transmit burst only while a mote is broadcasting; the radio is off the rest of the time. This is the energy trade-off from the lecture: idle listening is expensive.</li>
+<li><strong>Sharp range boundary.</strong> Dragging mote 3 outside the green circle stops all reception to and from it while it keeps printing <code>sent</code>; dragging it back restores reception immediately. UDGM has no transitional region, unlike real links &mdash; the topic of week 2.</li>
+</ul>
+
+<figure>
+<img src="./timeline.webp" width="1905" height="150" loading="lazy" alt="Cooja Timeline for three motes showing periodic short radio activity and a long transmit burst on mote 3">
+<figcaption>Timeline: periodic channel checks and one broadcast burst (mote 3).</figcaption>
+</figure>
+
+<h2>Files</h2>
+
+<p>
+<a class="buton" href="./Week1-Hello.csc">Week1-Hello.csc</a>
+<a class="buton" href="./Week1-Broadcast.csc">Week1-Broadcast.csc</a>
+</p>
+
+<p>Open in Cooja with File &rarr; Open simulation. Firmware paths assume Instant Contiki 3.0 with Contiki in <code>/home/user/contiki</code>.</p>
 
 </body>
 </html>
