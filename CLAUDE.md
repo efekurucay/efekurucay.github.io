@@ -46,3 +46,7 @@ sınıfları (`.kart`, `.mozaik`, `.buton`, `.etiket`, `.sosyal`) kullan.
 
 Girdi klasörleri kendi içinde kapalı: görseli girdinin kendi klasöründe
 durur, `/assets/` yalnızca siteye ait ortak görseller içindir.
+
+`cse427/` ders ödevleri için: tek dilli, `noindex`, hiçbir yerden link
+verilmez, sitemap’e girmez. Yollar rastgele ekli (`week-1-xkq6sx`) ki
+tahmin edilmesin.
