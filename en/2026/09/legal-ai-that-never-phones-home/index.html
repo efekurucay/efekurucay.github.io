@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The model can’t leave the laptop: building a legal AI that never phones home &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="writing">
+<meta name="ozet" content="Tiro keeps criminal case files on the lawyer’s laptop, and that one constraint reshaped our privacy model, memory budget, citations, retrieval and fine-tuning.">
+<meta name="etiket" content="local llm, rag, privacy, legal tech, tiro">
+<meta name="description" content="Tiro keeps criminal case files on the lawyer’s laptop, and that one constraint reshaped our privacy model, memory budget, citations, retrieval and fine-tuning.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The model can’t leave the laptop: building a legal AI that never phones home">
+<meta property="og:description" content="Tiro keeps criminal case files on the lawyer’s laptop, and that one constraint reshaped our privacy model, memory budget, citations, retrieval and fine-tuning.">
+<meta property="og:url" content="https://efekurucay.com/en/2026/09/legal-ai-that-never-phones-home/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="tr_TR">
+<meta property="og:site_name" content="Yahya Efe Kuruçay">
+<meta property="og:image" content="https://efekurucay.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-09-30">
+<meta property="article:author" content="Yahya Efe Kuruçay">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="https://efekurucay.com/en/2026/09/legal-ai-that-never-phones-home/">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="tr" href="/tr/2026/09/disariya-veri-gondermeyen-hukuk-asistani/">
+</head>
+<body>
+
+<nav>
+<a href="/en/" class="logo" aria-label="Home"><img src="/logo.svg" alt="" width="22" height="22"></a>
+<a href="/en/ventures/">ventures</a>
+<a href="/en/archive/">log</a>
+<a href="/en/about/">about</a>
+<a href="/en/contact/">contact</a>
+<span class="dil"><a href="/tr/2026/09/disariya-veri-gondermeyen-hukuk-asistani/" data-dil="tr">TR</a> · <a href="/en/2026/09/legal-ai-that-never-phones-home/" data-dil="en">EN</a></span>
+</nav>
+
+<h1>The model can’t leave the laptop: building a legal AI that never phones home</h1>
+
+<p><small>30 September 2026 &middot; writing &middot;
+<a href="/en/2026/09/legal-ai-that-never-phones-home/gecmis.html">history</a></small></p>
+
+<p>A Turkish criminal defense file is about as sensitive as a document set
+gets. Indictment, witness statements, forensic and medical reports, phone
+extractions, a criminal record: all in one folder, pulled from UYAP (the
+national judiciary system) as UDF files, PDFs and scanned TIFs. Hundreds of
+pages.</p>
+
+<p>For most of this year I have been building Tiro with a small team at
+Lycian. It’s a desktop assistant for criminal defense lawyers. You drop a case
+file in and ask questions. It builds a timeline and a map of the people and
+evidence, and it answers with the document and line numbers it relied on. The
+product line is &ldquo;Söz aramızda kalır&rdquo;, roughly &ldquo;it stays
+between us&rdquo;. Engineering-wise, that line is the whole spec: the case
+file never leaves the lawyer’s computer.</p>
+
+<p>This post is about what that one constraint forced us to design
+differently.</p>
+
+<h2>Why the cloud is off the table</h2>
+
+<p>This is not a style preference. Article 36 of the Turkish Attorneys’ Act
+forbids a lawyer from disclosing anything learned through their work, and it
+doesn’t carve out exceptions for software. Under KVKK, Turkey’s data
+protection law, data about criminal convictions and security measures, health
+and biometrics is &ldquo;special category&rdquo; personal data, and a criminal
+file is full of it. Sending personal data abroad goes through KVKK Article 9,
+rewritten by Law No. 7499 and in force since 1 June 2024: an adequacy
+decision, appropriate safeguards such as a notified standard contract, or
+narrow incidental exceptions. Clicking through a chatbot’s terms of service
+fits none of them cleanly.</p>
+
+<p>In August 2026 the Union of Turkish Bar Associations (TBB) published AI
+guidance that puts criminal files in the high-sensitivity group and recommends
+closed or on-premise systems for them.</p>
+
+<p>Once the model runs on the lawyer’s own machine, the data-transfer question
+never comes up. What’s left is the security of that machine and the quality of
+a model small enough to run on it. Everything below comes from that
+tradeoff.</p>
+
+<h2>Decision 1: Privacy by construction, not by configuration</h2>
+
+<p>At one point our backend had a clean provider abstraction with local,
+Anthropic, Gemini and OpenAI adapters. A <code>prod_mode</code> flag locked
+packaged builds to the local model.</p>
+
+<p>We deleted the remote adapters. The factory now returns the local llama.cpp
+model unconditionally, in dev as well. A flag can be defeated by one wrong
+environment variable. A code path that doesn’t exist can’t be selected.</p>
+
+<p>Docs are part of the privacy surface too. Months after the code was gone,
+our README and <code>.env.example</code> still described an
+<code>LLM_PROVIDER</code> knob with four API key slots. Read by an auditor,
+that says case files can go to a remote API. I treated it as a bug.</p>
+
+<p>&ldquo;Local&rdquo; also turned out to need more than binding to 127.0.0.1.
+Our FastAPI backend had <code>allow_origins=["*"]</code> with
+<code>allow_credentials=True</code>. Starlette doesn’t send a wildcard in that
+case. It echoes back the requesting origin. So any web page open in the
+lawyer’s browser could call the local backend and read the reply, because a
+browser can reach loopback. &ldquo;Runs on localhost&rdquo; is not the same as
+&ldquo;only the app can talk to it&rdquo;. The fix was an explicit origin
+allowlist with credentials off, and the longer-term plan is to serve the
+Electron renderer from its own dedicated origin so the allowlist can shrink to
+one entry.</p>
+
+<h2>Decision 2: Memory is the architecture</h2>
+
+<p>On a 16 GB laptop, the RAM budget decides what the product can do. The
+default chat model is Gemma 4 E4B at Q4_K_M. Next to it run bge-m3 for
+embeddings and bge-reranker-v2-m3 as a cross-encoder, all as GGUF through
+llama-cpp-python, on Metal on macOS and Vulkan on Windows.</p>
+
+<p>The first version of the hardware-aware tier picker only counted the LLM,
+so it offered 16 GB Macs the Gemma 12B tier. With the embedder, the reranker
+and the lawyer’s usual apps open, the first chat turn ran out of GPU memory,
+even at an 8K context. On my own 16 GB machine the 12B eval run failed nearly
+every question in under a second. Now the recommender counts about 1.3 GB of
+companion models, and 12B starts at 18 GB.</p>
+
+<p>The failure mode mattered more than the failure itself. A failed Metal
+command buffer leaves llama.cpp’s backend broken until you recreate it. We
+cached the model, so every later turn failed right away. Now a decode failure
+marks the model as poisoned and the next call loads a fresh one.</p>
+
+<p>Concurrency was the other trap: llama.cpp contexts are not thread-safe, and
+an <code>asyncio.gather</code> over two embeddings caused a silent segfault.
+The LLM and reranker now share one inference thread and embedding is
+serialized. Throughput suffers; a crash mid-analysis costs more.</p>
+
+<h2>Decision 3: Don’t let a 4B model write its own citations</h2>
+
+<p>For a lawyer, the value of an answer is &ldquo;Document 4, lines 112 to
+118&rdquo;: click it, see the lines highlighted.</p>
+
+<p>Small models are bad at copying line numbers, even with the numbers right
+there in the context. So the model doesn’t get the final say. After
+generation, every <code>(Belge N, satır X-Y)</code> (&ldquo;Document N, lines
+X-Y&rdquo;) citation is re-anchored by token overlap to the lines of document
+N that actually carry the cited sentence. If no lines match, the citation
+drops to a bare &ldquo;(Belge N)&rdquo; rather than showing an invented range.
+On our demo eval, citations that land on supporting lines went from 4 of 52 to
+40 of 54.</p>
+
+<p>The idea we rejected: when a citation didn’t match, move it to the document
+with the most shared words. In a criminal file, words like &ldquo;sanık&rdquo;
+(defendant), &ldquo;olay&rdquo; (incident) and &ldquo;söyledi&rdquo; (said)
+appear in every document. So the best word match elsewhere can be a statement
+that says the opposite. A citation to the right document without line numbers
+is safer than a precise citation to the wrong one.</p>
+
+<p>Offline also changes how strict you have to be. A desktop install has no
+central log and no kill switch. If a bad citation shows up, it goes straight
+to the lawyer’s screen and I never hear about it. So I raised the fuzzy-match
+floor from 0.4 to 0.7 token overlap and pulled the score bands apart, so that
+&ldquo;exact&rdquo;, &ldquo;whitespace-normalized&rdquo; and
+&ldquo;fuzzy&rdquo; can never tie. For the same reason, swallowed exceptions
+get logged and CI runs the full suite on every PR: the only rollback for a bad
+release is a new installer.</p>
+
+<h2>Decision 4: Retrieval has to be measured, not assumed</h2>
+
+<p>With a small model, retrieval quality sets a ceiling on answer quality.
+Every change I kept, I measured on two sets: a fictional demo case (78
+questions, 64 of them answerable from the file), and a 31-question set built
+from a real UYAP file. The real set never enters the repo. The eval script
+takes it by path.</p>
+
+<p>Things the numbers taught me:</p>
+
+<ul>
+  <li><strong>The embedding model was the bottleneck.</strong> After fixing
+  chunking (documents had been truncated at a 512-token window), on a Turkish
+  paraphrase set nomic-embed v1.5 put the right chunk in the top 5 for 25% of
+  questions, barely above random at about 19%. bge-m3 reached 91%.</li>
+  <li><strong>My hybrid weights were hurting.</strong> Vector 45, BM25 35,
+  doc-type prior 20 scored below plain vector search (R@1 0.34 vs 0.53). At
+  0.9 vector and 0.1 BM25 it matched plain vector search (R@1 0.53, R@5 0.88)
+  while keeping literal queries like &ldquo;TCK 29&rdquo; still in the top
+  3.</li>
+  <li><strong>HyDE made things worse.</strong> Embedding a hypothetical answer,
+  a well-known retrieval trick, pulled in documents that <em>read like</em>
+  the answer instead of the one that <em>held</em> it. Removing it took the
+  real file from 19 to 25 of 31 correct and saved one LLM call per turn.</li>
+  <li><strong>Lexical search needs its own pool.</strong> BM25 only re-ranked
+  what vector search had already returned, so a passage matching the exact
+  words but ranked 22nd by vector never reached the reranker. A case-wide BM25
+  index that adds its own top 8, including file names (UYAP names files by
+  document type, and lawyers ask by that type), took the real file from 25 to
+  28 of 31. Median answer time went from 12.4 to 10.0 seconds.</li>
+  <li><strong>Law text needs context to be findable.</strong> TCK Article 29’s
+  text never says &ldquo;haksız tahrik&rdquo; (unjust provocation), even
+  though that’s the concept it defines. Prefixing each chunk with its article
+  number and title took recall@1 on literal law questions from 0.40 to
+  1.00.</li>
+</ul>
+
+<h2>Decision 5: The fine-tune we stopped recommending</h2>
+
+<p>We fine-tuned Qwen3.5 4B with LoRA for structured extraction, trained on
+anonymized and synthetic documents, and shipped it as the &ldquo;Tiro
+Tuned&rdquo; tier. It sounded like a moat.</p>
+
+<p>Then I measured it on the 9-document demo case. The fine-tune assigned 20
+of roughly 40 person roles wrongly, with full confidence, and invented 7
+charges. Off-the-shelf Gemma 4 E4B got 2 roles wrong, invented none, and ran
+at the same speed. Part of that was our JSON grammar forcing a key order it
+was never trained on; fixing it didn’t close the gap.</p>
+
+<p>It stays selectable by hand, but the recommender skips it. I also corrected
+our website, which said the app runs a model we trained. It doesn’t: the model
+is off the shelf. The search, grounding and citation layer is ours. Owning
+that sentence publicly mattered more to me than the marketing line.</p>
+
+<h2>What’s still hard</h2>
+
+<ul>
+  <li><strong>Speed.</strong> A median of about 10 seconds per answer on a
+  laptop is fine for research and slow for conversation. OCR of an 88-page
+  scanned TIF took about 15 minutes, so scans now go to the back of the parse
+  queue.</li>
+  <li><strong>Small evals.</strong> 64 and 31 questions, with run-to-run noise
+  of about ±2. I compare whole sets, never single questions, and some of our
+  &ldquo;tried and dropped&rdquo; ideas simply never cleared the noise.</li>
+  <li><strong>&ldquo;Offline&rdquo; has edges.</strong> The app needs the
+  internet to download models at setup. Case files never need it. And once the
+  data stays on the laptop, the laptop’s security is the lawyer’s job, so we
+  tell users to turn on FileVault or BitLocker.</li>
+</ul>
+
+<h2>Closing</h2>
+
+<p>Having no cloud fallback forces more discipline than I expected. You can’t
+throw a bigger model at a bad retrieval pipeline, so you fix the pipeline. You
+can’t patch production quietly, so every release is treated as permanent. And
+the model can’t be trusted with the details that matter, so you verify them
+after it speaks.</p>
+
+<p>That’s the part of local AI I find most interesting. Running a model on a
+laptop is the easy part now. What matters is everything you build around a
+model that is small, runs only on the lawyer’s computer, and is sometimes
+wrong.</p>
+
+<hr>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>
