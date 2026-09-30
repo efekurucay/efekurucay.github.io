@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Model laptoptan çıkamaz: dışarıya veri göndermeyen bir hukuk asistanı yapmak &mdash; Yahya Efe Kuruçay</title>
 <meta name="tur" content="yazı">
-<meta name="ozet" content="Tiro ceza dosyalarını avukatın laptopundan hiç çıkarmıyor; bu tek kısıt gizlilik modelimizi, bellek bütçemizi, atıfları, retrieval’ı ve fine-tune kararımızı baştan şekillendirdi.">
+<meta name="ozet" content="Tiro ceza dosyalarını avukatın laptopundan hiç çıkarmıyor. Bu kural yüzünden gizliliği, bellek bütçesini, atıfları, retrieval’ı ve fine-tune kararını farklı kurmak zorunda kaldık.">
 <meta name="etiket" content="yerel llm, rag, gizlilik, hukuk teknolojisi, tiro">
-<meta name="description" content="Tiro ceza dosyalarını avukatın laptopundan hiç çıkarmıyor; bu tek kısıt gizlilik modelimizi, bellek bütçemizi, atıfları, retrieval’ı ve fine-tune kararımızı baştan şekillendirdi.">
+<meta name="description" content="Tiro ceza dosyalarını avukatın laptopundan hiç çıkarmıyor. Bu kural yüzünden gizliliği, bellek bütçesini, atıfları, retrieval’ı ve fine-tune kararını farklı kurmak zorunda kaldık.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Model laptoptan çıkamaz: dışarıya veri göndermeyen bir hukuk asistanı yapmak">
-<meta property="og:description" content="Tiro ceza dosyalarını avukatın laptopundan hiç çıkarmıyor; bu tek kısıt gizlilik modelimizi, bellek bütçemizi, atıfları, retrieval’ı ve fine-tune kararımızı baştan şekillendirdi.">
+<meta property="og:description" content="Tiro ceza dosyalarını avukatın laptopundan hiç çıkarmıyor. Bu kural yüzünden gizliliği, bellek bütçesini, atıfları, retrieval’ı ve fine-tune kararını farklı kurmak zorunda kaldık.">
 <meta property="og:url" content="https://efekurucay.com/tr/2026/09/disariya-veri-gondermeyen-hukuk-asistani/">
 <meta property="og:locale" content="tr_TR">
 <meta property="og:locale:alternate" content="en_US">
@@ -44,217 +44,221 @@
 <p><small>30 Eylül 2026 &middot; yazı &middot;
 <a href="/tr/2026/09/disariya-veri-gondermeyen-hukuk-asistani/gecmis.html">geçmiş</a></small></p>
 
-<p>Hassasiyet açısından bir ceza dosyasının üstüne pek bir şey yoktur.
-İddianame, tanık ifadeleri, kriminal ve adli tıp raporları, telefon inceleme
-raporları, adli sicil kaydı: hepsi tek klasörde, UYAP’tan UDF, PDF ve taranmış
-TIF olarak indirilmiş. Yüzlerce sayfa.</p>
+<p>Bir ceza dosyasından daha hassas bir belge yığını zor bulunur. İddianame,
+tanık ifadeleri, kriminal ve adli tıp raporları, telefon inceleme raporları,
+adli sicil kaydı. Hepsi UYAP’tan UDF, PDF ve taranmış TIF olarak indirilip tek
+klasöre konmuş. Yüzlerce sayfa.</p>
 
-<p>Bu yılın büyük kısmında Lycian’da küçük bir ekiple Tiro’yu geliştiriyorum.
-Tiro, ceza avukatları için bir masaüstü asistanı. Dosyayı içine atıyorsunuz,
-sorunuzu soruyorsunuz. Olayların zaman çizelgesini, kişilerin ve delillerin
-haritasını çıkarıyor; cevap verirken de dayandığı belgeyi ve satır
-numaralarını gösteriyor. Ürünün sloganı &ldquo;Söz aramızda kalır&rdquo;.
-Mühendislik açısından bu cümle, spesifikasyonun ta kendisi: dava dosyası
-avukatın bilgisayarından hiç çıkmaz.</p>
+<p>Bu yılın büyük kısmını Lycian’da küçük bir ekiple Tiro’yu geliştirerek
+geçirdim. Tiro, ceza avukatları için bir masaüstü asistanı. Dava dosyasını
+içine atıp soru soruyorsunuz. Olayların zaman çizelgesini, kişilerin ve
+delillerin haritasını çıkarıyor, cevap verirken de hangi belgenin hangi
+satırlarına dayandığını gösteriyor. Ürünün sloganı &ldquo;Söz aramızda
+kalır&rdquo;. Mühendislik tarafında bu slogan aslında spec’in tamamı: dava
+dosyası avukatın bilgisayarından hiç çıkmayacak.</p>
 
-<p>Bu yazı, o tek kısıtın bizi neleri farklı tasarlamaya zorladığını
-anlatıyor.</p>
+<p>Bu yazıda, bu tek kısıt yüzünden neleri farklı tasarlamak zorunda
+kaldığımızı anlatacağım.</p>
 
-<h2>Bulut neden masada değil</h2>
+<h2>Bulut neden seçenek değil</h2>
 
-<p>Bu bir zevk meselesi değil. Avukatlık Kanunu m. 36, avukatın mesleği
-sırasında öğrendiği şeyleri açıklamasını yasaklıyor ve yazılım için bir
-istisna tanımıyor. KVKK’ya göre ceza mahkûmiyeti ve güvenlik tedbirlerine
-ilişkin veriler, sağlık ve biyometrik veriler özel nitelikli kişisel veri; bir
-ceza dosyası da bunlarla dolu. Kişisel verinin yurt dışına aktarımı, 7499
-sayılı Kanun’la yeniden yazılan ve 1 Haziran 2024’ten beri yürürlükte olan
-KVKK m. 9’a tabi: ya bir yeterlilik kararı, ya Kurul’a bildirilmiş standart
-sözleşme gibi uygun güvenceler, ya da dar kapsamlı arızi istisnalar. Bir
-chatbot’un kullanım koşullarında &ldquo;Kabul ediyorum&rdquo;a basıp geçmek
-bunların hiçbirine temiz biçimde oturmuyor.</p>
+<p>Bunu keyfimizden yapmıyoruz. Avukatlık Kanunu m. 36, avukatın mesleği
+gereği öğrendiklerini açıklamasını yasaklıyor ve yazılım için bir istisnası
+yok. KVKK’da ceza mahkûmiyeti ve güvenlik tedbirleriyle ilgili veriler, sağlık
+ve biyometrik veriler &ldquo;özel nitelikli kişisel veri&rdquo; sayılıyor. Bir
+ceza dosyası da bunlarla dolu.</p>
 
-<p>Ağustos 2026’da Türkiye Barolar Birliği (TBB) bir yapay zekâ rehberi
-yayımladı. Rehber ceza dosyalarını yüksek hassasiyet grubuna koyuyor ve bunlar
-için kapalı ya da kurum içi (on-premise) sistemler öneriyor.</p>
+<p>Kişisel veriyi yurt dışına göndermek KVKK m. 9’a tabi. Bu madde 7499 sayılı
+Kanun’la yeniden yazıldı ve 1 Haziran 2024’ten beri yürürlükte. Buna göre ya
+bir yeterlilik kararı olacak, ya Kurul’a bildirilmiş standart sözleşme gibi
+uygun güvenceler, ya da dar kapsamlı arızi istisnalardan biri. Bir chatbot’un
+kullanım koşullarında &ldquo;Kabul ediyorum&rdquo;a tıklamak bunların
+hiçbirine tam oturmuyor.</p>
 
-<p>Model avukatın kendi makinesinde çalışınca veri aktarımı sorusu hiç
-doğmuyor. Geriye iki şey kalıyor: o makinenin güvenliği ve o makinede
-çalışabilecek kadar küçük bir modelin kalitesi. Aşağıdaki her şey bu dengeden
-çıkıyor.</p>
+<p>Türkiye Barolar Birliği (TBB) de Ağustos 2026’da bir yapay zekâ rehberi
+yayımladı. Rehberde ceza dosyaları yüksek hassasiyet grubunda ve bunlar için
+kapalı ya da kurum içi (on-premise) sistemler öneriliyor.</p>
 
-<h2>Karar 1: Gizlilik bir ayar değil, kodun yapısı</h2>
+<p>Model avukatın kendi makinesinde çalışınca veri aktarımı diye bir soru
+zaten ortaya çıkmıyor. Geriye iki şey kalıyor: o makinenin güvenliği, bir de o
+makinede çalışabilecek kadar küçük bir modelin kalitesi. Aşağıda anlattığım
+her şey bu tradeoff’tan çıkıyor.</p>
 
-<p>Bir dönem backend’imizde temiz bir provider soyutlaması vardı: yerel model,
-Anthropic, Gemini ve OpenAI için ayrı adapter’lar. <code>prod_mode</code> adlı
-bir flag, paketlenmiş build’leri yerel modele kilitliyordu.</p>
+<h2>Karar 1: Gizliliği bir flag’e bırakmamak</h2>
 
-<p>Uzak adapter’ları sildik. Factory artık, dev ortamı dahil, koşulsuz olarak
-yerel llama.cpp modelini döndürüyor. Bir flag tek bir yanlış ortam
-değişkeniyle aşılabilir. Var olmayan bir kod yolu ise seçilemez.</p>
+<p>Bir dönem backend’de düzgün bir provider soyutlamamız vardı: local,
+Anthropic, Gemini ve OpenAI için ayrı adapter’lar. Paketlenmiş build’leri de
+<code>prod_mode</code> diye bir flag local modele kilitliyordu.</p>
 
-<p>Dokümantasyon da gizlilik yüzeyinin parçası. Kod gideli aylar olmuşken
-README’miz ve <code>.env.example</code> hâlâ dört API anahtarı yuvasıyla bir
-<code>LLM_PROVIDER</code> ayarını anlatıyordu. Bir denetçi bunu okuduğunda
-şunu anlar: dava dosyaları uzak bir API’ye gidebiliyor. Bunu bir bug olarak
-ele aldım.</p>
+<p>Uzak adapter’ları sildik. Factory artık dev ortamı da dahil her durumda
+local llama.cpp modelini döndürüyor. Bir flag’i yanlış set edilmiş tek bir
+environment variable aşabilir, ama kodda hiç olmayan bir yolu kimse
+seçemez.</p>
 
-<p>&ldquo;Yerel&rdquo; olmanın 127.0.0.1’e bind etmekten fazlasını
-gerektirdiği de ortaya çıktı. FastAPI backend’imizde
-<code>allow_origins=["*"]</code> ile birlikte
-<code>allow_credentials=True</code> vardı. Starlette bu durumda wildcard
-göndermiyor, isteği yapan origin’i aynen geri yansıtıyor. Yani avukatın
-tarayıcısında açık herhangi bir web sayfası yerel backend’i çağırıp cevabı
-okuyabiliyordu, çünkü tarayıcı loopback’e erişebiliyor. &ldquo;localhost’ta
-çalışıyor&rdquo; ile &ldquo;onunla yalnızca uygulama konuşabiliyor&rdquo; aynı
-şey değil. Çözüm, origin’leri tek tek sayan bir allowlist ve kapalı
-credentials oldu. Uzun vadeli plan ise Electron renderer’ı kendine ait ayrı
-bir origin’den sunmak; böylece allowlist tek bir girdiye inebilir.</p>
+<p>Dokümantasyon da gizlilik yüzeyine dahil. Kod silineli aylar olmuştu ama
+README ve <code>.env.example</code> hâlâ dört API key alanıyla bir
+<code>LLM_PROVIDER</code> ayarından bahsediyordu. Bunu okuyan bir denetçi,
+dava dosyalarının uzak bir API’ye gidebildiğini düşünür. Ben de bunu bir bug
+saydım.</p>
 
-<h2>Karar 2: Mimariyi bellek belirliyor</h2>
+<p>&ldquo;Local&rdquo; olmak için 127.0.0.1’e bind etmek de yetmiyormuş.
+FastAPI backend’de <code>allow_origins=["*"]</code> ile
+<code>allow_credentials=True</code> birlikte duruyordu. Starlette bu durumda
+wildcard dönmüyor, isteği atan origin’i olduğu gibi geri yansıtıyor. Tarayıcı
+loopback’e erişebildiği için, avukatın tarayıcısında açık herhangi bir web
+sayfası local backend’e istek atıp cevabı okuyabiliyordu. Yani
+&ldquo;localhost’ta çalışıyor&rdquo; demek, &ldquo;ona sadece uygulama
+erişebiliyor&rdquo; demek değil. Çözüm olarak origin’leri tek tek yazdığımız
+bir allowlist’e geçtik ve credentials’ı kapattık. Uzun vadede Electron
+renderer’ı kendine ait ayrı bir origin’den sunmayı planlıyoruz, böylece
+allowlist tek bir satıra inebilir.</p>
 
-<p>16 GB’lık bir laptopta ürünün ne yapabileceğine RAM bütçesi karar veriyor.
-Varsayılan sohbet modeli Q4_K_M ile Gemma 4 E4B. Yanında embedding için bge-m3
-ve cross-encoder olarak bge-reranker-v2-m3 çalışıyor; hepsi GGUF olarak
-llama-cpp-python üzerinden, macOS’ta Metal, Windows’ta Vulkan ile.</p>
+<h2>Karar 2: Mimariyi RAM belirliyor</h2>
 
-<p>Donanıma göre model seviyesi seçen tier seçicinin ilk sürümü yalnızca LLM’i
-hesaba katıyordu, bu yüzden 16 GB’lık Mac’lere Gemma 12B seviyesini
-öneriyordu. Embedder, reranker ve avukatın her zamanki açık uygulamalarıyla
-birlikte ilk sohbet turunda GPU belleği tükendi, hem de 8K context’te bile.
-Kendi 16 GB’lık makinemde 12B eval koşusu soruların neredeyse hepsinde bir
-saniyeden kısa sürede hata verdi. Artık öneri motoru yaklaşık 1,3 GB’lık
-yardımcı modelleri de sayıyor ve 12B 18 GB’tan başlıyor.</p>
+<p>16 GB’lık bir laptopta ürünün neler yapabileceği, RAM’e neyin sığdığına
+bağlı. Varsayılan sohbet modeli Q4_K_M quant’ıyla Gemma 4 E4B. Yanında
+embedding için bge-m3, cross-encoder olarak da bge-reranker-v2-m3 çalışıyor.
+Hepsi GGUF formatında ve llama-cpp-python üzerinden koşuyor; macOS’ta Metal,
+Windows’ta Vulkan ile.</p>
 
-<p>Hatanın kendisinden çok, nasıl hata verdiği önemliydi. Başarısız bir Metal
-command buffer, llama.cpp’nin backend’ini siz yeniden oluşturana kadar bozuk
-bırakıyor. Modeli cache’liyorduk, dolayısıyla sonraki her tur anında hata
-veriyordu. Artık bir decode hatası modeli &ldquo;zehirlenmiş&rdquo; olarak
-işaretliyor ve bir sonraki çağrı temiz bir model yüklüyor.</p>
+<p>Donanıma bakıp model tier’ı öneren seçicinin ilk versiyonu sadece LLM’i
+hesaba katıyordu. Bu yüzden 16 GB’lık Mac’lere Gemma 12B tier’ını öneriyordu.
+Embedder, reranker ve avukatın normalde açık tuttuğu uygulamalarla birlikte,
+8K context’te bile ilk sohbet turunda GPU belleği bitti. Kendi 16 GB’lık
+makinemde 12B ile eval koştuğumda soruların neredeyse hepsi bir saniye
+dolmadan hata verdi. Şimdi öneri motoru yaklaşık 1,3 GB tutan yardımcı
+modelleri de hesaba katıyor ve 12B’yi 18 GB’tan itibaren öneriyor.</p>
 
-<p>Diğer tuzak eşzamanlılıktı: llama.cpp context’leri thread-safe değil ve iki
-embedding üzerinde çalışan bir <code>asyncio.gather</code> sessiz bir
-segfault’a yol açtı. LLM ve reranker artık tek bir inference thread’ini
-paylaşıyor, embedding de sırayla çalışıyor. Throughput düşüyor; ama analizin
-ortasında bir çökme daha pahalı.</p>
+<p>Burada hatanın kendisinden çok nasıl patladığı önemliydi. Metal’de bir
+command buffer fail olunca llama.cpp’nin backend’i, siz yeniden oluşturana
+kadar bozuk kalıyor. Biz de modeli cache’lediğimiz için sonraki her tur anında
+hata veriyordu. Artık decode hatası alınca model &ldquo;zehirlenmiş&rdquo;
+olarak işaretleniyor ve bir sonraki çağrıda temiz bir model yükleniyor.</p>
 
-<h2>Karar 3: 4B’lik bir modele kendi atıflarını yazdırmayın</h2>
+<p>Diğer tuzak concurrency’ydi. llama.cpp context’leri thread-safe değil ve
+iki embedding’i <code>asyncio.gather</code> ile aynı anda çalıştırmak sessiz
+bir segfault’a sebep oldu. Şimdi LLM ve reranker tek bir inference thread’ini
+paylaşıyor, embedding’ler de sırayla çalışıyor. Throughput düşüyor ama
+analizin ortasında çökmek daha pahalı.</p>
 
-<p>Bir avukat için cevabın değeri &ldquo;Belge 4, satır
-112&ndash;118&rdquo;de: tıklıyorsunuz, satırlar vurgulanmış olarak
-açılıyor.</p>
+<h2>Karar 3: Atıfları 4B’lik modele yazdırmamak</h2>
 
-<p>Küçük modeller satır numarası kopyalamakta kötü, numaralar context’te
-gözlerinin önünde dursa bile. Bu yüzden son sözü model söylemiyor. Üretimden
-sonra her <code>(Belge N, satır X-Y)</code> atfı, token örtüşmesine bakılarak,
-N numaralı belgede alıntılanan cümleyi gerçekten taşıyan satırlara yeniden
-bağlanıyor. Hiçbir satır eşleşmezse atıf, uydurma bir aralık göstermek yerine
-çıplak bir &ldquo;(Belge N)&rdquo;ye düşüyor. Demo eval’imizde destekleyici
-satırlara isabet eden atıflar 52’de 4’ten 54’te 40’a çıktı.</p>
+<p>Avukat için cevabın değeri &ldquo;Belge 4, satır 112-118&rdquo; kısmında.
+Tıklıyorsunuz, o satırlar işaretlenmiş şekilde açılıyor.</p>
 
-<p>Reddettiğimiz fikir şuydu: bir atıf eşleşmediğinde onu en çok ortak
-kelimeye sahip belgeye taşımak. Bir ceza dosyasında &ldquo;sanık&rdquo;,
-&ldquo;olay&rdquo;, &ldquo;söyledi&rdquo; gibi kelimeler her belgede geçer.
-Yani başka bir yerdeki en iyi kelime eşleşmesi, tam tersini söyleyen bir ifade
-olabilir. Doğru belgeye satır numarasız bir atıf, yanlış belgeye nokta atışı
-bir atıftan daha güvenli.</p>
+<p>Küçük modeller, numaralar context’te gözünün önünde dursa bile satır
+numarasını doğru kopyalamakta zorlanıyor. Bu yüzden son sözü modele
+bırakmıyoruz. Üretim bittikten sonra her <code>(Belge N, satır X-Y)</code>
+atfını token örtüşmesine bakarak N numaralı belgede alıntılanan cümleyi
+gerçekten içeren satırlara yeniden bağlıyoruz. Eşleşen satır çıkmazsa uydurma
+bir aralık göstermek yerine atıf sadece &ldquo;(Belge N)&rdquo; olarak
+kalıyor. Demo eval’de destekleyici satırlara denk gelen atıflar 52’de 4’ten
+54’te 40’a çıktı.</p>
 
-<p>Çevrimdışı olmak ne kadar katı olmanız gerektiğini de değiştiriyor. Bir
-masaüstü kurulumun merkezi log’u da yok, kill switch’i de. Kötü bir atıf
-çıkarsa doğrudan avukatın ekranına gidiyor ve benim bundan hiç haberim
-olmuyor. Bu yüzden fuzzy eşleşme eşiğini 0,4’ten 0,7 token örtüşmesine
-çıkardım ve skor bantlarını birbirinden ayırdım; &ldquo;birebir&rdquo;,
+<p>Reddettiğimiz bir fikir de vardı: eşleşmeyen atıfı en çok ortak kelimeye
+sahip belgeye taşımak. Bir ceza dosyasında &ldquo;sanık&rdquo;,
+&ldquo;olay&rdquo;, &ldquo;söyledi&rdquo; gibi kelimeler her belgede geçiyor.
+Yani başka bir belgedeki en iyi kelime eşleşmesi, tam tersini söyleyen bir
+ifade çıkabilir. Doğru belgeye satır numarası olmadan atıf yapmak, yanlış
+belgeye nokta atışı atıf yapmaktan daha güvenli.</p>
+
+<p>Offline olunca kontrolleri de daha sıkı tutmak gerekiyor. Masaüstü
+kurulumda ne merkezi bir log var ne de kill switch. Kötü bir atıf çıkarsa
+doğrudan avukatın ekranına düşüyor ve benim bundan haberim bile olmuyor. Bu
+yüzden fuzzy eşleşme eşiğini 0,4’ten 0,7 token örtüşmesine çıkardım, skor
+bantlarını da birbirinden ayırdım. Böylece &ldquo;birebir&rdquo;,
 &ldquo;boşlukları normalize edilmiş&rdquo; ve &ldquo;fuzzy&rdquo; eşleşmeler
-asla berabere kalamıyor. Aynı sebeple yutulan exception’lar log’lanıyor ve CI
-her PR’da bütün test suite’ini koşuyor: kötü bir sürümü geri almanın tek yolu
-yeni bir installer.</p>
+hiçbir zaman aynı skoru alamıyor. Aynı sebeple yutulan exception’lar
+log’lanıyor ve CI her PR’da bütün test suite’ini koşuyor. Kötü bir sürümü geri
+almanın tek yolu yeni bir installer çünkü.</p>
 
-<h2>Karar 4: Retrieval varsayılmaz, ölçülür</h2>
+<h2>Karar 4: Retrieval’ı varsaymak yerine ölçmek</h2>
 
-<p>Küçük bir modelde retrieval kalitesi, cevap kalitesinin tavanını
-belirliyor. Tuttuğum her değişikliği iki set üzerinde ölçtüm: kurgusal bir
-demo dava (78 soru, 64’ü dosyadan cevaplanabilir) ve gerçek bir UYAP
-dosyasından hazırlanmış 31 soruluk bir set. Gerçek set repoya hiç girmiyor;
-eval script’i onu dosya yolu olarak alıyor.</p>
+<p>Küçük bir modelde cevap kalitesinin tavanını retrieval kalitesi belirliyor.
+Tuttuğum her değişikliği iki sette ölçtüm. Biri kurgusal bir demo dava (78
+soru, 64’ü dosyadan cevaplanabiliyor), diğeri gerçek bir UYAP dosyasından
+hazırlanmış 31 soruluk bir set. Gerçek set repoya hiç girmiyor, eval script’i
+onu dosya yolundan okuyor.</p>
 
-<p>Sayıların bana öğrettikleri:</p>
+<p>Sayılardan öğrendiklerim:</p>
 
 <ul>
-  <li><strong>Darboğaz embedding modeliydi.</strong> Chunk’lamayı düzelttikten
-  sonra (belgeler 512 token’lık pencerede kesiliyordu), Türkçe bir paraphrase
-  setinde nomic-embed v1.5 soruların %25’inde doğru chunk’ı ilk 5’e koyabildi;
-  bu, yaklaşık %19’luk rastgele seçimin ancak biraz üstü. bge-m3 %91’e
-  ulaştı.</li>
-  <li><strong>Hybrid ağırlıklarım zarar veriyordu.</strong> Vektör 45, BM25 35,
-  belge türü prior’ı 20 ağırlığı, düz vektör aramasının altında kaldı (R@1
-  0,34’e karşı 0,53). 0,9 vektör ve 0,1 BM25 ile düz vektör aramasını yakaladı
-  (R@1 0,53, R@5 0,88) ve &ldquo;TCK 29&rdquo; gibi birebir sorguları yine ilk
-  3’te tuttu.</li>
-  <li><strong>HyDE işleri kötüleştirdi.</strong> Varsayımsal bir cevabı embed
-  etmek bilinen bir retrieval tekniği; bizde cevabı <em>içeren</em> belge
-  yerine cevap <em>gibi okunan</em> belgeleri getirdi. Kaldırınca gerçek
-  dosyada doğru cevaplar 31’de 19’dan 25’e çıktı ve tur başına bir LLM çağrısı
-  azaldı.</li>
-  <li><strong>Lexical aramanın kendi havuzu olmalı.</strong> BM25 yalnızca
-  vektör aramanın zaten getirdiklerini yeniden sıralıyordu; kelimesi
-  kelimesine eşleşen ama vektör aramada 22. sıraya düşen bir pasaj reranker’a
-  hiç ulaşmıyordu. Kendi ilk 8 sonucunu ekleyen, dosya adlarını da kapsayan
-  (UYAP dosyaları belge türüne göre adlandırıyor, avukatlar da o türle
-  soruyor) dava geneli bir BM25 index’i, gerçek dosyada sonucu 31’de 25’ten
-  28’e çıkardı. Medyan cevap süresi 12,4 saniyeden 10,0 saniyeye indi.</li>
-  <li><strong>Kanun metninin bulunabilmesi için bağlam gerekiyor.</strong> TCK
-  m. 29’un metni, tanımladığı kavram bu olduğu hâlde &ldquo;haksız
-  tahrik&rdquo; ifadesini hiç geçirmiyor. Her chunk’ın başına madde numarasını
-  ve başlığını eklemek, birebir kanun sorularında recall@1’i 0,40’tan 1,00’e
-  çıkardı.</li>
+  <li>Darboğaz embedding modelindeydi. Önce chunking’i düzelttim (belgeler 512
+  token’lık pencerede kesiliyordu). Sonra Türkçe bir paraphrase setinde
+  baktığımda nomic-embed v1.5 doğru chunk’ı soruların sadece %25’inde ilk 5’e
+  sokabiliyordu. Rastgele seçim yaklaşık %19 veriyor, yani neredeyse fark yok.
+  bge-m3 ile bu oran %91’e çıktı.</li>
+  <li>Hybrid ağırlıklarım işi bozuyordu. Vektör 45, BM25 35, belge türü prior’ı 20
+  ağırlıkla düz vektör aramasından daha kötü sonuç alıyordum (R@1 0,34’e karşı
+  0,53). 0,9 vektör ve 0,1 BM25’e çekince düz vektör aramasıyla aynı seviyeye
+  geldi (R@1 0,53, R@5 0,88), &ldquo;TCK 29&rdquo; gibi birebir sorgular da
+  yine ilk 3’te kaldı.</li>
+  <li>HyDE sonuçları kötüleştirdi. Varsayımsal bir cevap üretip onu embed etmek
+  bilinen bir retrieval tekniği. Bizde ise cevabı <em>içeren</em> belge yerine
+  cevap <em>gibi okunan</em> belgeleri getirdi. Kaldırınca gerçek dosyada
+  doğru cevap sayısı 31’de 19’dan 25’e çıktı, üstüne her turda bir LLM
+  çağrısından kurtulduk.</li>
+  <li>Lexical aramanın kendi havuzu olması gerekiyormuş. BM25 sadece vektör
+  aramanın zaten getirdiklerini yeniden sıralıyordu. Yani kelimesi kelimesine
+  eşleşen ama vektör aramada 22. sıraya düşen bir pasaj reranker’a hiç
+  ulaşamıyordu. Dava genelinde ayrı bir BM25 index’i kurduk. Bu index kendi
+  ilk 8 sonucunu havuza ekliyor ve dosya adlarını da kapsıyor (UYAP dosyaları
+  belge türüne göre adlandırıyor, avukatlar da o türle soruyor). Bununla
+  gerçek dosyada sonuç 31’de 25’ten 28’e çıktı, medyan cevap süresi de 12,4
+  saniyeden 10,0 saniyeye indi.</li>
+  <li>Kanun maddelerinin bulunabilmesi için bağlam lazım. TCK m. 29’un metninde
+  &ldquo;haksız tahrik&rdquo; ifadesi hiç geçmiyor, oysa maddenin tanımladığı
+  kavram tam olarak bu. Her chunk’ın başına madde numarasını ve başlığını
+  ekleyince birebir kanun sorularında recall@1 0,40’tan 1,00’e çıktı.</li>
 </ul>
 
 <h2>Karar 5: Önermekten vazgeçtiğimiz fine-tune</h2>
 
-<p>Yapılandırılmış bilgi çıkarımı için Qwen3.5 4B’yi LoRA ile fine-tune ettik,
-anonimleştirilmiş ve sentetik belgelerle eğittik ve &ldquo;Tiro Tuned&rdquo;
-seviyesi olarak yayınladık. Kulağa rakiplerin kolay kopyalayamayacağı bir
-avantaj gibi geliyordu.</p>
+<p>Yapılandırılmış bilgi çıkarımı için Qwen3.5 4B’yi LoRA ile fine-tune ettik.
+Anonimleştirilmiş ve sentetik belgelerle eğittik, &ldquo;Tiro Tuned&rdquo;
+tier’ı olarak da yayınladık. Rakiplerin kolay kolay kopyalayamayacağı bir moat
+gibi duruyordu.</p>
 
-<p>Sonra 9 belgelik demo dava üzerinde ölçtüm. Fine-tune edilmiş model
-yaklaşık 40 kişi rolünün 20’sini, tam bir özgüvenle yanlış atadı ve 7 suç
-isnadı uydurdu. Hazır Gemma 4 E4B 2 rolü yanlış atadı, hiçbir şey uydurmadı ve
-aynı hızda çalıştı. Bunun bir kısmı, JSON grammar’ımızın modelin hiç
-eğitilmediği bir anahtar sırasını dayatmasından kaynaklanıyordu; onu düzeltmek
-de farkı kapatmadı.</p>
+<p>Sonra 9 belgelik demo dava üzerinde ölçtüm. Fine-tune ettiğimiz model
+yaklaşık 40 kişi rolünün 20’sini yanlış atadı, hem de tam bir özgüvenle,
+üstüne 7 tane suç isnadı uydurdu. Hazır Gemma 4 E4B ise 2 rolü yanlış atadı,
+hiçbir şey uydurmadı ve aynı hızda çalıştı. Bunun bir kısmı, JSON
+grammar’ımızın modelin hiç eğitilmediği bir key sırasını zorlamasından
+kaynaklanıyordu. Onu düzelttik ama aradaki fark kapanmadı.</p>
 
-<p>Hâlâ elle seçilebiliyor ama öneri motoru onu atlıyor. Sitemizi de
-düzelttim: uygulamanın bizim eğittiğimiz bir modeli çalıştırdığını söylüyordu.
-Öyle değil, model hazır bir model. Arama, grounding ve atıf katmanı bizim. O
-cümleyi açıkça üstlenmek benim için pazarlama cümlesinden daha önemliydi.</p>
+<p>Model hâlâ elle seçilebiliyor ama öneri motoru onu atlıyor. Sitemizde de
+uygulamanın bizim eğittiğimiz bir modeli çalıştırdığı yazıyordu, onu da
+düzelttim. Model hazır bir model; arama, grounding ve atıf katmanı bize ait.
+Bunu açıkça söylemek benim için o pazarlama cümlesinden daha önemliydi.</p>
 
 <h2>Hâlâ zor olanlar</h2>
 
 <ul>
-  <li><strong>Hız.</strong> Laptopta cevap başına yaklaşık 10 saniyelik medyan,
-  araştırma için yeterli, sohbet için yavaş. 88 sayfalık taranmış bir TIF’in
-  OCR’ı yaklaşık 15 dakika sürdü; bu yüzden taranmış belgeler artık parse
-  kuyruğunun sonuna gidiyor.</li>
-  <li><strong>Küçük eval’ler.</strong> 64 ve 31 soru, koşudan koşuya yaklaşık ±2
-  gürültüyle. Tek tek soruları değil, her zaman setlerin tamamını
-  karşılaştırıyorum; &ldquo;denedik, bıraktık&rdquo; dediğimiz bazı fikirler
-  gürültünün üstüne hiç çıkamadı.</li>
-  <li><strong>&ldquo;Çevrimdışı&rdquo;nın da sınırları var.</strong> Uygulama
-  kurulumda model indirmek için internete ihtiyaç duyuyor. Dava dosyalarının
-  ise hiçbir aşamada internete ihtiyacı yok. Veri laptopta kaldığı andan
-  itibaren laptopun güvenliği de avukatın işi; bu yüzden kullanıcılara
-  FileVault ya da BitLocker’ı açmalarını söylüyoruz.</li>
+  <li>Laptopta cevap başına medyan süre yaklaşık 10 saniye. Araştırma için
+  yeterli, sohbet için yavaş. 88 sayfalık taranmış bir TIF’in OCR’ı yaklaşık
+  15 dakika sürdü, bu yüzden taranmış belgeler parse kuyruğunun sonuna
+  gidiyor.</li>
+  <li>Eval setleri küçük: 64 ve 31 soru, koşudan koşuya da yaklaşık ±2 gürültü
+  var. O yüzden tek tek sorulara değil, hep setlerin tamamına bakıyorum.
+  &ldquo;Denedik, bıraktık&rdquo; dediğimiz bazı fikirler zaten gürültünün
+  üstüne hiç çıkamadı.</li>
+  <li>Offline’ın da sınırları var. Uygulama kurulumda modelleri indirmek için
+  internete ihtiyaç duyuyor, dava dosyalarının ise hiç ihtiyacı yok. Veri
+  laptopta kaldığına göre laptopun güvenliği de avukatın sorumluluğunda. Bu
+  yüzden kullanıcılara FileVault ya da BitLocker’ı açmalarını söylüyoruz.</li>
 </ul>
 
 <h2>Kapanış</h2>
 
-<p>Bulut yedeğinin olmaması beklediğimden fazla disiplin dayatıyor. Kötü bir
-retrieval pipeline’ına daha büyük bir model fırlatamıyorsunuz, pipeline’ı
-düzeltiyorsunuz. Production’ı sessizce yamayamıyorsunuz, her sürümü kalıcıymış
-gibi ele alıyorsunuz. Önemli ayrıntılarda modele de güvenemiyorsunuz, o
-konuştuktan sonra doğruluyorsunuz.</p>
+<p>Buluta düşebileceğiniz bir fallback olmayınca beklediğimden çok daha
+disiplinli çalışmak gerekiyor. Retrieval pipeline’ı kötüyse üstüne daha büyük
+bir model koyup geçemiyorsunuz, pipeline’ı düzeltmek zorundasınız.
+Production’a sessizce yama atamadığınız için her sürümü kalıcıymış gibi
+çıkarıyorsunuz. Önemli detaylarda da modele güvenemiyorsunuz, o konuştuktan
+sonra kontrol etmeniz gerekiyor.</p>
 
-<p>Yerel AI’ın bana en ilginç gelen tarafı bu. Bir modeli laptopta çalıştırmak
-artık işin kolay kısmı. Asıl önemli olan; küçük, yalnızca avukatın
+<p>Local AI’da beni en çok ilgilendiren kısım da bu. Bir modeli laptopta
+çalıştırmak artık işin kolay tarafı. Önemli olan, küçük, sadece avukatın
 bilgisayarında çalışan ve bazen yanılan bir modelin etrafına kurduğunuz her
 şey.</p>
 
