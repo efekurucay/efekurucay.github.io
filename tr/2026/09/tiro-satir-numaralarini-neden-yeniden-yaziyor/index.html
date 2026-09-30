@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiro neden modelin verdiği her satır numarasını yeniden yazıyor &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="yazı">
+<meta name="ozet" content="Küçük local model satır numaralarını yanlış veriyor, bu yüzden Tiro her atfı kodla yeniden bağlıyor. Türkçe tokenizer, pencere araması, eval ve hâlâ yanıldığı yerler.">
+<meta name="etiket" content="local llm, rag, atıf, nlp, hukuk teknolojisi, tiro">
+<meta name="description" content="Küçük local model satır numaralarını yanlış veriyor, bu yüzden Tiro her atfı kodla yeniden bağlıyor. Türkçe tokenizer, pencere araması, eval ve hâlâ yanıldığı yerler.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tiro neden modelin verdiği her satır numarasını yeniden yazıyor">
+<meta property="og:description" content="Küçük local model satır numaralarını yanlış veriyor, bu yüzden Tiro her atfı kodla yeniden bağlıyor. Türkçe tokenizer, pencere araması, eval ve hâlâ yanıldığı yerler.">
+<meta property="og:url" content="https://efekurucay.com/tr/2026/09/tiro-satir-numaralarini-neden-yeniden-yaziyor/">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Yahya Efe Kuruçay">
+<meta property="og:image" content="https://efekurucay.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-09-30">
+<meta property="article:author" content="Yahya Efe Kuruçay">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="https://efekurucay.com/tr/2026/09/tiro-satir-numaralarini-neden-yeniden-yaziyor/">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="en" href="/en/2026/09/why-tiro-rewrites-line-numbers/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/" class="logo" aria-label="Ana sayfa"><img src="/logo.svg" alt="" width="22" height="22"></a>
+<a href="/tr/ventures/">ventures</a>
+<a href="/tr/arsiv/">log</a>
+<a href="/tr/hakkinda/">about</a>
+<a href="/tr/contact/">contact</a>
+<span class="dil"><a href="/tr/2026/09/tiro-satir-numaralarini-neden-yeniden-yaziyor/" data-dil="tr">TR</a> · <a href="/en/2026/09/why-tiro-rewrites-line-numbers/" data-dil="en">EN</a></span>
+</nav>
+
+<h1>Tiro neden modelin verdiği her satır numarasını yeniden yazıyor</h1>
+
+<p><small>30 Eylül 2026 &middot; yazı &middot;
+<a href="/tr/2026/09/tiro-satir-numaralarini-neden-yeniden-yaziyor/gecmis.html">geçmiş</a></small></p>
+
+<p>Tiro, Türkiye’deki ceza avukatları için geliştirdiğimiz bir masaüstü
+asistanı. Dava dosyası laptoptan çıkmıyor, bu yüzden sohbet modeli de küçük:
+4-bit quantize edilmiş Gemma 4 E4B, llama.cpp üzerinden çalışıyor. Model
+dosyaya şöyle atıf yapıyor: &ldquo;(Belge 3, satır 34)&rdquo;. Avukat
+tıklıyor, belge o satırlar işaretlenmiş hâlde açılıyor. Yanlış bir satır
+numarası hiç olmamasından daha kötü, çünkü kontrol edilmiş gibi duruyor. Bu
+yazıda avukatın hangi satır numaralarını göreceğine karar veren adımı
+anlatacağım.</p>
+
+<h2>Sorun</h2>
+
+<p>Herkese açık demo davamızın adı &ldquo;Doğu Ekspresi Cinayeti&rdquo;. Doğu
+Ekspresinde Cinayet’ten gevşekçe esinlendiğimiz kurgusal bir dosya. Modele
+maktulün kanındaki alkolü sorduğumuzda şuna benzer atıflar üretiyordu. Bunu
+repoda regression test olarak tutuyoruz:</p>
+
+<blockquote><p>Maktulün kanında 1.8 promil alkol tespit edilmiştir (Belge 3, satır
+37/1).</p></blockquote>
+
+<p>Cümle doğru. Belge 3 otopsi raporu, o da doğru. Ama &ldquo;37/1&rdquo; bir
+satır değil. TCK 37/1’e benziyor, yani demo iddianamedeki suçlamanın dayandığı
+müşterek faillik maddesine. Model context’inin bir yerinden sayıya benzeyen
+bir string alıp satır numarasının yerine koymuş. Değer aslında 34.
+satırda.</p>
+
+<p>Bu nadir bir durum da değildi. Bu çalışmadan önce demo eval’imizdeki 52
+satır atfının sadece 4’ü cevabı içeren satırları gösteriyordu.</p>
+
+<h2>Küçük model bunu neden yanlış yapıyor</h2>
+
+<p>Satır numarasının iddiayla anlamsal bir bağı yok. Model &ldquo;1.8 promil
+alkol&rdquo;ü rahatça paraphrase ediyor çünkü kelimelerin bir anlamı var,
+&ldquo;34&rdquo;ün ise hiçbir anlamı yok. Q4’te çalışan 4B’lik bir model bu
+tür kopyalamada zayıf. Üstelik context birbiriyle yarışan sayılarla dolu:
+madde numaraları, tarihler, saatler, başka pasajların satır etiketleri.</p>
+
+<p>Ben de modelin verdiği satır numaralarını veri olarak görmeyi bıraktım.
+Hangi cümleyi desteklediğine ve bunu hangi belgenin desteklediğine model karar
+veriyor. Satırlara ise Python karar veriyor.</p>
+
+<h2>Algoritma</h2>
+
+<p>Üretim bittikten sonra bir kez çalışıyor. Model yazarken ham token’lar UI’a
+stream ediliyor. Backend’in son <code>done</code> event’i grounding’den geçmiş
+metni taşıyor ve bu metin stream’in yerine geçiyor. Adım bir worker thread’de
+koşuyor, exception fırlatırsa ham cevap olduğu gibi kalıyor ve hata
+log’lanıyor.</p>
+
+<p>İçinde <code>Belge N</code> referansı geçen her parantez grubu için:</p>
+
+<ol>
+  <li>Atıf yapılan cümleyi al. Bu, bir önceki atıf (ya da cümle sonu) ile açılan
+  parantez arasındaki metin. Cümle bir satır sonunda ya da arkasından boşluk
+  ve büyük harf gelen bir <code>.</code>, <code>!</code> veya <code>?</code>
+  işaretinde bitiyor. Ç, Ğ, İ, Ö, Ş, Ü de büyük harf sayılıyor. İlk versiyon
+  her noktada bölüyordu, bu yüzden &ldquo;saat 23.50’de&rdquo; cümleyi ikiye
+  kesiyordu.</li>
+  <li>Cümleyi ve her belgenin her satırını token kümelerine çevir.</li>
+  <li>N numaralı belgede art arda bir ila üç satırlık en iyi window’u bul.</li>
+  <li>Window eşikleri geçerse atfı <code>Belge N, satır X-Y</code> olarak
+  yeniden yaz. Geçmezse <code>Belge N</code> olarak yaz ve satır kısmını
+  at.</li>
+</ol>
+
+<p>Türkçe asıl tokenization’da işin içine giriyor:</p>
+
+<pre><code>_TOKEN = re.compile(r"\d+(?:[.,/:]\d+)+|\d{2,}|[^\W\d_]{3,}")
+_TR_UPPER = str.maketrans({"İ": "i", "I": "ı"})
+
+def _tokens(text):
+    folded = unicodedata.normalize("NFKC", text.translate(_TR_UPPER)).lower()
+    return {
+        tok[:5] if tok[0].isalpha() else tok
+        for tok in _TOKEN.findall(folded)
+        if tok not in _STOPWORDS
+    }</code></pre>
+
+<p>Python’ın <code>lower()</code>’ı &ldquo;I&rdquo;yı &ldquo;i&rdquo;ye
+çeviriyor ve bu Türkçe için yanlış. O yüzden noktalı ve noktasız büyük
+harfleri önce kendimiz çeviriyoruz. Böylece başlıktaki &ldquo;YILDIZ&rdquo;,
+cevaptaki &ldquo;Yıldız&rdquo; ile eşleşiyor. Ayraçlı sayılar bütün kalıyor
+(&ldquo;13/01/2026&rdquo;, &ldquo;10:40&rdquo;, &ldquo;1.8&rdquo;), tek haneli
+sayılar ise her şeyle eşleştiği için atılıyor. Kelimeleri beş karakterden
+kesiyoruz, eklemeli bir dil için kaba bir stemmer bu:
+&ldquo;kompartıman&rdquo;, &ldquo;kompartımanda&rdquo; ve
+&ldquo;kompartımandaki&rdquo; üçü de &ldquo;kompa&rdquo; oluyor. Stopword
+listesinde bağlaç, edat gibi işlev kelimeleri ve her resmi belgede geçen kalıp
+ifadeler (&ldquo;edilmiştir&rdquo;, &ldquo;bulunmaktadır&rdquo;) var.</p>
+
+<p>Window araması kısa bir tarama:</p>
+
+<pre><code>for each start line s:
+    hits = |sentence ∩ line[s]|
+    for the next up to 2 lines e:
+        grown = |sentence ∩ (line[s] ∪ … ∪ line[e])|
+        if grown - hits &lt; 2: stop growing        # a stray common word doesn't extend the range
+        hits = grown
+    keep the window with most hits; on a tie, the shorter one</code></pre>
+
+<p>Bir window’un kabul edilmesi için en az 2 hit alması ve cümledeki
+token’ların en az %30’unu kapsaması gerekiyor. Tarama satır sayısına göre
+lineer, yani maliyeti üretimin yanında önemsiz kalıyor.</p>
+
+<h2>Eşikler ve skor bantları</h2>
+
+<p>Aynı problem ikinci bir yerde de karşımıza çıkıyor. Tiro dava wiki’sini
+oluştururken bir alt model olguları alıntılanmış bir kesitle birlikte
+çıkarıyor. <code>align()</code> da bu kesiti üç kademede arıyor: birebir
+substring, boşlukları normalize edilmiş substring, son olarak token kümesi
+örtüşmesi. Hiçbir kademe eşleşmezse olgu atılıyor.</p>
+
+<p>Fuzzy kademe bir aralığı 0,4 örtüşmede kabul ediyordu. Yani kesitteki
+kelimelerin çoğu, gösterdiği satırlarda hiç geçmeyebiliyordu. Altı çağrı
+noktasının hiçbiri daha sıkı bir minimum vermiyordu. Tabanı 0,7’ye
+çıkardım.</p>
+
+<p>Skorlamada ikinci bir bug daha vardı. Birebir eşleşmeler 1,0, boşluk
+eşleşmeleri 0,9, fuzzy eşleşmeler de <code>0.5 + 0.4 * overlap</code>
+alıyordu. Tam örtüşmede bu tam olarak 0,9 ediyor. Yani fuzzy eşleşmeleri
+dışarıda bırakmak için <code>min_score=0.9</code> isteyen bir çağıran yine de
+fuzzy bir eşleşme alabiliyordu. Fuzzy formülü artık <code>0.5 + 0.35 *
+overlap</code>, 0,7 tabanıyla birlikte de 0,745 ile 0,85 arasında bir bant
+veriyor. Üç bant artık çakışmıyor, aralarına konan bir eşik de çağıranın
+beklediği şeyi yapıyor.</p>
+
+<p>Sıkı olmak bizim için bir web servisine göre daha önemli. Masaüstü
+kurulumda ne merkezi bir log var ne de kill switch. Kötü bir atıf doğrudan
+avukatın ekranına gidiyor ve benim bundan haberim bile olmuyor. Geri almanın
+tek yolu da yeni bir installer.</p>
+
+<h2>Reddettiğimiz fikir</h2>
+
+<p>İlk versiyon yardımcı olmaya çalışıyordu. N numaralı belge cümleyi
+taşımıyorsa atfı, daha sıkı eşiklerle (3 hit, %50 pay) en iyi eşleşen başka
+bir belgeye taşıyordu.</p>
+
+<p>Demo dosyasına karşı kendi kurduğum bir cümle:</p>
+
+<blockquote><p>Meryem Demirci, Bilgin’in adı geçtiğinde hiç duraksamadığını söylemiştir
+(Belge 5, satır 70).</p></blockquote>
+
+<p>Belge 5’te bunu destekleyen bir satır yok. İlk versiyon da başka yerde
+aramaya çıktı ve atfı Belge 7’nin 36. satırına taşıdı. O satır müfettişin
+raporundan ve Meryem Demirci’nin ifadesinde, Bilgin’in adı geçince
+duraksadığının kayda geçtiğini söylüyor. Atıf, kayıttakinin tam tersini
+kaynaklıymış gibi gösterdi.</p>
+
+<p>Bunun iki sebebi var. İsimler, &ldquo;ifade&rdquo;, &ldquo;söyledi&rdquo;,
+&ldquo;sanık&rdquo; ve &ldquo;olay&rdquo; bir ceza dosyasının neredeyse her
+belgesinde geçiyor, dolayısıyla ortak kelimesi bol olan bir belge her zaman
+bulunuyor. Bir de Türkçe olumsuzluğu kelimenin içine koyuyor.
+&ldquo;duraksamadığını&rdquo; ile &ldquo;duraksadığı&rdquo; arasındaki fark
+sadece &ldquo;-ma-&rdquo; eki ve stemming’den sonra ikisi de
+&ldquo;durak&rdquo; oluyor. Lexical bir matcher olumsuzluğu göremez.</p>
+
+<p>Şimdiki kural şu: atıf, modelin söylediği belgede kalıyor. O belge cümleyi
+desteklemiyorsa avukat çıplak bir &ldquo;(Belge 5)&rdquo; görüyor ve belgeyi
+kendisi okuyor. Atıf sadece model dava dosyasında hiç olmayan bir belge
+numarası verdiyse taşınıyor, çünkü o durumda elde tutulacak bir şey yok.</p>
+
+<h2>Nasıl ölçüyoruz</h2>
+
+<p>Eval, demo dava üzerinde 78 sorudan oluşuyor ve gold cevap substring’leri
+kaynak dosyalardan alınmış: 46 olgu, 10 belgeler arası, 8 kanun, 10 dosyada
+olmayan, 4 görüş sorusu. Bir script her soruyu çalışan bir backend’e gönderip
+son cevabı parse ediyor. Cevaplanabilir bir sorudaki her <code>(Belge N, satır
+X-Y)</code> atfı için, N numaralı belgenin X-1 ile Y+1 arasındaki satırlarında
+gold substring’lerden biri geçiyorsa atfı destekleyici sayıyor.</p>
+
+<p>Grounding girdiğinde sette 33 cevaplanabilir soru vardı. Bunlarda
+destekleyici atıflar 52’de 4’ten 54’te 40’a, doğru cevaplar da 26’dan 30’a
+çıktı. Aynı commit getirilen pasajları gerçek satır aralıklarıyla etiketledi
+ve bir reranker da ekledi. Yani bu sıçrama değişikliğin tamamına ait,
+re-anchoring’i tek başına ölçen bir koşu yok. Sonraki koşular 64
+cevaplanabilir sorunun tamamında 107’de 75 ile 102’de 76 arasında çıkıyor. Tek
+bir koşu iki yöne de yaklaşık iki cevap oynayabiliyor, bu yüzden bir farka
+ancak koşuların bütününde görünüyorsa güveniyorum.</p>
+
+<p>Çıplak &ldquo;(Belge N)&rdquo; atıfları ise hiç sayılmıyor, ne lehte ne
+aleyhte. Satır numarasını atmak o atfı paydadan çıkarıyor. Metrik precision’ı
+ödüllendiriyor ve ne sıklıkla pes ettiğimiz hakkında hiçbir şey
+söylemiyor.</p>
+
+<h2>Hâlâ yanlış yaptığı şeyler</h2>
+
+<p>Bu adım cümlenin kelimelerini taşıyan satırları buluyor, bunlar da bazen
+olguyu taşıyan satırdan farklı oluyor. Eval’den bir örnek:</p>
+
+<blockquote><p>Maktulün kompartıman kapısı, 7. vagon kondüktörü Mehmet YILDIZ tarafından
+yedek anahtarla açılmıştır (Belge 2, satır 11).</p></blockquote>
+
+<p>Olay yeri raporunun 11. satırında &ldquo;7. vagon kondüktörü Mehmet YILDIZ
+tarafından&rdquo; geçiyor, beş hit. Yedek anahtar 13. satırda, dört hit.
+Aradaki 12. satır sadece bir kelime ekliyor, bu yüzden window 13. satıra
+ulaşacak kadar hiç büyümüyor. Atıf iki satır yanlış yere düşüyor.</p>
+
+<p>İsim ağırlıklı iddialar, sadece isimleri sıralayan bir ifade başlığına
+bağlanabiliyor. Cevaptaki bir tarih, etrafındaki betimleyici kelimeler başka
+bir satırdaysa onlara yeniliyor. OCR da ayrıca gürültü ekliyor
+(&ldquo;adli’emanet&rdquo;). Gerçek bir dava dosyasında destekleyici atıf
+oranı temiz demoya göre belirgin şekilde düşük. Bunun ne kadarı OCR’dan, ne
+kadarı gold substring’lerimizden, ne kadarı matcher’dan geliyor, henüz
+bilmiyorum.</p>
+
+<p>Sırada denemek istediğim bir fikir var: önce cevaptaki ana entity’lere ve
+sayılara bağlamak, cümlenin geri kalanını da sadece beraberlik durumunda karar
+vermek için kullanmak.</p>
+
+<hr>
+
+<address>
+<a href="mailto:contact@efekurucay.com">contact@efekurucay.com</a> &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay">GitHub</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>
