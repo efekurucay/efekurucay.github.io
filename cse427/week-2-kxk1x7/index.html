@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE 427 &middot; Week 2 &mdash; Yahya Efe Kuruçay</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="CSE 427 Wireless Sensor Networks, week 2 lab: RSSI, LQI and PRR of a Sky mote link in Cooja’s UDGM radio model.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CSE 427 &middot; Week 2">
+<meta property="og:description" content="CSE 427 Wireless Sensor Networks, week 2 lab: RSSI, LQI and PRR of a Sky mote link in Cooja’s UDGM radio model.">
+<meta property="og:url" content="https://efekurucay.com/cse427/week-2-kxk1x7/">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Yahya Efe Kuruçay">
+<meta property="og:image" content="https://efekurucay.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="https://efekurucay.com/cse427/week-2-kxk1x7/">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<p class="etiket">CSE 427 &middot; Wireless Sensor Networks</p>
+
+<h1>Week 2 &mdash; Radio &amp; Physical Layer</h1>
+
+<p>Yahya Efe Kuruçay &middot; Akdeniz University, Computer Engineering &middot; lab recorded 4 October 2026</p>
+
+<!-- VIDEO -->
+
+<h2>Task</h2>
+
+<p>The week 2 Cooja lab: one Sky sender broadcasts a numbered packet every second, one Sky receiver logs the RSSI and LQI of each packet it gets. The receiver is moved to different distances, dragged across the range boundary, and the radio medium’s RX success ratio is reduced, to see how RSSI, LQI and the packet reception ratio (PRR) behave and why they are not interchangeable.</p>
+
+<h2>Setup</h2>
+
+<table>
+<thead>
+<tr><th>Item</th><th>Value</th></tr>
+</thead>
+<tbody>
+<tr><td>Environment</td><td>Instant Contiki 3.0 in VMware Workstation, Cooja with MSPSim (same as week 1)</td></tr>
+<tr><td>Motes</td><td>2 Sky motes: mote 1 = sender, mote 2 = receiver</td></tr>
+<tr><td>Traffic</td><td>Rime broadcast on channel 129, one packet per second, payload = 16-bit sequence number</td></tr>
+<tr><td>Radio medium</td><td>UDGM: Distance Loss, TX range 20 m, interference range 40 m</td></tr>
+<tr><td>Simulation speed</td><td>100 % (real time)</td></tr>
+</tbody>
+</table>
+
+<h2>Code</h2>
+
+<p><code>sender.c</code> increments a sequence number every second, copies it into the packet buffer, broadcasts it and prints <code>TX seq=N</code>. <code>receiver.c</code> opens the same Rime channel and, in the receive callback, prints the sequence number with the packet’s RSSI and LQI attributes:</p>
+
+<figure>
+<img src="./receiver-code.webp" width="650" height="545" alt="The receive callback of receiver.c in gedit">
+<figcaption>Receive callback: sequence number, RSSI (with a &minus;45 offset) and LQI.</figcaption>
+</figure>
+
+<p>The Makefile from the lab notes did not build: the linker reported <code>undefined reference to broadcast_send</code>. Contiki 3.0 links the Rime stack only when asked, so one line was added (Contiki’s own <code>examples/rime/Makefile</code> has it too):</p>
+
+<pre><code>CONTIKI_WITH_RIME = 1</code></pre>
+
+<figure>
+<img src="./makefile.webp" width="670" height="275" loading="lazy" alt="Makefile with the CONTIKI_WITH_RIME line">
+<figcaption>Makefile with the Rime stack enabled.</figcaption>
+</figure>
+
+<h2>Experiment A &mdash; first packets</h2>
+
+<p>With the receiver inside the range, every <code>TX seq=N</code> of mote 1 is followed by <code>RX seq=N RSSI=… LQI=37</code> on mote 2. While the receiver was still outside the green circle no RX lines appeared at all.</p>
+
+<figure>
+<img src="./first-packets.webp" width="1500" height="500" loading="lazy" alt="Mote output with matching TX and RX sequence numbers">
+<figcaption>TX and RX sequence numbers match: no loss.</figcaption>
+</figure>
+
+<h2>Experiment B &mdash; distance</h2>
+
+<p>The receiver was placed at three distances from the sender. The 10 m background grid gives the scale; the green circle is the 20 m transmission range.</p>
+
+<figure>
+<img src="./b-close.webp" width="1365" height="680" loading="lazy" alt="Receiver next to the sender, RSSI minus 71 dBm">
+<figcaption>Close: RSSI &minus;71 dBm.</figcaption>
+</figure>
+
+<figure>
+<img src="./b-medium.webp" width="1365" height="680" loading="lazy" alt="Receiver one grid square from the sender, RSSI minus 98 dBm">
+<figcaption>Medium, one grid square: RSSI &minus;98 dBm.</figcaption>
+</figure>
+
+<figure>
+<img src="./b-far.webp" width="1365" height="680" loading="lazy" alt="Receiver about 15 metres from the sender, RSSI minus 117 dBm">
+<figcaption>Far, about 15 m: RSSI &minus;117 dBm.</figcaption>
+</figure>
+
+<p>RSSI falls with distance, but at each position every packet arrives and LQI stays at 37.</p>
+
+<h2>Experiment C &mdash; crossing the boundary</h2>
+
+<p>Dragging the receiver outside the green circle while the simulation runs: the sender keeps printing TX, the receiver goes silent. 15 consecutive packets (sequence numbers 493&ndash;507) were sent but never received. Back inside, reception resumes immediately.</p>
+
+<figure>
+<img src="./c-outside.webp" width="1365" height="680" loading="lazy" alt="Receiver outside the transmission range, Mote output shows only TX lines">
+<figcaption>Receiver outside the range: only TX lines.</figcaption>
+</figure>
+
+<h2>Experiments D and E &mdash; reduced RX success ratio and PRR</h2>
+
+<p>The UDGM RX success ratio was set to 60 % (the default is 100 %) with the receiver about 10 m from the sender (half the range). Cooja then shows a reception probability of 89.2 % next to the receiver, not 60 %.</p>
+
+<figure>
+<img src="./d-ratio.webp" width="1365" height="680" loading="lazy" alt="UDGM box with RX ratio 60 percent and the receiver labelled 89.2 percent">
+<figcaption>RX ratio 60 %, receiver at about 10 m: probability 89.2 %.</figcaption>
+</figure>
+
+<p>PRR counted from the Mote output over sequence numbers 700&ndash;719: 20 sent, 20 received, PRR = 1.00. In fact none of the 70 packets sent at this setting (680&ndash;749) was lost.</p>
+
+<h2>Results</h2>
+
+<table>
+<thead>
+<tr><th>Experiment</th><th>Distance</th><th>Sent</th><th>Received</th><th>RSSI printed</th><th>RSSI real</th><th>LQI</th></tr>
+</thead>
+<tbody>
+<tr><td>B close</td><td>&asymp; 4 m</td><td>20</td><td>20</td><td>&minus;71 dBm</td><td>&minus;26 dBm</td><td>37</td></tr>
+<tr><td>B medium</td><td>&asymp; 10 m</td><td>20</td><td>20</td><td>&minus;98 dBm</td><td>&minus;53 dBm</td><td>37</td></tr>
+<tr><td>B far</td><td>&asymp; 15 m</td><td>20</td><td>20</td><td>&minus;117 dBm</td><td>&minus;72 dBm</td><td>37</td></tr>
+<tr><td>C outside range</td><td>&gt; 20 m</td><td>15</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr><td>D RX ratio 60 %</td><td>&asymp; 10 m</td><td>20</td><td>20</td><td>&minus;99 dBm</td><td>&minus;54 dBm</td><td>37</td></tr>
+</tbody>
+</table>
+
+<p>Counts are taken from the Mote output in the recording. Distances are derived from the RSSI with the UDGM model below.</p>
+
+<h2>Why the results look like this</h2>
+
+<ul>
+<li><strong>RSSI is linear in distance.</strong> UDGM computes the signal strength as a straight line from &minus;10 dBm at the sender to &minus;95 dBm at the edge of the range: RSSI = &minus;10 &minus; 85 &times; d / range (<code>SS_STRONG</code> and <code>SS_WEAK</code> in Cooja’s <code>AbstractRadioMedium</code>).</li>
+<li><strong>The printed RSSI is 45 dB too low.</strong> The lab code subtracts the CC2420 offset of 45, but Contiki’s driver has already applied it (<code>cc2420_last_rssi = footer[0] + RSSI_OFFSET</code> in <code>dev/cc2420/cc2420.c</code>). Adding 45 back gives &minus;26, &minus;53 and &minus;72 dBm, which match the model for about 4, 10 and 15 m.</li>
+<li><strong>LQI carries no information here.</strong> It is 37 for every packet at every distance; UDGM does not model decoding quality.</li>
+<li><strong>The RX success ratio is not a fixed loss rate.</strong> In <code>UDGM.java</code> the reception probability is P = 1 &minus; (d / range)&sup2; &times; (1 &minus; RX ratio). At 10 m of a 20 m range that is 1 &minus; 0.25 &times; 0.40 = 0.90, the 89.2 % Cooja displayed. The configured 60 % is reached only at the edge of the range; next to the sender it is almost 100 %.</li>
+<li><strong>No loss at 89 %.</strong> ContikiMAC repeats each broadcast for a whole wake-up interval, so a copy that fails the 89 % draw is followed by another one. All 70 packets arrived.</li>
+<li><strong>Sharp boundary.</strong> Inside the circle everything arrives, one step outside nothing does. UDGM has no transitional region, unlike real links.</li>
+<li><strong>Only PRR sees lost packets.</strong> RSSI and LQI exist only for packets that arrived; the 15 packets lost in experiment C show up only as a gap in the sequence numbers.</li>
+</ul>
+
+<h2>Files</h2>
+
+<p>
+<a class="buton" href="./sender.c">sender.c</a>
+<a class="buton" href="./receiver.c">receiver.c</a>
+<a class="buton" href="./Makefile">Makefile</a>
+<a class="buton" href="./Week2-Radio.csc">Week2-Radio.csc</a>
+</p>
+
+<p>Put the three source files in <code>~/contiki/examples/week2-radio/</code>. The simulation file opens in Cooja with File &rarr; Open simulation.</p>
+
+</body>
+</html>
