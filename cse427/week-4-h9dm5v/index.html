@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE 427 &middot; Week 4 &mdash; Yahya Efe Kuruçay</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="CSE 427 Wireless Sensor Networks, week 4 lab: hidden terminals, B-MAC vs X-MAC, wake interval, ContikiMAC phase lock and five duty-cycled MACs in the Duty-Cycle MAC Bench.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CSE 427 &middot; Week 4">
+<meta property="og:description" content="CSE 427 Wireless Sensor Networks, week 4 lab: hidden terminals, B-MAC vs X-MAC, wake interval, ContikiMAC phase lock and five duty-cycled MACs in the Duty-Cycle MAC Bench.">
+<meta property="og:url" content="https://efekurucay.com/cse427/week-4-h9dm5v/">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Yahya Efe Kuruçay">
+<meta property="og:image" content="https://efekurucay.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="https://efekurucay.com/cse427/week-4-h9dm5v/">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<p class="etiket">CSE 427 &middot; Wireless Sensor Networks</p>
+
+<h1>Week 4 &mdash; MAC I: Contention-Based</h1>
+
+<p>Yahya Efe Kuruçay &middot; 20220808005 &middot; Akdeniz University, Computer Engineering &middot; lab recorded 18 October 2026</p>
+
+<iframe src="https://www.youtube-nocookie.com/embed/pBP_eHps7Wg" title="CSE 427 Week 4 lab video" width="560" height="315" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+
+<p><a href="https://youtu.be/pBP_eHps7Wg">Watch on YouTube</a></p>
+
+<h2>Task</h2>
+
+<p>The week 4 lab uses the Duty-Cycle MAC Bench, a browser simulator of B-MAC, X-MAC, ContikiMAC, RI-MAC and A-MAC. Five experiments (A&ndash;E from the worksheet) look at hidden terminals, preamble versus strobe rendezvous, the wake interval trade-off, ContikiMAC’s phase lock and a comparison of all five protocols. For each one: predict, run, read the counters, timeline and event log, and explain the mechanism.</p>
+
+<h2>Setup</h2>
+
+<table>
+<thead>
+<tr><th>Item</th><th>Value</th></tr>
+</thead>
+<tbody>
+<tr><td>Tool</td><td>Duty-Cycle MAC Bench (HTML, from the course Teams), Chrome on Windows</td></tr>
+<tr><td>Default parameters</td><td>Wake/check interval 100 ms, radio range 21 m, mean packet interval 1200 ms, retry limit 3</td></tr>
+<tr><td>Comparisons</td><td><em>Compare all five</em>: every MAC runs headless for 60 s of simulated time with the same random seed</td></tr>
+</tbody>
+</table>
+
+<h2>Experiment A &mdash; hidden terminal</h2>
+
+<p>Preset <em>Hidden terminal</em>, ContikiMAC, synchronised traffic on, <em>Burst: all senders</em> three times. R1 hears both senders; S1 and S2 cannot hear each other.</p>
+
+<figure>
+<img src="./a-hidden.webp" width="1056" height="915" alt="Hidden terminal layout with S1, R1 and S2, the radio timeline showing corrupted receptions at R1">
+<figcaption>Paused on a hidden-terminal event: both DATA frames overlap at R1 (red on R1’s timeline row).</figcaption>
+</figure>
+
+<figure>
+<img src="./a-counters.webp" width="416" height="312" loading="lazy" alt="Counters after the hidden terminal bursts">
+<figcaption>Every DATA copy collides at R1; nothing is delivered in this window.</figcaption>
+</figure>
+
+<table>
+<thead>
+<tr><th>Run (recording)</th><th>Delivered / generated</th><th>PDR</th><th>Hidden-terminal losses</th></tr>
+</thead>
+<tbody>
+<tr><td>After 3 bursts, range 21 m</td><td>45 / 82</td><td>&asymp; 55 %</td><td>350 &rarr; 378 frames</td></tr>
+<tr><td>Range 32 m (maximum), 2 bursts</td><td>&mdash;</td><td>&mdash;</td><td>26 frames</td></tr>
+<tr><td>S2 moved next to R1, 3 bursts</td><td>12 / 12</td><td>100 %</td><td>0</td></tr>
+</tbody>
+</table>
+
+<figure>
+<img src="./a-moved.webp" width="1056" height="915" loading="lazy" alt="S2 moved next to R1 so S1 and S2 hear each other">
+<figcaption>With S1 and S2 in each other’s range the log shows &ldquo;deferred: channel busy&rdquo; instead of hidden-terminal losses.</figcaption>
+</figure>
+
+<ul>
+<li><strong>Q1.</strong> Carrier sensing is local. S1 checks the channel at its own position; S2 is out of its range, so S1 hears nothing and transmits. S2 decides the same.</li>
+<li><strong>Q2.</strong> The collision happens at the common receiver R1, which is inside both ranges and receives both frames at once. With no capture effect both are corrupted; the senders only notice the missing ACK and retry.</li>
+<li><strong>Q3.</strong> 32 m is not enough: S1 and S2 are still more than 32 m apart and the losses continue. Moving S2 closer until they hear each other brings the losses to 0 and PDR to 100 %; S1’s carrier sense now hears S2 and waits.</li>
+</ul>
+
+<h2>Experiment B &mdash; B-MAC versus X-MAC</h2>
+
+<p>Preset <em>Overhearing crowd</em> (S1 &rarr; R1 with five idle neighbours N1&ndash;N5), synchronised traffic off, 30 s per protocol, reset in between.</p>
+
+<figure>
+<img src="./b-b-mac.webp" width="1056" height="915" loading="lazy" alt="B-MAC run with the long violet preamble on the timeline">
+<figcaption>B-MAC: one long preamble (violet) covering the whole check interval, then DATA.</figcaption>
+</figure>
+
+<figure>
+<img src="./b-x-mac.webp" width="1056" height="915" loading="lazy" alt="X-MAC run with short strobes and early ACK on the timeline">
+<figcaption>X-MAC: a train of short addressed strobes, an early ACK, then DATA.</figcaption>
+</figure>
+
+<table>
+<thead>
+<tr><th>Protocol</th><th>PDR</th><th>Radio duty cycle</th><th>Overhearing</th><th>Over-emitting</th><th>Timeline</th></tr>
+</thead>
+<tbody>
+<tr><td>B-MAC</td><td>96 % (25 / 26)</td><td>7.1 %</td><td>6882 ms / 125 frames</td><td>1303 ms</td><td>long preamble</td></tr>
+<tr><td>X-MAC</td><td>100 % (26 / 26)</td><td>3.7 %</td><td>135 ms / 57 frames</td><td>655 ms</td><td>strobes + early ACK</td></tr>
+</tbody>
+</table>
+
+<ul>
+<li><strong>Q4.</strong> B-MAC sends one long preamble that outlasts the check interval, then the data. X-MAC sends short strobes carrying the destination address, with gaps in between.</li>
+<li><strong>Q5.</strong> X-MAC: 135 ms of overhearing against about 6900 ms. A B-MAC neighbour that wakes during the preamble cannot tell who it is for and stays awake until the data; an X-MAC neighbour decodes one strobe, sees another address and goes back to sleep.</li>
+<li><strong>Q6.</strong> The receiver answers a strobe with an early ACK in the gap, so the sender stops strobing and sends the data at once. Over-emitting falls from about 1300 to 650 ms, the data leaves sooner, and the duty cycle drops from 7.1 to 3.7 %.</li>
+</ul>
+
+<h2>Experiment C &mdash; wake/check interval</h2>
+
+<p>Overhearing crowd, the two ends of the bench’s range (50 ms and 500 ms), B-MAC row of <em>Compare all five</em>.</p>
+
+<figure>
+<img src="./c-50.webp" width="1050" height="381" loading="lazy" alt="Compare all five table at 50 ms wake interval">
+<figcaption>Wake interval 50 ms.</figcaption>
+</figure>
+
+<figure>
+<img src="./c-500.webp" width="1050" height="381" loading="lazy" alt="Compare all five table at 500 ms wake interval">
+<figcaption>Wake interval 500 ms.</figcaption>
+</figure>
+
+<table>
+<thead>
+<tr><th>Wake interval</th><th>PDR</th><th>Mean latency</th><th>Duty cycle</th><th>Energy / delivered pkt</th><th>Over-emitting</th><th>Idle listening</th></tr>
+</thead>
+<tbody>
+<tr><td>50 ms</td><td>100 %</td><td>62 ms</td><td>7.0 %</td><td>33.47 mJ</td><td>1.11 s</td><td>16.10 s</td></tr>
+<tr><td>500 ms</td><td>100 %</td><td>512 ms</td><td>24.6 %</td><td>114.98 mJ</td><td>12.31 s</td><td>1.02 s</td></tr>
+</tbody>
+</table>
+
+<ul>
+<li><strong>Q7.</strong> Mean latency rose from 62 to 512 ms. A packet can only be delivered when the receiver wakes; with a 500 ms interval the sender waits much longer for that rendezvous and B-MAC’s preamble has to cover the whole interval.</li>
+<li><strong>Q8.</strong> The energy did not disappear, it moved. Receivers’ idle listening fell from 16.1 s to 1.0 s, but the preambles became ten times longer: over-emitting rose from 1.1 to 12.3 s and every neighbour that wakes during a preamble overhears it. Energy per delivered packet more than tripled. A long interval can still suit rare monitoring traffic; urgent alarms need a short one.</li>
+</ul>
+
+<h2>Experiment D &mdash; ContikiMAC phase lock (bonus)</h2>
+
+<p>Overhearing crowd, wake interval 100 ms, ContikiMAC row, phase lock off and on.</p>
+
+<figure>
+<img src="./d-off.webp" width="1050" height="381" loading="lazy" alt="Compare all five table with ContikiMAC phase lock off">
+<figcaption>Phase lock off.</figcaption>
+</figure>
+
+<figure>
+<img src="./d-on.webp" width="1050" height="381" loading="lazy" alt="Compare all five table with ContikiMAC phase lock on">
+<figcaption>Phase lock on.</figcaption>
+</figure>
+
+<figure>
+<img src="./d-learned.webp" width="416" height="621" loading="lazy" alt="Event log line: S1 learned R1’s wake-up phase from the ACK">
+<figcaption>&ldquo;S1 learned R1’s wake-up phase from the ACK; its next packets start just before R1 wakes.&rdquo;</figcaption>
+</figure>
+
+<table>
+<thead>
+<tr><th>Phase lock</th><th>PDR</th><th>Mean latency</th><th>Duty cycle</th><th>Energy / delivered pkt</th><th>Over-emitting</th></tr>
+</thead>
+<tbody>
+<tr><td>Off</td><td>100 %</td><td>57 ms</td><td>2.9 %</td><td>13.86 mJ</td><td>1.90 s</td></tr>
+<tr><td>On</td><td>100 %</td><td>60 ms</td><td>2.3 %</td><td>11.22 mJ</td><td>0.26 s</td></tr>
+</tbody>
+</table>
+
+<ul>
+<li><strong>Q9.</strong> After the first delivery the sender learns from the ACK when the receiver wakes and starts its next packets just before that moment instead of repeating copies for a whole interval. Over-emitting falls from 1.90 to 0.26 s, duty cycle from 2.9 to 2.3 %, energy per packet from 13.9 to 11.2 mJ. Latency stays about the same (57 vs 60 ms) because the sender now waits for the predicted wake-up.</li>
+<li><strong>Q10.</strong> The bench has no clock drift, so a learned phase stays valid until an attempt fails. Real crystals drift: the sender must start earlier with a safety margin, and a wrong prediction falls back to a full interval of copies.</li>
+</ul>
+
+<h2>Experiment E &mdash; compare all five</h2>
+
+<p>Preset <em>Funnel: 4 senders &rarr; 1 sink</em> (the preset turns synchronised traffic on), default parameters, phase lock on.</p>
+
+<figure>
+<img src="./e-compare.webp" width="1050" height="381" loading="lazy" alt="Compare all five table for the funnel topology">
+<figcaption>Funnel, 60 s per MAC, same seed.</figcaption>
+</figure>
+
+<table>
+<thead>
+<tr><th>MAC</th><th>PDR</th><th>Mean latency</th><th>Duty cycle</th><th>Energy / pkt</th><th>Hidden losses</th></tr>
+</thead>
+<tbody>
+<tr><td>B-MAC</td><td>50.5 %</td><td>714 ms</td><td>37.5 %</td><td>59.65 mJ</td><td>268</td></tr>
+<tr><td>X-MAC</td><td>48.0 %</td><td>347 ms</td><td>27.0 %</td><td>46.25 mJ</td><td>2757</td></tr>
+<tr><td>ContikiMAC</td><td>36.0 %</td><td>563 ms</td><td>30.5 %</td><td>68.04 mJ</td><td>712</td></tr>
+<tr><td>RI-MAC</td><td>52.5 %</td><td>110 ms</td><td>12.5 %</td><td>19.99 mJ</td><td>215</td></tr>
+<tr><td>A-MAC</td><td>29.0 %</td><td>272 ms</td><td>16.8 %</td><td>48.74 mJ</td><td>285</td></tr>
+</tbody>
+</table>
+
+<p>Four senders transmit to one sink at the same instant, so the sink is a contention point and senders on opposite sides cannot hear each other: every protocol loses packets here.</p>
+
+<ul>
+<li><strong>Q11.</strong> RI-MAC has the highest PDR, 52.5 %, and in this funnel it is also the lowest energy per delivered packet (19.99 mJ) and the lowest latency. It is receiver-initiated: the sink beacons when it wakes, so senders need no long preambles or strobe trains towards it.</li>
+<li><strong>Q12.</strong> A-MAC has a low duty cycle (16.8 %) but the lowest PDR (29 %); B-MAC delivers more (50.5 %) with radios on more than twice as long (37.5 %). X-MAC has half of B-MAC’s latency but ten times its hidden-terminal losses. The best protocol depends on the metric, the traffic and the topology; there is no universally best duty-cycled MAC.</li>
+</ul>
+
+<h2>Model limitations (Q13)</h2>
+
+<ul>
+<li>Unit-disk radio: a node hears a frame perfectly or not at all.</li>
+<li>Carrier-sense range equals communication range.</li>
+<li>No capture effect: any overlap destroys both frames.</li>
+<li>1 ms time slots with simplified frame, ACK, strobe and beacon lengths.</li>
+<li>No clock drift, so phase prediction is perfect until it fails.</li>
+<li>Simplified CC2420 current model.</li>
+</ul>
+
+<p>The bench explains mechanisms and trade-offs; its numbers are not real-world performance and do not rank the protocols for a real deployment.</p>
+
+</body>
+</html>
