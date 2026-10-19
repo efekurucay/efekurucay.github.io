@@ -24,7 +24,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate" hreflang="en" href="/en/cv/">
 </head>
-<body>
+<body class="cv">
 
 <nav>
 <a href="/tr/" class="logo" aria-label="Ana sayfa"><img src="/logo.svg" alt="" width="22" height="22"></a>
@@ -53,56 +53,82 @@
   <dd>Ürünleri altında topladığımız çatı. İki ürün yayında.</dd>
 
   <dt><b><a target="_blank" rel="noopener" href="https://fitbrand.app">FitBrand</a></b></dt>
-  <dd>Kişisel antrenörler için beyaz etiket platform. Antrenör kaydolur,
-      logosunu ve rengini seçer, dakikalar içinde kendi markasıyla danışan
-      uygulaması yayına girer &mdash; App Store onayı ve kod gerektirmeden,
-      PWA olarak. Danışan yönetimi, hareket kütüphanesi üzerinden plan
-      oluşturucu, ilerleme analizi, push bildirimleri ve yapay zekâ destekli
-      plan önerisi. Antrenöre ayrıca kendi tanıtım sayfası ve alt alan adı
-      verilir. Üç katmanlı abonelik.</dd>
+  <dd>Kişisel antrenörler için beyaz etiket platform. Antrenör logosunu ve
+      rengini seçer, dakikalar içinde kendi markasıyla danışan uygulaması
+      yayına girer: PWA olarak ya da App Store ve Google Play’de.
+      <details><summary>Neler yaptım</summary>
+      <ul>
+        <li>Ana geliştirici.</li>
+        <li>Ödeme: iyzico ile kartlı üç abonelik paketi, RevenueCat ile uygulama içi satın alma, promosyon kodu.</li>
+        <li>Konuşma başına maliyet defteri ve bütçe sınırıyla yapay zekâ plan oluşturucu ve koç.</li>
+        <li>Danışan yönetimi, hareket kütüphanesi üzerinden plan oluşturucu, ilerleme analizi, push bildirimleri.</li>
+        <li>Her antrenöre tanıtım sayfası ve alt alan adı. On dil.</li>
+      </ul>
+      </details></dd>
 
   <dt><b><a target="_blank" rel="noopener" href="https://tiro.legal">tiro</a></b></dt>
-  <dd>Ceza avukatları için kapalı devre yapay zekâ. Masaüstü uygulaması;
-      dosya da, taslak savunma da bilgisayardan çıkmaz. Ceza dosyası ve Türk
-      hukuk diline göre kendi eğittiğimiz yerel model çalışır, internete hiç
-      bağlanmaz. Yedi modül: kaynağa bağlı savunma editörü (UYAP'a hazır UDF
-      çıktısı), UDF/PDF/taranmış evrakı tek yüzeyde toplayan evrak akışı, olay
-      zaman çizgisi, kişi–delil–mekân ilişki haritası, kişi dosyası özeti ve
-      çevrimdışı TCK/CMK/PVSK taraması. Üretilen her cümle hangi belgenin
-      hangi sayfasından geldiğini gösterir. Adını Cicero'nun asistanı
-      Tiro'dan alıyor: kaydeder, özetler, düzenler &mdash; kanaati avukat kurar.</dd>
+  <dd>Ceza avukatları için kapalı devre yapay zekâ: dosya da, taslak savunma
+      da bilgisayardan çıkmayan bir masaüstü uygulaması. Üretilen her cümle
+      hangi belgenin hangi sayfasından geldiğini gösterir.
+      <details><summary>Neler yaptım</summary>
+      <ul>
+        <li>Ana geliştirici. Windows için yayında; her sürümde kurulum dosyası otomatik üretilir.</li>
+        <li>Gemma modelleri llama.cpp ile çalışır, internete hiç bağlanmaz; pasaj düzeyinde kaynak gösteren agentic RAG.</li>
+        <li>Yedi modül: kaynağa bağlı savunma editörü (UYAP’a hazır UDF çıktısı), UDF/PDF/taranmış evrakı tek yüzeyde toplayan evrak akışı, olay zaman çizgisi, kişi&ndash;delil&ndash;mekân ilişki haritası, kişi dosyası özeti ve çevrimdışı TCK/CMK/PVSK taraması.</li>
+        <li>Taranmış evrak için OCR; fotoğrafı çekilmiş dosya da aranabilir.</li>
+        <li>Emsal karar araması: 11 milyon Türk mahkeme kararında vektör ve kelime araması bir arada.</li>
+        <li>Adını Cicero’nun asistanı Tiro’dan alıyor: kaydeder, özetler, düzenler; kanaati avukat kurar.</li>
+      </ul>
+      </details></dd>
 </dl>
 
 <h2>Deneyim</h2>
 
 <dl>
-  <dt><b>SAN TSG</b> &mdash; Full-Stack Yazılım Mühendisi</dt>
-  <dd>Mart 2026 &ndash; devam ediyor. Antalya, hibrit.
-      .NET MVC ve React ile kurumsal B2C ajans platformu; clean architecture
-      ve SSR/CSR render stratejileri.</dd>
+  <dt><b>SAN TSG</b> &mdash; Full-Stack Yazılım Mühendisi <small>Mart 2026 &ndash; devam ediyor &middot; Antalya, hibrit</small></dt>
+  <dd>Seyahat acentelerinin müşterilerine sunduğu white-label rezervasyon
+      platformu: otel, uçuş ve paket. .NET ve React, clean architecture;
+      sunucuda render edilen sayfalar üzerinde etkileşimli React parçaları.
+      Ana katkı verenlerinden biriyim; ekibin iç deploy ve geliştirici
+      araçlarını da ben kurdum. Dönem içinde yarı zamanlı, 2026 yazında tam
+      zamanlı.
+      <details><summary>Neler yaptım</summary>
+      <ul>
+        <li>CMS içerik modülleri: sayfa düzeni, galeri, medya, ürün vitrini, otel içeriği.</li>
+        <li>Ayarlar merkezi ve her yetkinin role ayrı ayrı verilebildiği erişim modeli.</li>
+        <li>Acentelerin mevcut sitelerinin platforma taşınması.</li>
+        <li>Sayfa dilinde, önbellekten sunulan otel yorumu entegrasyonu.</li>
+        <li>Yapay zekâ içerik asistanı: agent değişikliği önerir, operatör onaylar.</li>
+        <li>İç araçlar: build’leri zamanlayıp yeni müşteri veritabanlarını kuran bir deploy konsolu ve her ticket’a saniyeler içinde kendi geliştirme veritabanını veren bir CLI.</li>
+        <li>Hem geliştiriciler hem kodlama agent’ları için yazılmış mimari dokümantasyon.</li>
+      </ul>
+      </details></dd>
 
-  <dt><b>Retina Dijital</b> &mdash; AI Product Engineer (sözleşmeli)</dt>
-  <dd>Ocak 2026 &ndash; devam ediyor. Antalya, uzaktan.
-      Yalnızca cevap veren değil hatırlayan yapay zekâ ürünleri: RAG üzerine
+  <dt><b>Retina Dijital</b> &mdash; AI Product Engineer (sözleşmeli) <small>Ocak 2026 &ndash; devam ediyor &middot; Antalya, uzaktan</small></dt>
+  <dd>Yalnızca cevap veren değil hatırlayan yapay zekâ ürünleri: RAG üzerine
       kullanıcı hafızası katmanları, etkileşim geçmişi ve tercih modelleri;
-      ölçeklenebilir mobil ve arka uç altyapısıyla.</dd>
+      ölçeklenebilir mobil ve arka uç altyapısıyla. Kullanıcıyı hatırlayan ve
+      kaynak gösteren bir mobil yapay zekâ rehberinin ana geliştiricisiyim.
+      <details><summary>Neler yaptım</summary>
+      <ul>
+        <li>Uzun süreli hafıza çıkarımı, orkestrasyon grafı, konuşma sıkıştırma ve kriz sınıflandırıcı; pgvector ve Neo4j üzerinde arama. Expo, FastAPI, Gemini.</li>
+        <li>Cerrah eşleştirme sitesi için görsel LLM fotoğraf kontrolü: fotoğraf kalitesini denetler, anatomiyi sabit bir listeden etiketler.</li>
+      </ul>
+      </details></dd>
 
-  <dt><b>Rook AI Neuromarketing Tech A.Ş.</b> &mdash; AI Product Engineer (tam zamanlı)</dt>
-  <dd>Ağustos &ndash; Ekim 2025. İstanbul, uzaktan.
-      Yapay zekâ ürünlerinde fikirden dağıtıma tüm döngü.</dd>
+  <dt><b>Rook AI Neuromarketing Tech A.Ş.</b> &mdash; AI Product Engineer (tam zamanlı) <small>Temmuz &ndash; Ekim 2025 &middot; İstanbul, uzaktan</small></dt>
+  <dd>Yapay zekâ ürünlerinde fikirden dağıtıma tüm döngü.</dd>
 
-  <dt><b>SAN TSG</b> &mdash; Yapay Zekâ Yazılım Geliştirme Stajyeri</dt>
-  <dd>Haziran &ndash; Temmuz 2025. Antalya, ofis.
-      RAG mimarisi üzerine geliştirici odaklı doküman asistanı (RAGby):
+  <dt><b>SAN TSG</b> &mdash; Yapay Zekâ Yazılım Geliştirme Stajyeri <small>Haziran &ndash; Temmuz 2025 &middot; Antalya, ofis</small></dt>
+  <dd>RAG mimarisi üzerine geliştirici odaklı doküman asistanı (RAGby):
       bilgi getirme optimizasyonu, vektör veritabanı entegrasyonu,
       router-retriever, PostgreSQL.</dd>
 
-  <dt><b>417 Akademi</b> &mdash; Matematik Öğretmeni (özel ders)</dt>
-  <dd>2024 &ndash; 2025. Ortaokul ve lise öğrencilerine birebir ders.</dd>
+  <dt><b>417 Akademi</b> &mdash; Matematik Öğretmeni (özel ders) <small>2024 &ndash; 2025</small></dt>
+  <dd>Ortaokul ve lise öğrencilerine birebir ders.</dd>
 
-  <dt><b>EFE GSM</b> &mdash; Tamir Teknisyeni, Yazılım &amp; Satış</dt>
-  <dd>Şubat 2016 &ndash; Haziran 2025, yarı zamanlı. Alanya.
-      Babamın mesleği ve aile işimiz; önce Avea, sonra Vodafone Silver bayisi
+  <dt><b>EFE GSM</b> &mdash; Tamir Teknisyeni, Yazılım &amp; Satış <small>Şubat 2016 &ndash; Haziran 2025, yarı zamanlı &middot; Alanya</small></dt>
+  <dd>Babamın mesleği ve aile işimiz; önce Avea, sonra Vodafone Silver bayisi
       oldu. Telefon tamiri, aksesuar satışı, hat aktivasyon ve devir
       işlemleri, cihaz satışı.</dd>
 </dl>
@@ -110,8 +136,8 @@
 <h2>Eğitim</h2>
 
 <dl>
-  <dt><b>Akdeniz Üniversitesi</b> &mdash; Bilgisayar Mühendisliği (İngilizce), lisans</dt>
-  <dd>Eylül 2022 &ndash; devam ediyor. Üçüncü sınıf.</dd>
+  <dt><b>Akdeniz Üniversitesi</b> &mdash; Bilgisayar Mühendisliği (İngilizce), lisans <small>Eylül 2022 &ndash; devam ediyor</small></dt>
+  <dd>Dördüncü sınıf.</dd>
 
   <dt><b>Pupilica</b> &mdash; AI Bootcamp</dt>
   <dd></dd>
@@ -129,20 +155,36 @@
       100'ün üzerinde depo.
       <a target="_blank" rel="noopener" href="https://github.com/AkdenizOS">github.com/AkdenizOS</a></dd>
 
-  <dt><b>BİLMÖK</b> &mdash; Düzenleme Kurulu Başkan Yardımcısı</dt>
-  <dd>Temmuz 2024 &ndash; Şubat 2025. 21. Bilgisayar Mühendisliği Öğrencileri
+  <dt><b>Akdeniz Üniversitesi Bilgisayar Mühendisliği</b> &mdash; Bölüm Temsilcisi <small>Kasım 2025 &ndash; devam ediyor</small></dt>
+  <dd></dd>
+
+  <dt><b>BİLMÖK</b> &mdash; Düzenleme Kurulu Başkan Yardımcısı <small>Temmuz 2024 &ndash; Şubat 2025</small></dt>
+  <dd>21. Bilgisayar Mühendisliği Öğrencileri
       Kongresi, 22&ndash;23 Şubat 2025, Antalya. Sunuculuk da yaptım.</dd>
 
-  <dt><b>Huawei Student Developers Akdeniz</b> &mdash; Kampüs Elçisi</dt>
-  <dd>Mart 2024 &ndash; Mart 2025.</dd>
+  <dt><b>Huawei Student Developers Akdeniz</b> &mdash; Kampüs Elçisi <small>Mart 2024 &ndash; Mart 2025</small></dt>
+  <dd></dd>
 
-  <dt><b>UBMK, Uluslararası CSE Konferansı</b> &mdash; Sunum</dt>
-  <dd>27&ndash;29 Ekim 2024.</dd>
+  <dt><b>UBMK, Uluslararası CSE Konferansı</b> &mdash; Sunum <small>27&ndash;29 Ekim 2024</small></dt>
+  <dd></dd>
 </dl>
 
 <h2>Seçilmiş işler</h2>
 
 <dl>
+  <dt><a href="/tr/giraffe/"><b>GiraffeGraph</b></a> &mdash; Bitirme projesi</dt>
+  <dd>İki takım arkadaşımla. Metinden bilgi grafı kurarken LLM hatalarını
+      grafın dışında tutan bir motor: model önerir, şema ve kaynak kontrolleri
+      doğrular, belirsiz durumları insan inceler. İlk vaka hadis râvi
+      zincirleri. FastAPI, PostgreSQL, Neo4j, Next.js.
+      <details><summary>Neler yaptım</summary>
+      <ul>
+        <li>Bir koşu grafa tek transaction’da yazılır; commit başarısız olursa geride iz kalmaz.</li>
+        <li>Her inceleme kararı kimin ne zaman verdiğiyle saklanır, üzerine yazılmaz.</li>
+        <li>İlk değerlendirme: 300 hadiste LLM ile kural tabanlı çıkarıcının karşılaştırması.</li>
+      </ul>
+      </details></dd>
+
   <dt><a href="/tr/2026/06/plexcode/"><b>plexcode</b></a></dt>
   <dd>Perplexity Pro'yu terminale getiren açık kaynak TUI. Mevcut oturum
       üzerinden çalışır, API anahtarı istemez. Ajan kipinde yerel dosyaları

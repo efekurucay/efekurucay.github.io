@@ -24,7 +24,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate" hreflang="tr" href="/tr/cv/">
 </head>
-<body>
+<body class="cv">
 
 <nav>
 <a href="/en/" class="logo" aria-label="Home"><img src="/logo.svg" alt="" width="22" height="22"></a>
@@ -53,57 +53,80 @@
   <dd>The company our products sit under. Two are live.</dd>
 
   <dt><b><a target="_blank" rel="noopener" href="https://fitbrand.app">FitBrand</a></b></dt>
-  <dd>A white-label platform for personal trainers. A trainer signs up,
-      uploads a logo, picks a colour, and a client app in their own brand goes
-      live in minutes &mdash; as a PWA, with no app store review and no code.
-      Client management, a plan builder over an exercise library, progress
-      analytics, push notifications and AI-assisted plan suggestions. Each
-      trainer also gets a landing page and a subdomain. Three subscription
-      tiers.</dd>
+  <dd>A white-label platform for personal trainers. A trainer uploads a logo,
+      picks a colour, and a client app in their own brand goes live in minutes,
+      as a PWA or a native app on the App Store and Google Play.
+      <details><summary>What I worked on</summary>
+      <ul>
+        <li>Main developer.</li>
+        <li>Payments: three subscription tiers on iyzico card billing, RevenueCat in-app purchases and promo codes.</li>
+        <li>AI plan builder and coach with a per-turn cost ledger and a budget limit.</li>
+        <li>Client management, a plan builder over an exercise library, progress analytics and push notifications.</li>
+        <li>A landing page and a subdomain for every trainer. Ten languages.</li>
+      </ul>
+      </details></dd>
 
   <dt><b><a target="_blank" rel="noopener" href="https://tiro.legal">tiro</a></b></dt>
-  <dd>Closed-circuit AI for criminal defence lawyers. A desktop application:
-      neither the case file nor the draft defence ever leaves the machine. It
-      runs a local model we trained ourselves on Turkish criminal case files
-      and legal language, with no internet connection at all. Seven modules:
-      a source-anchored defence editor exporting UYAP-ready UDF, a document
-      flow that opens UDF, PDF and scanned material on one surface, an event
-      timeline, a person&ndash;evidence&ndash;place relationship map, per-person
-      case summaries and offline search across Turkish penal and procedural
-      codes. Every generated sentence shows which page of which document it
-      came from. Named after Cicero's assistant Tiro: it records, summarises
-      and organises &mdash; the lawyer forms the judgement.</dd>
+  <dd>Closed-circuit AI for criminal defence lawyers: a desktop app where
+      neither the case file nor the draft defence ever leaves the machine.
+      Every generated sentence shows which page of which document it came from.
+      <details><summary>What I worked on</summary>
+      <ul>
+        <li>Main developer. Released for Windows with an installer built on every tag.</li>
+        <li>Agentic RAG with citations down to the passage, on Gemma models run through llama.cpp, with no internet connection at all.</li>
+        <li>Seven modules: a source-anchored defence editor exporting UYAP-ready UDF, a document flow for UDF, PDF and scanned files, an event timeline, a person&ndash;evidence&ndash;place map, per-person case summaries and offline search across Turkish penal and procedural codes.</li>
+        <li>OCR for scanned documents, so photographed case files are searchable too.</li>
+        <li>Court-decision search: hybrid vector and keyword search over 11 million Turkish court decisions.</li>
+        <li>Named after Cicero’s assistant Tiro: it records, summarises and organises; the lawyer forms the judgement.</li>
+      </ul>
+      </details></dd>
 </dl>
 
 <h2>Experience</h2>
 
 <dl>
-  <dt><b>SAN TSG</b> &mdash; Full-Stack Software Engineer</dt>
-  <dd>March 2026 &ndash; present. Antalya, hybrid.
-      Enterprise B2C agency platform in .NET MVC and React, built on clean
-      architecture with mixed SSR/CSR rendering strategies.</dd>
+  <dt><b>SAN TSG</b> &mdash; Full-Stack Software Engineer <small>March 2026 &ndash; present &middot; Antalya, hybrid</small></dt>
+  <dd>A white-label booking platform that travel agencies run for their
+      customers: hotels, flights and packages. .NET and React on clean
+      architecture, server-rendered pages with interactive React parts. One of
+      its main contributors; I also built the team’s internal deployment and
+      developer tooling. Part-time during the term, full-time over summer 2026.
+      <details><summary>What I worked on</summary>
+      <ul>
+        <li>CMS content modules: page layouts, galleries, media, product showcases, hotel content.</li>
+        <li>A settings hub and an access model where every capability can be granted per role.</li>
+        <li>Migration of agencies’ existing sites onto the platform.</li>
+        <li>Hotel review integration, cached and served in the page’s language.</li>
+        <li>An AI content assistant: the agent proposes edits, the operator approves them.</li>
+        <li>Internal tools: a deployment console that schedules builds and sets up new customer databases, and a CLI that gives each ticket its own development database in seconds.</li>
+        <li>Architecture documentation written for both developers and coding agents.</li>
+      </ul>
+      </details></dd>
 
-  <dt><b>Retina Dijital</b> &mdash; AI Product Engineer (contract)</dt>
-  <dd>January 2026 &ndash; present. Antalya, remote.
-      AI products that remember rather than merely respond: user memory layers,
+  <dt><b>Retina Dijital</b> &mdash; AI Product Engineer (contract) <small>January 2026 &ndash; present &middot; Antalya, remote</small></dt>
+  <dd>AI products that remember rather than merely respond: user memory layers,
       interaction histories and preference models on top of RAG systems, backed
-      by scalable mobile and backend infrastructure.</dd>
+      by scalable mobile and backend infrastructure. Main developer of a mobile
+      AI guide that remembers the user and cites its sources.
+      <details><summary>What I worked on</summary>
+      <ul>
+        <li>Long-term memory extraction, an orchestration graph, conversation compaction and a crisis classifier, with retrieval over pgvector and a Neo4j graph. Expo, FastAPI, Gemini.</li>
+        <li>A vision-LLM photo check for a surgeon-matching site: it gates photo quality and tags anatomy from a fixed list.</li>
+      </ul>
+      </details></dd>
 
-  <dt><b>Rook AI Neuromarketing Tech A.Ş.</b> &mdash; AI Product Engineer (full-time)</dt>
-  <dd>August &ndash; October 2025. Istanbul, remote.
-      Full product cycle on AI-powered products, from prototype to deployment.</dd>
+  <dt><b>Rook AI Neuromarketing Tech A.Ş.</b> &mdash; AI Product Engineer (full-time) <small>July &ndash; October 2025 &middot; Istanbul, remote</small></dt>
+  <dd>Full product cycle on AI-powered products, from prototype to deployment.</dd>
 
-  <dt><b>SAN TSG</b> &mdash; AI Software Developer Intern</dt>
-  <dd>June &ndash; July 2025. Antalya, on-site.
-      Built an AI document assistant on a RAG architecture (RAGby): retrieval
+  <dt><b>SAN TSG</b> &mdash; AI Software Developer Intern <small>June &ndash; July 2025 &middot; Antalya, on-site</small></dt>
+  <dd>Built an AI document assistant on a RAG architecture (RAGby): retrieval
       optimisation, vector database integration, router-retriever, PostgreSQL.</dd>
 
-  <dt><b>417 Akademi</b> &mdash; Private Mathematics Tutor</dt>
-  <dd>2024 &ndash; 2025. One-to-one tutoring for middle and high school students.</dd>
+  <dt><b>417 Akademi</b> &mdash; Private Mathematics Tutor <small>2024 &ndash; 2025</small></dt>
+  <dd>One-to-one tutoring for middle and high school students.</dd>
 
-  <dt><b>EFE GSM</b> &mdash; Repair Technician, Software &amp; Sales</dt>
-  <dd>February 2016 &ndash; June 2025, part-time. Alanya.
-      My father's trade and our family business, which became an Avea and later
+  <dt><b>EFE GSM</b> &mdash; Repair Technician, Software &amp; Sales <small>February 2016 &ndash; June 2025, part-time &middot; Alanya</small></dt>
+  <dd>My father's trade and our family business, which became an Avea and later
       a Vodafone Silver dealership. Phone repair, accessory sales, SIM activation
       and transfer processes, device sales.</dd>
 </dl>
@@ -111,8 +134,8 @@
 <h2>Education</h2>
 
 <dl>
-  <dt><b>Akdeniz University</b> &mdash; BSc Computer Science &amp; Engineering (English)</dt>
-  <dd>September 2022 &ndash; present. Third year.</dd>
+  <dt><b>Akdeniz University</b> &mdash; BSc Computer Science &amp; Engineering (English) <small>September 2022 &ndash; present</small></dt>
+  <dd>Fourth year.</dd>
 
   <dt><b>Pupilica</b> &mdash; AI Bootcamp</dt>
   <dd></dd>
@@ -129,21 +152,38 @@
       computer engineering students at Akdeniz University. Over 100 repositories.
       <a target="_blank" rel="noopener" href="https://github.com/AkdenizOS">github.com/AkdenizOS</a></dd>
 
-  <dt><b>BİLMÖK</b> &mdash; Vice President, Organizing Committee</dt>
-  <dd>July 2024 &ndash; February 2025. The 21st national congress of computer
+  <dt><b>Akdeniz University, Computer Engineering</b> &mdash; Department Student Representative <small>November 2025 &ndash; present</small></dt>
+  <dd></dd>
+
+  <dt><b>BİLMÖK</b> &mdash; Vice President, Organizing Committee <small>July 2024 &ndash; February 2025</small></dt>
+  <dd>The 21st national congress of computer
       engineering students, held 22&ndash;23 February 2025 in Antalya, where I
       also hosted the sessions.</dd>
 
-  <dt><b>Huawei Student Developers Akdeniz</b> &mdash; Campus Ambassador</dt>
-  <dd>March 2024 &ndash; March 2025.</dd>
+  <dt><b>Huawei Student Developers Akdeniz</b> &mdash; Campus Ambassador <small>March 2024 &ndash; March 2025</small></dt>
+  <dd></dd>
 
-  <dt><b>UBMK, International Conference on CSE</b> &mdash; Presenter</dt>
-  <dd>27&ndash;29 October 2024.</dd>
+  <dt><b>UBMK, International Conference on CSE</b> &mdash; Presenter <small>27&ndash;29 October 2024</small></dt>
+  <dd></dd>
 </dl>
 
 <h2>Selected work</h2>
 
 <dl>
+  <dt><a href="/en/giraffe/"><b>GiraffeGraph</b></a> &mdash; Senior design project</dt>
+  <dd>Built with two teammates. An engine that builds a knowledge graph from
+      text while keeping LLM errors out of it: the model proposes, schema and
+      grounding checks validate, and a human reviews the uncertain cases. The
+      first case study is hadith narrator chains. FastAPI, PostgreSQL, Neo4j,
+      Next.js.
+      <details><summary>What I worked on</summary>
+      <ul>
+        <li>A run is written to the graph in one transaction, so a failed commit leaves nothing behind.</li>
+        <li>Every review decision is stored with who made it and when, and is never overwritten.</li>
+        <li>First evaluation: an LLM against a rule-based extractor on 300 hadiths.</li>
+      </ul>
+      </details></dd>
+
   <dt><a href="/en/2026/06/plexcode/"><b>plexcode</b></a></dt>
   <dd>Open source TUI that brings Perplexity Pro to the terminal through an
       existing session &mdash; no API key. Playwright, Node. Reads local files

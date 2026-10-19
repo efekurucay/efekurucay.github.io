@@ -128,3 +128,12 @@ hr + .sosyal { margin-top: 1.2em; opacity: .7; }
   nav, form, blockquote, .yazdirma { display: none; }
   a { text-decoration: none; color: inherit; }
 }
+
+/* CV: girdiler arasi bosluk, tarih basligin altinda soluk satir; goz once "ne zaman" arar. */
+.cv dd { margin-bottom: 1em; }
+.cv dt small { display: block; color: #777; font-weight: normal; }
+
+/* CV ayrintilari: kapali gelir, ok tarayicinin kendi isareti. Ozet soluk ve kucuk. */
+details { margin-top: .3em; }
+summary { cursor: pointer; color: #777; font-size: .9em; }
+details ul { margin: .3em 0 .2em; }
