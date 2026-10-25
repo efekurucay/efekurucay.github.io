@@ -72,6 +72,7 @@ blockquote {
 .buton.tiro, .buton.tiro:hover { background: #a63a3f; }
 .buton.giraffe, .buton.giraffe:hover { background: #d4a451; color: #0f1724; }
 .buton.anydisplay, .buton.anydisplay:hover { background: #23262e; }
+.buton.nfcraft, .buton.nfcraft:hover { background: #2E5BFF; }
 .buton svg { width: 1.1em; height: 1.1em; fill: currentColor; vertical-align: -.18em; margin-right: .45em; }
 /* Yan yana indirme butonlari; alt satira inince birbirine degmesin. */
 .butonlar { display: flex; flex-wrap: wrap; gap: .5em; }

@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NFCraft &mdash; Yahya Efe Kuruçay</title>
 <meta name="tur" content="project">
-<meta name="ozet" content="A modern toolkit to read, write, automate and emulate NFC tags. One monorepo, two native apps: Android and iOS.">
-<meta name="etiket" content="android, ios, nfc, kotlin">
-<meta name="description" content="A modern toolkit to read, write, automate and emulate NFC tags. One monorepo, two native apps: Android and iOS.">
+<meta name="ozet" content="Open-source NFC toolkit for Android and iOS: read, write, automate and emulate NFC tags, with cryptographic tag-authenticity verification.">
+<meta name="etiket" content="android, ios, nfc, ndef, kotlin, swift, open-source">
+<meta name="description" content="Open-source NFC toolkit for Android and iOS: read, write, automate and emulate NFC tags, with cryptographic tag-authenticity verification.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NFCraft">
-<meta property="og:description" content="A modern toolkit to read, write, automate and emulate NFC tags. One monorepo, two native apps: Android and iOS.">
+<meta property="og:description" content="Open-source NFC toolkit for Android and iOS: read, write, automate and emulate NFC tags, with cryptographic tag-authenticity verification.">
 <meta property="og:url" content="https://efekurucay.com/en/2026/10/nfcraft/">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="tr_TR">
@@ -27,6 +27,25 @@
 <link rel="stylesheet" href="/stil.css">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate" hreflang="tr" href="/tr/2026/10/nfcraft/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "NFCraft",
+  "description": "Open-source NFC toolkit for Android and iOS: read, write, automate and emulate NFC tags, with cryptographic tag-authenticity verification.",
+  "url": "https://efekurucay.com/en/2026/10/nfcraft/",
+  "downloadUrl": "https://github.com/efekurucay/nfcraft/releases/latest",
+  "codeRepository": "https://github.com/efekurucay/nfcraft",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Android 5.0+, iOS 16+",
+  "softwareVersion": "0.1.1",
+  "license": "https://opensource.org/licenses/MIT",
+  "inLanguage": "en",
+  "image": "https://efekurucay.com/en/2026/10/nfcraft/g1.webp",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Yahya Efe Kuruçay", "url": "https://efekurucay.com/en/" }
+}
+</script>
 </head>
 <body>
 
@@ -39,50 +58,72 @@
 <span class="dil"><a href="/tr/2026/10/nfcraft/" data-dil="tr">TR</a> · <a href="/en/2026/10/nfcraft/" data-dil="en">EN</a></span>
 </nav>
 
+<div class="baslik">
 <h1>NFCraft</h1>
+<a class="buton nfcraft" target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+</div>
 
-<p><small>October 2026 &middot; project &middot; Kotlin, Swift &middot;
+<p><small>25 October 2026 &middot; project &middot; Kotlin, Swift &middot;
 <a target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft">source</a> &middot;
 <a href="/en/2026/10/nfcraft/gecmis.html">history</a></small></p>
 
-<p>A modern toolkit to read, write, automate and emulate NFC tags. One
-monorepo, two native apps: a full-featured Android app (Kotlin &middot; Jetpack
-Compose) and an iOS app that covers the subset iOS permits (SwiftUI &middot;
-CoreNFC).</p>
+<p class="butonlar">
+<a class="buton nfcraft" href="https://github.com/efekurucay/nfcraft/releases/latest/download/nfcraft.apk">Download for Android</a>
+<a class="buton nfcraft" target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft#readme">Build for iOS</a>
+</p>
 
-<h2>Why</h2>
+<p><small>v0.1.1 &middot; free, MIT-licensed &middot; debug-signed APK &middot; <a target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft/releases">all releases</a></small></p>
 
-<p>Existing NFC apps are dated and cluttered. I built NFCraft from the ground
-up &mdash; clean and open source, on top of open NFC Forum standards and public
-chip datasheets. No ads, no analytics, no trackers; the only permission the core
-needs is NFC.</p>
+<p><img src="/en/2026/10/nfcraft/g1.webp" alt="NFCraft Tasks screen: 149 of 220 automation tasks across ten categories" width="1400" height="647" decoding="async"></p>
+
+<p>NFCraft reads, writes, automates and emulates NFC tags from one clean app.
+Hold a tag to the back of your phone and it identifies the chip, shows the
+serial, verifies whether the tag is genuine, and decodes its content. You can
+write your own data back, carry automation on a tag, or turn the phone itself
+into a tag.</p>
+
+<p>The NFC apps people reach for are dated and cluttered. NFCraft is a modern,
+ground-up rewrite built on open NFC Forum standards and public chip datasheets,
+in Jetpack Compose on Android and SwiftUI on iOS. No ads, no analytics, no
+trackers &mdash; the only permission the core needs is NFC.</p>
 
 <h2>What it does</h2>
 
 <ul>
-  <li><b>Read</b> &mdash; chip identification (NTAG, Ultralight, MIFARE
-      Classic/Plus, DESFire, ICODE, FeliCa), UID, manufacturer
-      originality-signature verification (pure-Kotlin secp128r1 ECDSA), and NDEF
-      decoding</li>
-  <li><b>Write</b> &mdash; 11 NDEF record types (URL, text, Wi-Fi, Bluetooth,
-      contact, email, SMS, geo, app, MIME, phone), live size, lock-after-write</li>
-  <li><b>Tasks</b> &mdash; 220 automation tasks across 10 categories, run on
-      scan with if/else/end conditions. Root/dangerous tasks are deny-by-default:
-      a Settings opt-in, an allow-list and a per-task confirmation</li>
-  <li><b>Emulate</b> &mdash; turn the phone into an NFC Forum Type 4 tag
-      (Host Card Emulation)</li>
-  <li><b>Tools</b> &mdash; memory dump, password protection, make-read-only;
-      profiles (JSON/CSV), a raw APDU console, a home-screen widget and
-      launcher shortcuts</li>
+  <li><strong>Read &amp; identify:</strong> NTAG, MIFARE Ultralight, Classic/Plus, DESFire, ICODE and FeliCa &mdash; chip type, UID, memory and decoded NDEF</li>
+  <li><strong>Genuine-tag check:</strong> verifies the manufacturer originality signature (secp128r1 ECDSA, pure Kotlin) so you know an NXP tag is real, not a clone</li>
+  <li><strong>Write:</strong> eleven NDEF record types (URL, text, Wi-Fi, contact, email, SMS, geo, app and more), with a live size readout and optional lock</li>
+  <li><strong>Automate:</strong> 220 tasks across ten categories; scan a tag and run them, with if/else conditions. Root and destructive tasks are off by default behind a confirmation</li>
+  <li><strong>Emulate:</strong> turn the phone into an NFC Forum Type 4 tag over Host Card Emulation</li>
+  <li><strong>Tools:</strong> full memory dump, password protection, make-read-only, profiles (JSON/CSV), a raw APDU console, a home-screen widget and shortcuts</li>
 </ul>
 
-<h2>iOS</h2>
+<p><img src="/en/2026/10/nfcraft/g2.webp" alt="NFCraft reading a MIFARE Classic 1K tag, showing serial, chip type and technologies" width="1400" height="647" loading="lazy" decoding="async"></p>
 
-<p>iOS exposes only a small slice of the NFC stack to third-party apps &mdash; an
-Apple limitation. The iOS app covers NDEF read/write and tag identity; raw APDU,
-MIFARE Classic, emulation (HCE) and the task engine are not available on iOS.
-NFC also requires a paid Apple Developer account &mdash; a free-signed sideload
-cannot use NFC at all.</p>
+<h2>How to use it</h2>
+
+<ol>
+  <li>Download the APK with the button above and install it (allow installing from your browser or file manager).</li>
+  <li>Open NFCraft and hold a tag to the back of the phone to read it.</li>
+  <li>To write, build a record on the Write tab and tap the tag; to automate, pick a task and write it, then scan to run.</li>
+</ol>
+
+<h2>Questions</h2>
+
+<p><strong>Is NFCraft free and open source?</strong> Yes. It is MIT-licensed, with
+no ads, no analytics and no account. The NFC core asks only for the NFC permission.</p>
+
+<p><strong>Which NFC tags does it support?</strong> It reads NTAG, MIFARE Ultralight,
+Classic and Plus, DESFire, ICODE and FeliCa, and writes NDEF to Type&nbsp;2 tags
+(NTAG / Ultralight) &mdash; including factory-blank ones, which it formats first.</p>
+
+<p><strong>Can it tell if an NFC tag is genuine?</strong> Yes. For NXP tags it reads the
+originality signature and verifies it (secp128r1 ECDSA) against the embedded
+manufacturer key, so a cloned tag fails the check.</p>
+
+<p><strong>Does it work on iPhone?</strong> There is a native iOS app for NDEF read and
+write. iOS only exposes a small slice of NFC to third-party apps, and NFC there
+needs a paid Apple Developer account &mdash; so the full toolkit lives on Android.</p>
 
 <hr>
 
