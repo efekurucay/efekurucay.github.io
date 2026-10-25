@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NFCraft &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="proje">
+<meta name="ozet" content="NFC etiketlerini okuyan, yazan, otomatikleştiren ve taklit eden modern bir araç seti. Tek monorepo, iki yerel uygulama: Android ve iOS.">
+<meta name="etiket" content="android, ios, nfc, kotlin">
+<meta name="description" content="NFC etiketlerini okuyan, yazan, otomatikleştiren ve taklit eden modern bir araç seti. Tek monorepo, iki yerel uygulama: Android ve iOS.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NFCraft">
+<meta property="og:description" content="NFC etiketlerini okuyan, yazan, otomatikleştiren ve taklit eden modern bir araç seti. Tek monorepo, iki yerel uygulama: Android ve iOS.">
+<meta property="og:url" content="https://efekurucay.com/tr/2026/10/nfcraft/">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Yahya Efe Kuruçay">
+<meta property="og:image" content="https://efekurucay.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-10-25">
+<meta property="article:author" content="Yahya Efe Kuruçay">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="https://efekurucay.com/tr/2026/10/nfcraft/">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="en" href="/en/2026/10/nfcraft/">
+</head>
+<body>
+
+<nav>
+<a href="/tr/" class="logo" aria-label="Ana sayfa"><img src="/logo.svg" alt="" width="22" height="22"></a>
+<a href="/tr/ventures/">ventures</a>
+<a href="/tr/arsiv/">log</a>
+<a href="/tr/hakkinda/">about</a>
+<a href="/tr/contact/">contact</a>
+<span class="dil"><a href="/tr/2026/10/nfcraft/" data-dil="tr">TR</a> · <a href="/en/2026/10/nfcraft/" data-dil="en">EN</a></span>
+</nav>
+
+<h1>NFCraft</h1>
+
+<p><small>Ekim 2026 &middot; proje &middot; Kotlin, Swift &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft">kaynak kod</a> &middot;
+<a href="/tr/2026/10/nfcraft/gecmis.html">geçmiş</a></small></p>
+
+<p>NFC etiketlerini okuyan, yazan, otomatikleştiren ve taklit eden modern bir
+araç seti. Tek bir monorepo, iki yerel uygulama: tam özellikli Android (Kotlin
+&middot; Jetpack Compose) ve iOS&rsquo;un izin verdiği altkümeyi kapsayan bir
+iOS uygulaması (SwiftUI &middot; CoreNFC).</p>
+
+<h2>Neden</h2>
+
+<p>Mevcut NFC uygulamaları eski ve dağınık. NFCraft&rsquo;ı açık NFC Forum
+standartları ve genel çip belgeleri üstüne, sıfırdan, temiz ve açık kaynak
+olarak yazdım. Reklam yok, analitik yok, izleyici yok; çekirdeğin ihtiyaç
+duyduğu tek izin NFC.</p>
+
+<h2>Ne yapıyor</h2>
+
+<ul>
+  <li><b>Oku</b> &mdash; çip tanıma (NTAG, Ultralight, MIFARE Classic/Plus,
+      DESFire, ICODE, FeliCa), UID, üretici orijinallik imzası doğrulama
+      (saf Kotlin secp128r1 ECDSA) ve NDEF çözümleme</li>
+  <li><b>Yaz</b> &mdash; 11 NDEF kayıt tipi (URL, metin, Wi-Fi, Bluetooth,
+      kişi, e-posta, SMS, konum, uygulama, MIME, telefon), canlı boyut,
+      yazdıktan sonra kilitleme</li>
+  <li><b>Görevler</b> &mdash; 10 kategoride 220 otomasyon görevi; etiketi
+      okutunca if/else/end koşullarıyla çalıştırma. Root/tehlikeli görevler
+      varsayılan kapalı: ayarda izin + beyaz liste + görev başına onay</li>
+  <li><b>Taklit</b> &mdash; telefonu bir NFC Forum Type 4 etiketine çevirme
+      (Host Card Emulation)</li>
+  <li><b>Araçlar</b> &mdash; bellek dökümü, parola koruma, salt-okunur yapma;
+      profiller (JSON/CSV), ham APDU konsolu, ana ekran widget&rsquo;ı,
+      kısayollar</li>
+</ul>
+
+<h2>iOS</h2>
+
+<p>iOS, NFC yığınının çok küçük bir kısmını üçüncü taraf uygulamalara açar; bu
+bir Apple kısıtı. iOS uygulaması NDEF oku/yaz ile etiket kimliğini kapsar; ham
+APDU, MIFARE Classic, taklit (HCE) ve görev motoru iOS&rsquo;ta yok. Ayrıca NFC
+için ücretli Apple Developer hesabı şart &mdash; ücretsiz imzalı yüklemede NFC
+hiç çalışmaz.</p>
+
+<hr>
+
+<address>
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft">github.com/efekurucay/nfcraft</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>
