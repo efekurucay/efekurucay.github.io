@@ -73,6 +73,8 @@ blockquote {
 .buton.giraffe, .buton.giraffe:hover { background: #d4a451; color: #0f1724; }
 .buton.anydisplay, .buton.anydisplay:hover { background: #23262e; }
 .buton svg { width: 1.1em; height: 1.1em; fill: currentColor; vertical-align: -.18em; margin-right: .45em; }
+/* Yan yana indirme butonlari; alt satira inince birbirine degmesin. */
+.butonlar { display: flex; flex-wrap: wrap; gap: .5em; }
 
 /* Baslik ve urun butonu ayni satirda; dar ekranda buton alta iner. */
 .baslik { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0 1em; }
