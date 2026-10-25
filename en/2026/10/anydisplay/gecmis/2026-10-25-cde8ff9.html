@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AnyDisplay &mdash; 2026-10-25</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<nav>
+<a href="/en/2026/10/anydisplay/gecmis.html">&larr; history</a> &middot;
+<a href="/en/2026/10/anydisplay/">current version</a>
+</nav>
+
+<p><small>This is how the entry read on <b>2026-10-25 10:00</b>
+. The current version is
+<a href="/en/2026/10/anydisplay/">here</a>.</small></p>
+
+<hr>
+
+<div class="baslik">
+<h1>AnyDisplay</h1>
+<a class="buton anydisplay" target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+</div>
+
+<p><small>25 October 2026 &middot; project &middot; Kotlin, Swift, Rust &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay">source</a> &middot;
+<a href="/en/2026/10/anydisplay/gecmis.html">history</a></small></p>
+
+<p><img src="/en/2026/10/anydisplay/g1.webp" alt="AnyDisplay logo: an infinity loop drawn across a monitor and a tablet" width="1280" height="640" decoding="async"></p>
+
+<p>AnyDisplay turns the Android phone or tablet in your drawer into a second
+screen for your computer. It connects over a USB cable or the same Wi-Fi; your
+desktop extends onto the tablet and you drag windows there. If the tablet has a
+stylus, it becomes a drawing tablet with pressure and tilt.</p>
+
+<p>Apps that do this exist, but they are closed source, most cost money and
+most support only one desktop OS. AnyDisplay is MIT-licensed, one Android app
+works with both Mac and Windows, and the protocol between them is open, so
+anyone can write their own client or host.</p>
+
+<h2>What it does</h2>
+
+<ul>
+  <li><strong>A real extended display:</strong> on a Mac it creates a virtual monitor at the device’s resolution, HiDPI, up to 120&nbsp;Hz; on Windows through the Virtual Display Driver</li>
+  <li><strong>Hardware video:</strong> H.264 and HEVC on both ends, low-latency settings, at most 3 frames in flight</li>
+  <li><strong>Pen:</strong> pressure, tilt, hover, eraser and barrel button, with palm rejection</li>
+  <li><strong>Touch:</strong> direct multi-touch, trackpad mode, two-finger scrolling</li>
+  <li><strong>Keyboard, audio, clipboard:</strong> typing in any language, computer audio on the device, clipboard both ways</li>
+  <li><strong>Security:</strong> P-256 key exchange, the same 6-digit code on both screens when pairing, AES-256-GCM on every Wi-Fi frame</li>
+</ul>
+
+<p><img src="/en/2026/10/anydisplay/g2.webp" alt="AnyDisplay streaming on a phone at 56 fps with 6.8 ms decode time and the toolbar open" width="1400" height="646" loading="lazy" decoding="async"></p>
+
+<h2>How fast</h2>
+
+<p>Measured with a Huawei P30 Pro and a MacBook Pro: 60&nbsp;fps over USB with
+no dropped frames, 5&ndash;7&nbsp;ms decode and about 3&nbsp;ms round trip. Over
+encrypted Wi-Fi it still runs at 60&nbsp;fps with a 7&ndash;20&nbsp;ms round trip.</p>
+
+<h2>How to use it</h2>
+
+<ol>
+  <li>From the <a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay/releases/latest">latest release</a>, download the APK to the device and the macOS or Windows package to the computer.</li>
+  <li>Open AnyDisplay on the device. For USB, turn on USB debugging in the developer options.</li>
+  <li>Start AnyDisplay on the computer and connect. On the first Wi-Fi connection, confirm the code shown on both screens.</li>
+</ol>
+
+<h2>Questions</h2>
+
+<p><strong>Can an Android tablet be a second monitor for a Mac?</strong> Yes.
+Apple’s Sidecar works only with an iPad; AnyDisplay does the same with Android
+devices, using a real virtual monitor on macOS 14 and later.</p>
+
+<p><strong>Is it free?</strong> Yes, MIT-licensed open source. No ads, no account, no subscription.</p>
+
+<p><strong>Does it work wirelessly?</strong> Yes. The device announces itself on the
+network with Bonjour/mDNS; the first connection pairs with a 6-digit code and
+later ones connect on their own.</p>
+
+<p><strong>What about Windows?</strong> The Windows host builds and passes its tests on
+Windows, but it has not been tried with a real device yet; reports from anyone
+who tries it help a lot.</p>
+
+<hr>
+
+<address>
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay">github.com/efekurucay/anydisplay</a>
+</address>
+
+</body>
+</html>

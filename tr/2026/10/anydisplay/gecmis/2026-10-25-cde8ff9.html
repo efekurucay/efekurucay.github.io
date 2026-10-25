@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AnyDisplay &mdash; 2026-10-25</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<nav>
+<a href="/tr/2026/10/anydisplay/gecmis.html">&larr; geçmiş</a> &middot;
+<a href="/tr/2026/10/anydisplay/">güncel hâli</a>
+</nav>
+
+<p><small>Bu, yazının <b>2026-10-25 10:00</b>
+tarihli hâli. Güncel sürüm
+<a href="/tr/2026/10/anydisplay/">burada</a>.</small></p>
+
+<hr>
+
+<div class="baslik">
+<h1>AnyDisplay</h1>
+<a class="buton anydisplay" target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+</div>
+
+<p><small>25 Ekim 2026 &middot; proje &middot; Kotlin, Swift, Rust &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay">kaynak kod</a> &middot;
+<a href="/tr/2026/10/anydisplay/gecmis.html">geçmiş</a></small></p>
+
+<p><img src="/tr/2026/10/anydisplay/g1.webp" alt="AnyDisplay logosu: monitör ile tabletin üzerinden geçen sonsuzluk işareti" width="1280" height="640" decoding="async"></p>
+
+<p>AnyDisplay, çekmecedeki Android telefonu ya da tableti bilgisayarın ikinci
+ekranına çeviriyor. USB kablosuyla ya da aynı Wi-Fi üzerinden bağlanıyor;
+masaüstü tablete uzanıyor, pencereleri oraya sürüklüyorsun. Kalem destekli bir
+tabletse basınç ve eğimle çizim tableti oluyor.</p>
+
+<p>Bu işi yapan uygulamalar var ama kapalı kaynak, çoğu ücretli ve çoğu tek bir
+masaüstü işletim sistemine bağlı. AnyDisplay MIT lisanslı, tek Android
+uygulaması hem Mac’le hem Windows’la çalışıyor ve aradaki protokol açık:
+isteyen kendi istemcisini ya da sunucusunu yazabilir.</p>
+
+<h2>Neler yapıyor</h2>
+
+<ul>
+  <li><strong>Gerçek genişletilmiş ekran:</strong> Mac’te cihazın çözünürlüğünde sanal bir monitör açıyor, HiDPI ve 120&nbsp;Hz’e kadar; Windows’ta Virtual Display Driver ile</li>
+  <li><strong>Donanım video:</strong> iki uçta da H.264 ve HEVC, düşük gecikme ayarları, en fazla 3 kare kuyruk</li>
+  <li><strong>Kalem:</strong> basınç, eğim, hover, silgi ve kalem düğmesi; avuç içi reddi</li>
+  <li><strong>Dokunma:</strong> doğrudan çoklu dokunma, trackpad modu, iki parmakla kaydırma</li>
+  <li><strong>Klavye, ses, pano:</strong> Türkçe karakterler dahil yazı, bilgisayarın sesi cihazda, iki yönlü pano</li>
+  <li><strong>Güvenlik:</strong> P-256 anahtar değişimi, ilk eşleşmede iki ekranda aynı 6 haneli kod, Wi-Fi’da her kare AES-256-GCM ile şifreli</li>
+</ul>
+
+<p><img src="/tr/2026/10/anydisplay/g2.webp" alt="AnyDisplay telefonda 56 fps ve 6.8 ms decode süresiyle akarken, araç çubuğu açık" width="1400" height="646" loading="lazy" decoding="async"></p>
+
+<h2>Ne kadar hızlı</h2>
+
+<p>Huawei P30 Pro ve MacBook Pro ile ölçtüm: USB’de 60&nbsp;fps, kayıp kare
+yok, decode 5&ndash;7&nbsp;ms, gidiş-dönüş yaklaşık 3&nbsp;ms. Wi-Fi’da şifreli
+bağlantıyla yine 60&nbsp;fps, gidiş-dönüş 7&ndash;20&nbsp;ms.</p>
+
+<h2>Nasıl kullanılır</h2>
+
+<ol>
+  <li><a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay/releases/latest">Son sürümden</a> APK’yı cihaza, macOS ya da Windows paketini bilgisayara indir.</li>
+  <li>Cihazda AnyDisplay’i aç. USB için geliştirici seçeneklerinden USB hata ayıklamayı aç.</li>
+  <li>Bilgisayarda AnyDisplay’i başlat ve cihaza bağlan. Wi-Fi’daki ilk bağlantıda iki ekranda çıkan kodu onayla.</li>
+</ol>
+
+<h2>Sık sorulanlar</h2>
+
+<p><strong>Android tablet Mac’e ikinci ekran olabilir mi?</strong> Evet. Apple’ın
+Sidecar’ı yalnızca iPad’le çalışıyor; AnyDisplay aynı işi Android cihazlarla,
+macOS 14 ve sonrasında gerçek bir sanal monitörle yapıyor.</p>
+
+<p><strong>Ücretsiz mi?</strong> Evet, MIT lisanslı açık kaynak. Reklam, hesap ya da abonelik yok.</p>
+
+<p><strong>Kablosuz çalışıyor mu?</strong> Evet. Cihaz aynı ağda kendini Bonjour/mDNS ile
+duyuruyor; ilk bağlantı 6 haneli kodla eşleşiyor, sonrakiler otomatik.</p>
+
+<p><strong>Windows’ta durum ne?</strong> Windows sunucusu Windows üzerinde derleniyor
+ve testlerden geçiyor ama gerçek bir cihazla henüz denenmedi; deneyen herkesin
+raporu işime yarar.</p>
+
+<hr>
+
+<address>
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay">github.com/efekurucay/anydisplay</a>
+</address>
+
+</body>
+</html>
