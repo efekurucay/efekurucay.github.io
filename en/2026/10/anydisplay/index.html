@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AnyDisplay &mdash; Yahya Efe Kuruçay</title>
+<meta name="tur" content="project">
+<meta name="ozet" content="Open-source app that turns an Android phone or tablet into a second monitor, touch screen and pressure-sensitive pen tablet for Mac and Windows.">
+<meta name="etiket" content="android, macos, windows, second-monitor, pen-tablet, open-source, kotlin, swift, rust">
+<meta name="description" content="Open-source app that turns an Android phone or tablet into a second monitor, touch screen and pressure-sensitive pen tablet for Mac and Windows.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AnyDisplay">
+<meta property="og:description" content="Open-source app that turns an Android phone or tablet into a second monitor, touch screen and pressure-sensitive pen tablet for Mac and Windows.">
+<meta property="og:url" content="https://efekurucay.com/en/2026/10/anydisplay/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="tr_TR">
+<meta property="og:site_name" content="Yahya Efe Kuruçay">
+<meta property="og:image" content="https://efekurucay.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-10-25">
+<meta property="article:author" content="Yahya Efe Kuruçay">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@efekurucay24">
+<meta name="twitter:creator" content="@efekurucay24">
+<link rel="canonical" href="https://efekurucay.com/en/2026/10/anydisplay/">
+<link rel="stylesheet" href="/stil.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="tr" href="/tr/2026/10/anydisplay/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AnyDisplay",
+  "description": "Open-source app that turns an Android phone or tablet into a second monitor, touch screen and pressure-sensitive pen tablet for Mac and Windows.",
+  "url": "https://efekurucay.com/en/2026/10/anydisplay/",
+  "downloadUrl": "https://github.com/efekurucay/anydisplay/releases/latest",
+  "codeRepository": "https://github.com/efekurucay/anydisplay",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Android 8.0+, macOS 14+, Windows 10/11",
+  "softwareVersion": "0.1.0",
+  "license": "https://opensource.org/licenses/MIT",
+  "inLanguage": "en",
+  "image": "https://efekurucay.com/en/2026/10/anydisplay/g1.webp",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Yahya Efe Kuruçay", "url": "https://efekurucay.com/en/" }
+}
+</script>
+</head>
+<body>
+
+<nav>
+<a href="/en/" class="logo" aria-label="Home"><img src="/logo.svg" alt="" width="22" height="22"></a>
+<a href="/en/ventures/">ventures</a>
+<a href="/en/archive/">log</a>
+<a href="/en/about/">about</a>
+<a href="/en/contact/">contact</a>
+<span class="dil"><a href="/tr/2026/10/anydisplay/" data-dil="tr">TR</a> · <a href="/en/2026/10/anydisplay/" data-dil="en">EN</a></span>
+</nav>
+
+<h1>AnyDisplay</h1>
+
+<p><small>25 October 2026 &middot; project &middot; Kotlin, Swift, Rust &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay">source</a> &middot;
+<a href="/en/2026/10/anydisplay/gecmis.html">history</a></small></p>
+
+<p><img src="/en/2026/10/anydisplay/g1.webp" alt="AnyDisplay logo: an infinity loop drawn across a monitor and a tablet" width="1280" height="640" decoding="async"></p>
+
+<p>AnyDisplay turns the Android phone or tablet in your drawer into a second
+screen for your computer. It connects over a USB cable or the same Wi-Fi; your
+desktop extends onto the tablet and you drag windows there. If the tablet has a
+stylus, it becomes a drawing tablet with pressure and tilt.</p>
+
+<p>Apps that do this exist, but they are closed source, most cost money and
+most support only one desktop OS. AnyDisplay is MIT-licensed, one Android app
+works with both Mac and Windows, and the protocol between them is open, so
+anyone can write their own client or host.</p>
+
+<h2>What it does</h2>
+
+<ul>
+  <li><strong>A real extended display:</strong> on a Mac it creates a virtual monitor at the device’s resolution, HiDPI, up to 120&nbsp;Hz; on Windows through the Virtual Display Driver</li>
+  <li><strong>Hardware video:</strong> H.264 and HEVC on both ends, low-latency settings, at most 3 frames in flight</li>
+  <li><strong>Pen:</strong> pressure, tilt, hover, eraser and barrel button, with palm rejection</li>
+  <li><strong>Touch:</strong> direct multi-touch, trackpad mode, two-finger scrolling</li>
+  <li><strong>Keyboard, audio, clipboard:</strong> typing in any language, computer audio on the device, clipboard both ways</li>
+  <li><strong>Security:</strong> P-256 key exchange, the same 6-digit code on both screens when pairing, AES-256-GCM on every Wi-Fi frame</li>
+</ul>
+
+<p><img src="/en/2026/10/anydisplay/g2.webp" alt="AnyDisplay streaming on a phone at 56 fps with 6.8 ms decode time and the toolbar open" width="1400" height="646" loading="lazy" decoding="async"></p>
+
+<h2>How fast</h2>
+
+<p>Measured with a Huawei P30 Pro and a MacBook Pro: 60&nbsp;fps over USB with
+no dropped frames, 5&ndash;7&nbsp;ms decode and about 3&nbsp;ms round trip. Over
+encrypted Wi-Fi it still runs at 60&nbsp;fps with a 7&ndash;20&nbsp;ms round trip.</p>
+
+<h2>How to use it</h2>
+
+<ol>
+  <li>From the <a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay/releases/latest">latest release</a>, download the APK to the device and the macOS or Windows package to the computer.</li>
+  <li>Open AnyDisplay on the device. For USB, turn on USB debugging in the developer options.</li>
+  <li>Start AnyDisplay on the computer and connect. On the first Wi-Fi connection, confirm the code shown on both screens.</li>
+</ol>
+
+<h2>Questions</h2>
+
+<p><strong>Can an Android tablet be a second monitor for a Mac?</strong> Yes.
+Apple’s Sidecar works only with an iPad; AnyDisplay does the same with Android
+devices, using a real virtual monitor on macOS 14 and later.</p>
+
+<p><strong>Is it free?</strong> Yes, MIT-licensed open source. No ads, no account, no subscription.</p>
+
+<p><strong>Does it work wirelessly?</strong> Yes. The device announces itself on the
+network with Bonjour/mDNS; the first connection pairs with a 6-digit code and
+later ones connect on their own.</p>
+
+<p><strong>What about Windows?</strong> The Windows host builds and passes its tests on
+Windows, but it has not been tried with a real device yet; reports from anyone
+who tries it help a lot.</p>
+
+<hr>
+
+<address>
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/anydisplay">github.com/efekurucay/anydisplay</a>
+</address>
+
+<script src="/dil.js"></script>
+</body>
+</html>
