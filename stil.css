@@ -126,6 +126,25 @@ body.giraffe small { color: #8b95a7; }
 #asistan-chat, #assistant-chat { margin-bottom: 3em; }
 hr + .sosyal { margin-top: 1.2em; opacity: .7; }
 
+/* Ana sayfa su seridi (su.js): sayfanin dibine yapisik, tam genislik. Sayfa kisaysa
+   pencerenin dibine iner; govdenin alt boslugu seridin yerini ayirir. Ust ve yanlar
+   kagida erir. Dokunmatikte yatay surukleme logoya, dikey kaydirma sayfaya. */
+html:has(canvas.su) { position: relative; min-height: 100%; }
+body:has(> canvas.su) { padding-bottom: min(17em, 48vw); }
+canvas.su {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: min(17em, 48vw);
+  touch-action: pan-y;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent), linear-gradient(transparent, #000 18%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent), linear-gradient(transparent, #000 18%);
+  mask-composite: intersect;
+}
+
 /* Girdi turu ikonu: basligin saginda, etiket gibi. Kucuk ve soluk. */
 .tur-ikon { display: inline-block; width: .75em; margin-left: .5em; opacity: .35; vertical-align: baseline; }
 .tur-ikon svg { width: 100%; height: auto; fill: currentColor; }
