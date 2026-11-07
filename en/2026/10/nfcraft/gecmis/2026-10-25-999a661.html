@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NFCraft &mdash; 2026-10-25</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/stil.css">
+<script src="/tema.js"></script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<nav>
+<a href="/en/2026/10/nfcraft/gecmis.html">&larr; history</a> &middot;
+<a href="/en/2026/10/nfcraft/">current version</a>
+</nav>
+
+<p><small>This is how the entry read on <b>2026-10-25 09:58</b>
+. The current version is
+<a href="/en/2026/10/nfcraft/">here</a>.</small></p>
+
+<hr>
+
+<h1>NFCraft</h1>
+
+<p><small>October 2026 &middot; project &middot; Kotlin, Swift &middot;
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft">source</a> &middot;
+<a href="/en/2026/10/nfcraft/gecmis.html">history</a></small></p>
+
+<p>A modern toolkit to read, write, automate and emulate NFC tags. One
+monorepo, two native apps: a full-featured Android app (Kotlin &middot; Jetpack
+Compose) and an iOS app that covers the subset iOS permits (SwiftUI &middot;
+CoreNFC).</p>
+
+<h2>Why</h2>
+
+<p>Existing NFC apps are dated and cluttered. I built NFCraft from the ground
+up &mdash; clean and open source, on top of open NFC Forum standards and public
+chip datasheets. No ads, no analytics, no trackers; the only permission the core
+needs is NFC.</p>
+
+<h2>What it does</h2>
+
+<ul>
+  <li><b>Read</b> &mdash; chip identification (NTAG, Ultralight, MIFARE
+      Classic/Plus, DESFire, ICODE, FeliCa), UID, manufacturer
+      originality-signature verification (pure-Kotlin secp128r1 ECDSA), and NDEF
+      decoding</li>
+  <li><b>Write</b> &mdash; 11 NDEF record types (URL, text, Wi-Fi, Bluetooth,
+      contact, email, SMS, geo, app, MIME, phone), live size, lock-after-write</li>
+  <li><b>Tasks</b> &mdash; 220 automation tasks across 10 categories, run on
+      scan with if/else/end conditions. Root/dangerous tasks are deny-by-default:
+      a Settings opt-in, an allow-list and a per-task confirmation</li>
+  <li><b>Emulate</b> &mdash; turn the phone into an NFC Forum Type 4 tag
+      (Host Card Emulation)</li>
+  <li><b>Tools</b> &mdash; memory dump, password protection, make-read-only;
+      profiles (JSON/CSV), a raw APDU console, a home-screen widget and
+      launcher shortcuts</li>
+</ul>
+
+<h2>iOS</h2>
+
+<p>iOS exposes only a small slice of the NFC stack to third-party apps &mdash; an
+Apple limitation. The iOS app covers NDEF read/write and tag identity; raw APDU,
+MIFARE Classic, emulation (HCE) and the task engine are not available on iOS.
+NFC also requires a paid Apple Developer account &mdash; a free-signed sideload
+cannot use NFC at all.</p>
+
+<hr>
+
+<address>
+<a target="_blank" rel="noopener" href="https://github.com/efekurucay/nfcraft">github.com/efekurucay/nfcraft</a>
+</address>
+
+</body>
+</html>
