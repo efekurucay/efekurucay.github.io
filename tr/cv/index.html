@@ -77,8 +77,21 @@
         <li>Gemma modelleri llama.cpp ile çalışır, internete hiç bağlanmaz; pasaj düzeyinde kaynak gösteren agentic RAG.</li>
         <li>Yedi modül: kaynağa bağlı savunma editörü (UYAP’a hazır UDF çıktısı), UDF/PDF/taranmış evrakı tek yüzeyde toplayan evrak akışı, olay zaman çizgisi, kişi&ndash;delil&ndash;mekân ilişki haritası, kişi dosyası özeti ve çevrimdışı TCK/CMK/PVSK taraması.</li>
         <li>Taranmış evrak için OCR; fotoğrafı çekilmiş dosya da aranabilir.</li>
-        <li>Emsal karar araması: 11 milyon Türk mahkeme kararında vektör ve kelime araması bir arada.</li>
         <li>Adını Cicero’nun asistanı Tiro’dan alıyor: kaydeder, özetler, düzenler; kanaati avukat kurar.</li>
+      </ul>
+      </details>
+      Ayrı bir proje olan tiro-emsal’a katkı verdim: 11 milyon Türk mahkeme
+      kararında anlamsal arama (PostgreSQL + pgvector, vektör ve kelime araması
+      bir arada).</dd>
+
+  <dt><b>Havalimanı transfer platformu</b> &mdash; müşteri projesi <small>Şubat &ndash; Mayıs 2026</small></dt>
+  <dd>Havalimanı VIP transferleri için çok kiracılı rezervasyon platformu;
+      her kiracıya bir alt alan adı.
+      <details><summary>Neler yaptım</summary>
+      <ul>
+        <li>Tek geliştirici.</li>
+        <li>Organizasyon başına kimlik bilgileriyle B2B rezervasyon API entegrasyonu.</li>
+        <li>Next.js 16, tRPC, Prisma, Docker.</li>
       </ul>
       </details></dd>
 </dl>
@@ -108,13 +121,20 @@
   <dt><b>Retina Dijital</b> &mdash; AI Product Engineer (sözleşmeli) <small>Ocak 2026 &ndash; devam ediyor &middot; Antalya, uzaktan</small></dt>
   <dd>Yalnızca cevap veren değil hatırlayan yapay zekâ ürünleri: RAG üzerine
       kullanıcı hafızası katmanları, etkileşim geçmişi ve tercih modelleri;
-      ölçeklenebilir mobil ve arka uç altyapısıyla. App Store ve Google Play’de
-      yayında olan, kullanıcıyı hatırlayan ve kaynak gösteren bir mobil yapay zekâ
-      rehberinin ana geliştiricisiyim.
+      ölçeklenebilir mobil ve arka uç altyapısıyla. Kaynak gösteren ve
+      kullanıcıyı hatırlayan mobil yapay zekâ rehberi Muid’in ana
+      geliştiricisiyim;
+      <a target="_blank" rel="noopener" href="https://apps.apple.com/tr/app/muid/id6780264868">App Store</a> ve
+      <a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.blackstorm07.suffa">Google Play</a>’de
+      yayında. Yabancı hastaları Türkiye’deki rinoplasti cerrahlarıyla
+      eşleştiren medikal turizm platformu
+      <a target="_blank" rel="noopener" href="https://nosejourney.com">NoseJourney</a>’de
+      en çok katkı veren ikinci kişiyim.
       <details><summary>Neler yaptım</summary>
       <ul>
-        <li>Uzun süreli hafıza çıkarımı, orkestrasyon grafı, konuşma sıkıştırma ve kriz sınıflandırıcı; pgvector ve Neo4j üzerinde arama. Expo, FastAPI, Gemini.</li>
-        <li>Yabancı hastaları Türkiye’deki cerrahlarla eşleştiren bir medikal turizm platformu için vision modeliyle fotoğraf analizi: kaliteyi denetler, anatomiyi sabit bir listeden etiketler.</li>
+        <li>Muid: uzun süreli hafıza çıkarımı, orkestrasyon grafı, konuşma sıkıştırma ve kriz sınıflandırıcı; pgvector ve Neo4j üzerinde arama. Expo, FastAPI, Gemini.</li>
+        <li>NoseJourney: vision modeliyle (multimodal LLM) fotoğraf analizi; kaliteyi denetler, anatomiyi sabit bir listeden etiketler.</li>
+        <li>NoseJourney: rol ve yetki sistemi, yönetim panelinden izlenen scraper işleri, SEO. Next.js 16, Drizzle, PostgreSQL, NextAuth.</li>
       </ul>
       </details></dd>
 
@@ -255,8 +275,9 @@
 
 <h2>Teknik</h2>
 
-<p><b>Dil ve çatılar:</b> C#, .NET, TypeScript, React, Next.js, Python, FastAPI<br>
+<p><b>Dil ve çatılar:</b> C#, .NET, TypeScript, React, Next.js, React Native, Expo, Python, FastAPI, Java, Spring Boot<br>
 <b>Veri:</b> SQL Server, PostgreSQL, Redis, Neo4j<br>
+<b>Teslimat:</b> Docker, Jenkins, GitHub Actions<br>
 <b>Yapay zekâ:</b> kendi agent harness’larım, agentic RAG, hafıza sistemleri, bilgi
 grafları, vision modelleri, MCP, LoRA, cihaz üstü çıkarım<br>
 <b>Yaklaşım:</b> clean architecture, CLI araçları</p>

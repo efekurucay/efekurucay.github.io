@@ -77,8 +77,21 @@
         <li>Agentic RAG with citations down to the passage, on Gemma models run through llama.cpp, with no internet connection at all.</li>
         <li>Seven modules: a source-anchored defence editor exporting UYAP-ready UDF, a document flow for UDF, PDF and scanned files, an event timeline, a person&ndash;evidence&ndash;place map, per-person case summaries and offline search across Turkish penal and procedural codes.</li>
         <li>OCR for scanned documents, so photographed case files are searchable too.</li>
-        <li>Court-decision search: hybrid vector and keyword search over 11 million Turkish court decisions.</li>
         <li>Named after Cicero’s assistant Tiro: it records, summarises and organises; the lawyer forms the judgement.</li>
+      </ul>
+      </details>
+      Contributed to tiro-emsal, a separate project: semantic search over
+      11 million Turkish court decisions (PostgreSQL + pgvector, hybrid vector
+      and keyword search).</dd>
+
+  <dt><b>Airport transfer platform</b> &mdash; client project <small>February &ndash; May 2026</small></dt>
+  <dd>A multi-tenant booking platform for airport VIP transfers, with a
+      subdomain for every tenant.
+      <details><summary>What I worked on</summary>
+      <ul>
+        <li>Sole developer.</li>
+        <li>B2B booking API integration with credentials per organisation.</li>
+        <li>Next.js 16, tRPC, Prisma, Docker.</li>
       </ul>
       </details></dd>
 </dl>
@@ -107,13 +120,19 @@
   <dt><b>Retina Digital</b> &mdash; AI Product Engineer (contract) <small>January 2026 &ndash; present &middot; Antalya, remote</small></dt>
   <dd>AI products that remember rather than merely respond: user memory layers,
       interaction histories and preference models on top of RAG systems, backed
-      by scalable mobile and backend infrastructure. Main developer of a mobile
-      AI guide on the App Store and Google Play that remembers the user and
-      cites its sources.
+      by scalable mobile and backend infrastructure. Main developer of Muid, a
+      mobile AI guide that cites its sources and remembers the user, live on the
+      <a target="_blank" rel="noopener" href="https://apps.apple.com/tr/app/muid/id6780264868">App Store</a> and
+      <a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.blackstorm07.suffa">Google Play</a>.
+      Second-largest contributor to
+      <a target="_blank" rel="noopener" href="https://nosejourney.com">NoseJourney</a>,
+      a medical-tourism platform that matches international patients with
+      rhinoplasty surgeons in Turkey.
       <details><summary>What I worked on</summary>
       <ul>
-        <li>Long-term memory extraction, an orchestration graph, conversation compaction and a crisis classifier, with retrieval over pgvector and a Neo4j graph. Expo, FastAPI, Gemini.</li>
-        <li>Vision-model image analysis for a medical-tourism platform that matches international patients with surgeons in Turkey: it checks photo quality and tags anatomy from a fixed list.</li>
+        <li>Muid: long-term memory extraction, an orchestration graph, conversation compaction and a crisis classifier, with retrieval over pgvector and a Neo4j graph. Expo, FastAPI, Gemini.</li>
+        <li>NoseJourney: vision-model (multimodal LLM) image analysis that checks photo quality and tags anatomy from a fixed list.</li>
+        <li>NoseJourney: a role and permission system, scraper jobs monitored from the admin panel, and SEO. Next.js 16, Drizzle, PostgreSQL, NextAuth.</li>
       </ul>
       </details></dd>
 
@@ -251,8 +270,9 @@
 
 <h2>Technical</h2>
 
-<p><b>Languages and frameworks:</b> C#, .NET, TypeScript, React, Next.js, Python, FastAPI<br>
+<p><b>Languages and frameworks:</b> C#, .NET, TypeScript, React, Next.js, React Native, Expo, Python, FastAPI, Java, Spring Boot<br>
 <b>Data:</b> SQL Server, PostgreSQL, Redis, Neo4j<br>
+<b>Delivery:</b> Docker, Jenkins, GitHub Actions<br>
 <b>AI:</b> custom agent harnesses, agentic RAG, memory systems, knowledge graphs, vision
 models, MCP, LoRA, on-device inference<br>
 <b>Practice:</b> clean architecture, CLI tooling</p>
