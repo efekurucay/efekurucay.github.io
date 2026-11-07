@@ -9,6 +9,7 @@ Tarayıcı dosyaları olduğu gibi açar.
 index.html            dil seçimi (tarayıcı diline göre yönlendirir, tercih hatırlanır)
 stil.css              tüm stil (max-width + print)
 dil.js                dil tercihini hatırlar
+tema.js               nav'a grod modu düğmesi koyar (açık/koyu), seçimi hatırlar
 robots.txt            her şey serbest, sitemap'i gösterir
 sitemap.xml           üretilir (lastmod git'ten)
 CNAME .nojekyll       GitHub Pages

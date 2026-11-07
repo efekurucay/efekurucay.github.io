@@ -349,6 +349,7 @@ def _surum_sayfasi(g, s, tr):
 <title>{baslik} &mdash; {s['tarih']}</title>
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/stil.css">
+<script src="/tema.js"></script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
@@ -421,6 +422,7 @@ def gecmis_yaz(g):
 <title>{baslik} &mdash; {'geçmiş' if tr else 'history'}</title>
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/stil.css">
+<script src="/tema.js"></script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
@@ -459,6 +461,7 @@ SAYFA = """<!DOCTYPE html>
 <meta name="twitter:creator" content="@efekurucay24">
 <link rel="canonical" href="{site}{yol}">
 <link rel="stylesheet" href="/stil.css">
+<script src="/tema.js"></script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {alternate}</head>
 <body>

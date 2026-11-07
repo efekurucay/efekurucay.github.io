@@ -1,10 +1,49 @@
-/* Tek is: uzun satiri kir. Font, renk, boyut - hepsi tarayici defaulti. */
+/* Renkler grod UI'in token'lari (grod/ui/tokens.json): sicak, dusuk doygunluklu notrler,
+   renk yalnizca durum tasir. Tema isletim sistemini izler; tema.js'in koydugu
+   data-tema="acik|koyu" bunu ezer. light-dark() her rengi iki tema icin tek yerde tutar. */
+:root { color-scheme: light dark; }
+:root[data-tema="acik"] { color-scheme: light; }
+:root[data-tema="koyu"] { color-scheme: dark; }
+:root {
+  --zemin: light-dark(oklch(0.970 0.005 85), oklch(0.215 0.004 75));
+  --yuzey: light-dark(oklch(0.990 0.003 85), oklch(0.250 0.005 75));
+  --metin: light-dark(oklch(0.280 0.008 75), oklch(0.910 0.008 85));
+  --soluk: light-dark(oklch(0.500 0.010 75), oklch(0.700 0.010 80));
+  --cizgi: light-dark(oklch(0.895 0.007 85), oklch(0.330 0.006 75));
+  --sinir: light-dark(oklch(0.640 0.010 80), oklch(0.520 0.008 80));
+  --birincil: light-dark(oklch(0.320 0.008 75), oklch(0.880 0.008 85));
+  /* Sage: grod'da "acik" demek; sayfada yalnizca grod modu dugmesi tasir. */
+  --vurgu: light-dark(oklch(0.520 0.050 150), oklch(0.740 0.060 150));
+  --halka: light-dark(oklch(0.580 0.040 150), oklch(0.640 0.045 150));
+}
+
+/* Tek is: uzun satiri kir. Yazi sistem fontu; govde 16px, basliklar 600. */
 body {
   max-width: 42em;
   margin: 2em auto;
   padding: 0 1em;
   line-height: 1.5;
+  background: var(--zemin);
+  color: var(--metin);
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+h1, h2, h3 { font-weight: 600; line-height: 1.25; }
+h1 { font-size: 1.75em; }
+h2 { font-size: 1.25em; margin-top: 1.8em; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+hr { border: 0; border-top: 1px solid var(--cizgi); }
+
+/* Linkler metin renginde; alti cizgi soluk, uzerine gelince koyulasir. */
+a {
+  color: inherit;
+  text-decoration-color: var(--sinir);
+  text-underline-offset: .2em;
+  transition: text-decoration-color 120ms cubic-bezier(0, 0, .58, 1);
+}
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid var(--halka); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { a { transition: none; } }
 
 /* Gorsel sutunu asmasin. width/height nitelikleri kutuyu pesinen ayirdigi icin
    height:auto sart; yoksa dar ekranda genislik kuculurken yukseklik sabit kalir. */
@@ -21,29 +60,56 @@ iframe {
   border: 0;
 }
 
-/* Ust nav: logo solda, sayfa linkleri ortada, dil sagda. */
+/* Ust nav: logo solda, sayfa linkleri ortada, dil sagda. Sigmazsa dil ve grod
+   ikinci satira saga iner; logo hic buzulmez. */
 nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1.4em;
+  gap: .4em 1.4em;
   margin-bottom: 2em;
 }
-nav .logo { line-height: 0; }
+nav .logo { flex: none; line-height: 0; }
 nav .logo img { display: block; }
-nav a:not(.logo) { color: inherit; }
+nav a:not(.logo) { color: inherit; text-decoration: none; }
+nav a:not(.logo):hover { text-decoration: underline; }
 nav .dil {
   margin-left: auto;
   display: flex;
   gap: .5em;
-  color: inherit;
+  color: var(--soluk);
 }
+
+/* grod modu dugmesi (tema.js ekler): grod wordmark'i, dilin saginda, soluk; acikken sage.
+   SVG 26 birim yuksek, x-yuksekligi 10 birim; 1.4em boyunda metnin x-yuksekligine oturur. */
+.tema {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--soluk);
+  line-height: 0;
+  cursor: pointer;
+  transition: color 120ms cubic-bezier(0, 0, .58, 1);
+}
+/* top: ortalanan SVG'nin taban cizgisini (y=14) yanindaki metnin taban cizgisine indirir. */
+.tema svg { display: block; position: relative; top: .09em; height: 1.4em; width: calc(1.4em * 54 / 26); }
+.tema:hover { color: var(--metin); }
+.tema[aria-pressed="true"] { color: var(--vurgu); }
+.tema:focus-visible { outline: 2px solid var(--halka); outline-offset: 2px; border-radius: 4px; }
+/* Telefonda nav tek satira sigsin: aralar daralir, grod "g"ye iner. */
+@media (max-width: 30em) {
+  nav { column-gap: .6em; }
+  .tema svg { width: calc(1.4em * 14 / 26); }
+}
+@media (prefers-reduced-motion: reduce) { .tema { transition: none; } }
 
 /* Ventures ust etiketi: kucuk buyuk harf, soluk. */
 .etiket {
   text-transform: uppercase;
   letter-spacing: .08em;
   font-size: .8em;
-  color: #777;
+  color: var(--soluk);
   margin-bottom: 0;
 }
 
@@ -52,27 +118,30 @@ blockquote {
   margin: 1.2em 0 0;
   padding: 0;
   font-style: italic;
-  color: #555;
+  color: var(--soluk);
 }
 
-/* Buton: siyah dolgu, beyaz yazi. Ana CTA'lar icin. */
+/* Buton: birincil dolgu, zemin renginde yazi. Ana CTA'lar icin. */
 .buton {
   display: inline-block;
-  background: #111;
-  color: #fff;
+  background: var(--birincil);
+  color: var(--zemin);
   padding: .5em 1.1em;
-  border-radius: 4px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
 }
-.buton:hover { background: #333; }
+.buton:hover { background: color-mix(in oklch, var(--birincil), var(--zemin) 15%); }
 
 /* Urun butonlari: kendi marka rengi. */
-.buton.fitbrand, .buton.fitbrand:hover { background: #13234e; }
-.buton.tiro, .buton.tiro:hover { background: #a63a3f; }
+.buton.fitbrand, .buton.fitbrand:hover { background: #13234e; color: #fff; }
+.buton.tiro, .buton.tiro:hover { background: #a63a3f; color: #fff; }
 .buton.giraffe, .buton.giraffe:hover { background: #d4a451; color: #0f1724; }
-.buton.anydisplay, .buton.anydisplay:hover { background: #23262e; }
-.buton.nfcraft, .buton.nfcraft:hover { background: #2E5BFF; }
+.buton.anydisplay, .buton.anydisplay:hover { background: #23262e; color: #fff; }
+.buton.nfcraft, .buton.nfcraft:hover { background: #2E5BFF; color: #fff; }
+/* Lacivert ve antrasit dolgular koyu zemine karisir; koyu temada sinir cizgisi alir. */
+.buton.fitbrand, .buton.anydisplay { border-color: light-dark(transparent, var(--sinir)); }
 .buton svg { width: 1.1em; height: 1.1em; fill: currentColor; vertical-align: -.18em; margin-right: .45em; }
 /* Yan yana indirme butonlari; alt satira inince birbirine degmesin. */
 .butonlar { display: flex; flex-wrap: wrap; gap: .5em; }
@@ -98,17 +167,17 @@ body.giraffe small { color: #8b95a7; }
   gap: .6em;
   margin: 1.2em 0;
 }
-.mozaik img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block; }
+.mozaik img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; display: block; }
 .mozaik img:first-child { grid-column: span 2; grid-row: span 2; }
 
-/* Ventures kartlari: ince cerceve, ic bosluk. */
+/* Ventures kartlari: yuzey zemini, ince cizgi, golge yok. */
 .kartlar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
   gap: 1.2em;
   margin: 1.5em 0;
 }
-.kart { border: 1px solid #ccc; border-radius: 6px; padding: 1.2em; }
+.kart { background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: 10px; padding: 1.2em; }
 .kart h2 { margin-top: 0; }
 .kart img.logo { height: 40px; width: auto; display: block; margin-bottom: .8em; }
 
@@ -143,6 +212,25 @@ canvas.su {
   -webkit-mask-composite: source-in;
   mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent), linear-gradient(transparent, #000 18%);
   mask-composite: intersect;
+  /* Shader beyaz kagida ciziyor; multiply beyazi zemin rengine erittir. */
+  mix-blend-mode: multiply;
+}
+/* Koyu tema: filtreler light-dark() almadigi icin secici iki yoldan yazilir (sistem
+   koyu ve elle acik degil, ya da elle koyu).
+   Su: kagit ters donup siyah olur, screen onu zemine eritir; parlaklik cizgileri
+   beyaza yaklastirir ki serit koyu zeminde okunsun.
+   Lycian logosu tek renk lacivert; ters cevrilince acik maviye doner. */
+:root[data-tema="koyu"] canvas.su {
+  filter: invert(1) hue-rotate(180deg) saturate(.6) brightness(1.7);
+  mix-blend-mode: screen;
+}
+:root[data-tema="koyu"] img[src="/assets/lycian.svg"] { filter: invert(1) hue-rotate(180deg); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="acik"]) canvas.su {
+    filter: invert(1) hue-rotate(180deg) saturate(.6) brightness(1.7);
+    mix-blend-mode: screen;
+  }
+  :root:not([data-tema="acik"]) img[src="/assets/lycian.svg"] { filter: invert(1) hue-rotate(180deg); }
 }
 
 /* Girdi turu ikonu: basligin saginda, etiket gibi. Kucuk ve soluk. */
@@ -151,16 +239,16 @@ canvas.su {
 
 /* CV yazdirilirken temiz ciksin. */
 @media print {
-  body { max-width: none; margin: 0; font-size: 11pt; }
+  body { max-width: none; margin: 0; font-size: 11pt; background: none; color: #000; }
   nav, form, blockquote, .yazdirma { display: none; }
   a { text-decoration: none; color: inherit; }
 }
 
 /* CV: girdiler arasi bosluk, tarih basligin altinda soluk satir; goz once "ne zaman" arar. */
 .cv dd { margin-bottom: 1em; }
-.cv dt small { display: block; color: #777; font-weight: normal; }
+.cv dt small { display: block; color: var(--soluk); font-weight: normal; }
 
 /* CV ayrintilari: kapali gelir, ok tarayicinin kendi isareti. Ozet soluk ve kucuk. */
 details { margin-top: .3em; }
-summary { cursor: pointer; color: #777; font-size: .9em; }
+summary { cursor: pointer; color: var(--soluk); font-size: .9em; }
 details ul { margin: .3em 0 .2em; }
