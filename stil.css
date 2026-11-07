@@ -1,8 +1,7 @@
 /* Renkler grod UI'in token'lari (grod/ui/tokens.json): sicak, dusuk doygunluklu notrler,
-   renk yalnizca durum tasir. Tema isletim sistemini izler; tema.js'in koydugu
-   data-tema="acik|koyu" bunu ezer. light-dark() her rengi iki tema icin tek yerde tutar. */
-:root { color-scheme: light dark; }
-:root[data-tema="acik"] { color-scheme: light; }
+   renk yalnizca durum tasir. Varsayilan acik; koyu tema yalnizca grod modunda
+   (tema.js'in koydugu data-tema="koyu"). light-dark() her rengi iki tema icin tek yerde tutar. */
+:root { color-scheme: light; }
 :root[data-tema="koyu"] { color-scheme: dark; }
 :root {
   --zemin: light-dark(oklch(0.970 0.005 85), oklch(0.215 0.004 75));
@@ -215,8 +214,7 @@ canvas.su {
   /* Shader beyaz kagida ciziyor; multiply beyazi zemin rengine erittir. */
   mix-blend-mode: multiply;
 }
-/* Koyu tema: filtreler light-dark() almadigi icin secici iki yoldan yazilir (sistem
-   koyu ve elle acik degil, ya da elle koyu).
+/* Koyu tema (grod modu): filtreler light-dark() almaz, data-tema'dan secilir.
    Su: kagit ters donup siyah olur, screen onu zemine eritir; parlaklik cizgileri
    beyaza yaklastirir ki serit koyu zeminde okunsun.
    Lycian logosu tek renk lacivert; ters cevrilince acik maviye doner. */
@@ -225,13 +223,6 @@ canvas.su {
   mix-blend-mode: screen;
 }
 :root[data-tema="koyu"] img[src="/assets/lycian.svg"] { filter: invert(1) hue-rotate(180deg); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-tema="acik"]) canvas.su {
-    filter: invert(1) hue-rotate(180deg) saturate(.6) brightness(1.7);
-    mix-blend-mode: screen;
-  }
-  :root:not([data-tema="acik"]) img[src="/assets/lycian.svg"] { filter: invert(1) hue-rotate(180deg); }
-}
 
 /* Girdi turu ikonu: basligin saginda, etiket gibi. Kucuk ve soluk. */
 .tur-ikon { display: inline-block; width: .75em; margin-left: .5em; opacity: .35; vertical-align: baseline; }

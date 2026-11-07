@@ -1,17 +1,13 @@
-// grod modu: nav'daki grod ikonu sayfayi koyu temaya gecirir, tekrar basinca aciga.
-// <head>'de senkron yuklenir ki kayitli tema ilk boyamadan once uygulansin; secim
-// yoksa tema isletim sistemini izler (stil.css).
+// grod modu: nav'daki grod wordmark'i sayfayi koyu temaya gecirir, tekrar basinca aciga.
+// Varsayilan acik. <head>'de senkron yuklenir ki kayitli secim ilk boyamadan once
+// uygulansin.
 (function () {
   var kok = document.documentElement;
-  var kayitli = null;
-  try { kayitli = localStorage.getItem("tema"); } catch (e) {}
-  if (kayitli === "acik" || kayitli === "koyu") kok.setAttribute("data-tema", kayitli);
+  try {
+    if (localStorage.getItem("tema") === "koyu") kok.setAttribute("data-tema", "koyu");
+  } catch (e) {}
 
-  var sistemKoyu = matchMedia("(prefers-color-scheme: dark)");
-  function koyuMu() {
-    var t = kok.getAttribute("data-tema");
-    return t ? t === "koyu" : sistemKoyu.matches;
-  }
+  function koyuMu() { return kok.getAttribute("data-tema") === "koyu"; }
 
   document.addEventListener("DOMContentLoaded", function () {
     var nav = document.querySelector("nav");
@@ -33,12 +29,11 @@
 
     function isaretle() { dugme.setAttribute("aria-pressed", String(koyuMu())); }
     isaretle();
-    sistemKoyu.addEventListener("change", isaretle);
 
     dugme.addEventListener("click", function () {
-      var yeni = koyuMu() ? "acik" : "koyu";
-      kok.setAttribute("data-tema", yeni);
-      try { localStorage.setItem("tema", yeni); } catch (e) {}
+      if (koyuMu()) kok.removeAttribute("data-tema");
+      else kok.setAttribute("data-tema", "koyu");
+      try { localStorage.setItem("tema", koyuMu() ? "koyu" : "acik"); } catch (e) {}
       isaretle();
     });
     nav.appendChild(dugme);
