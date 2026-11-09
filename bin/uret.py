@@ -254,6 +254,13 @@ def sitemap_yaz(girisler):
         # Yil ve ay indeksleri uretilir; listeledikleri en yeni giris kadar tazedir.
         for y in (f"/{g['dil']}/{g['yil']}/", f"/{g['dil']}/{g['yil']}/{g['ay']}/"):
             tarih[y] = max(tarih.get(y, ""), g["git_son"])
+    # Ayni domain altinda ayri GitHub Pages reposundan sunulan AnyDisplay sayfalari.
+    # Yerel git gecmisi bu dosyalari kapsamadigi icin lastmod uydurulmaz.
+    for y in ["/anydisplay/", "/anydisplay/superdisplay-alternative/",
+              "/anydisplay/android-second-monitor-apps/",
+              "/anydisplay/android-second-monitor-mac/",
+              "/anydisplay/android-second-monitor-windows/"]:
+        tarih[y] = ""
     satirlar = "\n".join(
         f"  <url><loc>{SITE}{y}</loc>"
         + (f"<lastmod>{tarih[y]}</lastmod>" if tarih[y] else "")

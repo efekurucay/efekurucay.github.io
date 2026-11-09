@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://efekurucay.com/sitemap.xml
+
+Sitemap: https://efekurucay.com/anydisplay/sitemap.xml
