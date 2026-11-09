@@ -277,7 +277,9 @@ def _govde(sayfa):
     if "</nav>" not in sayfa or "<script" not in sayfa:
         return ""
     bas = sayfa.index("</nav>") + len("</nav>")
-    son = sayfa.index("<script", bas)
+    son = sayfa.find("<script", bas)
+    if son == -1:
+        return ""
     return sayfa[bas:son].strip()
 
 
