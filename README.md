@@ -11,7 +11,7 @@ stil.css              tüm stil (max-width + print)
 dil.js                dil tercihini hatırlar
 tema.js               nav'a grod modu düğmesi koyar (açık/koyu), seçimi hatırlar
 su.js                 WebGL su sahnesi, yüzen logolar ve ada çevresindeki dalgalar
-ada.js                karşılama balonu, tıklama sonrası davet ve kayıt bağlantısı
+ada.js                karşılama, davet ve asistan yanıtları için konuşma balonu
 robots.txt            her şey serbest, sitemap'i gösterir
 sitemap.xml           üretilir (lastmod git'ten)
 CNAME .nojekyll       GitHub Pages
@@ -52,7 +52,9 @@ python3 -m http.server 8000
 TR ve EN ana sayfalarında adaya tıklamak AkdenizOS’u açar. Konuşma balonu
 görünür olduğunda bir kez yazılır. Balona tıklama ikinci mesajı açar; metin
 tamamlandıktan 1,2 saniye sonra kayıt bağlantısı görünür. Hareket azaltma
-tercihinde metin ve bağlantı beklemeden gösterilir.
+tercihinde metin ve bağlantı beklemeden gösterilir. Adanın altındaki soru
+alanı Docentic’e bağlıdır; kısa yanıtlar aynı balonda akar. Soru sorulunca
+karşılama animasyonu durur. Sohbet dökümü sayfayı uzatmaz.
 
 `assets/akdenizos-ada.svg` ada ve palmiye çizimi, `assets/efe-ada.webp`
 fotoğraf referansıyla oluşturulan gravür figürüdür. Kayıt adresi

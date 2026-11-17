@@ -14,6 +14,7 @@
     if (!document.hidden) kayit.hidden = false;
   }
   function tamamla() {
+    if (durum === "sohbet") return;
     clearTimeout(zamanlayici);
     zamanlayici = null;
     harf = mesaj.length;
@@ -22,7 +23,7 @@
   }
   function yaz() {
     zamanlayici = null;
-    if (document.hidden) return;
+    if (document.hidden || durum === "sohbet") return;
     if (azalt.matches) { tamamla(); return; }
     if (harf >= mesaj.length) {
       if (durum === "davet" && kayit.hidden) zamanlayici = setTimeout(davetiAc, 1200);
@@ -38,7 +39,20 @@
     if (azalt.matches) tamamla();
     else zamanlayici = setTimeout(yaz, 1000);
   }
+  balon.addEventListener("docentic:response", function () {
+    clearTimeout(zamanlayici);
+    zamanlayici = null;
+    basladi = true;
+    durum = "sohbet";
+    kayit.hidden = true;
+    balon.removeAttribute("aria-expanded");
+    balon.removeAttribute("aria-controls");
+  });
   balon.addEventListener("click", function () {
+    if (durum === "sohbet") {
+      document.querySelector(".ada-soru input[data-in]").focus({ preventScroll: true });
+      return;
+    }
     if (durum === "davet") return;
     clearTimeout(zamanlayici);
     basladi = true;

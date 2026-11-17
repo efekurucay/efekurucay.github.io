@@ -190,19 +190,18 @@ body.giraffe small { color: #8b95a7; }
 .sosyal svg { width: 20px; height: 20px; fill: currentColor; display: block; }
 .sosyal a:hover { opacity: .6; }
 
-/* Ana sayfada ikonlar asistanin altinda alt bilgi gibi duruyor: arasi acik, ton soluk. */
-#asistan-chat, #assistant-chat { margin-bottom: 3em; }
+/* Ana sayfada sosyal ikonlar alt bilgi gibi soluk durur. */
 hr + .sosyal { margin-top: 1.2em; opacity: .7; }
 
-/* Ana sayfa su seridi (su.js): sayfanin dibine yapisik, tam genislik. Sayfa kisaysa
-   pencerenin dibine iner; govdenin alt boslugu seridin yerini ayirir. Ust ve yanlar
+/* Ana sayfa su seridi (su.js): soru alaninin ustunde, tam genislik. Govdenin
+   alt boslugu deniz ve soru alaninin yerini ayirir. Ust ve yanlar
    kagida erir. Dokunmatikte yatay surukleme logoya, dikey kaydirma sayfaya. */
 html:has(canvas.su) { position: relative; min-height: 100%; }
-body:has(> canvas.su) { padding-bottom: min(17em, 48vw); }
+body:has(> canvas.su) { padding-bottom: calc(min(17em, 48vw) + 10em); }
 canvas.su {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 70px;
   display: block;
   width: 100%;
   height: min(17em, 48vw);
@@ -248,7 +247,7 @@ details ul { margin: .3em 0 .2em; }
 .akdenizos-ada {
   position: absolute;
   left: 20%;
-  bottom: 62px;
+  bottom: 132px;
   width: 310px;
   transform: translateX(-50%);
   color: #233d49;
@@ -264,7 +263,7 @@ details ul { margin: .3em 0 .2em; }
 :root[data-tema="koyu"] .akdenizos-ada { color: #d4e7ee; }
 :root[data-tema="koyu"] .akdenizos-ada img { filter: invert(1) hue-rotate(180deg) saturate(.6) brightness(1.2); }
 @media (max-width: 600px) {
-  .akdenizos-ada { width: 184px; left: 26%; bottom: 28px; }
+  .akdenizos-ada { width: 184px; left: 26%; bottom: 98px; }
   .ada-isim { font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -275,7 +274,7 @@ details ul { margin: .3em 0 .2em; }
   position: relative; color: inherit; cursor: pointer; font-family: inherit;
   padding: 7px 12px; border: 1.3px solid currentColor;
   border-radius: 14px; background: var(--zemin);
-  width: max-content; max-width: 184px; box-sizing: border-box;
+  width: max-content; max-width: min(260px, calc(100vw - 43vw)); box-sizing: border-box;
   white-space: normal; text-align: left; font-size: 14px; line-height: 1.35;
 }
 .ada-balon::after {
@@ -298,6 +297,15 @@ details ul { margin: .3em 0 .2em; }
 }
 
 .ada-kesfet { display: block; color: inherit; text-decoration: none; }
-.ada-sohbet { position: absolute; left: 78%; bottom: 61%; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; width: max-content; max-width: 184px; }
+.ada-sohbet { position: absolute; left: 78%; bottom: 61%; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; width: max-content; max-width: min(260px, calc(100vw - 43vw)); }
 .ada-kayit { display: block; max-width: 184px; padding: 4px 7px; background: var(--zemin); color: var(--metin); font-size: 12px; line-height: 1.4; text-align: left; }
 .ada-kayit[hidden] { display: none; }
+
+/* Soru sabit yerde kalir; yanit adadaki balonda akar. */
+.ada-soru.dctc { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); width: min(32em, calc(100% - 2em)); font-size: 16px; z-index: 2; }
+.ada-soru.dctc form { margin: 0; align-items: stretch; }
+.ada-soru.dctc input.q { min-width: 0; background: var(--zemin); outline: revert; }
+.ada-soru.dctc button { min-height: 44px; background: var(--zemin); }
+.ada-soru.dctc button:disabled { cursor: wait; opacity: .5; }
+.ada-soru.dctc :focus-visible { outline: 2px solid var(--halka); outline-offset: 3px; }
+.ada-balon { overflow-wrap: anywhere; }
