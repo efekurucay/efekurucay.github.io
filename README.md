@@ -54,7 +54,8 @@ görünür olduğunda bir kez yazılır. Balona tıklama ikinci mesajı açar; m
 tamamlandıktan 1,2 saniye sonra kayıt bağlantısı görünür. Hareket azaltma
 tercihinde metin ve bağlantı beklemeden gösterilir. Adanın altındaki soru
 alanı Docentic’e bağlıdır; kısa yanıtlar aynı balonda akar. Soru sorulunca
-karşılama animasyonu durur. Sohbet dökümü sayfayı uzatmaz.
+karşılama animasyonu durur. Sohbet dökümü sayfayı uzatmaz. Bekleme ve araç çağrıları balonda görünür.
+Yüzen logolar, adanın ve kendi genişliklerini kapsayan çarpışma alanına giremez.
 
 `assets/akdenizos-ada.svg` ada ve palmiye çizimi, `assets/efe-ada.webp`
 fotoğraf referansıyla oluşturulan gravür figürüdür. Kayıt adresi

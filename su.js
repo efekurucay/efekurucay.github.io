@@ -355,8 +355,9 @@ void main(){
       if (adaYeri && L !== tutulan) {
         var ax = L.x - adaYeri[0], az = L.z - adaYeri[1];
         var uzaklik = Math.hypot(ax, az);
-        if (uzaklik < 1.35 && uzaklik > 0.001) {
-          var itis = (1.35 - uzaklik) * 12 * dt;
+        var kiyiMesafesi = adaDeniz[2] + 1.2;
+        if (uzaklik < kiyiMesafesi && uzaklik > 0.001) {
+          var itis = (kiyiMesafesi - uzaklik) * 12 * dt;
           L.vx += ax / uzaklik * itis;
           L.vz += az / uzaklik * itis;
         }
@@ -365,6 +366,19 @@ void main(){
       L.z = Math.min(Math.max(L.z + L.vz * dt, 3.8), 20);
       if (L !== tutulan && L.x > sinir) L.x -= 2 * sinir;
       if (L !== tutulan && L.x < -sinir) L.x += 2 * sinir;
+      // Kiyinin ve logonun genisligi carpisma alanina dahildir; surukleme de bunu asamaz.
+      if (adaYeri) {
+        var cx = L.x - adaYeri[0], cz = L.z - adaYeri[1];
+        var mesafe = Math.hypot(cx, cz), yaricap = adaDeniz[2] + 0.85;
+        if (mesafe < yaricap) {
+          var nx = mesafe > 0.001 ? cx / mesafe : 1;
+          var nz = mesafe > 0.001 ? cz / mesafe : 0;
+          L.x = adaYeri[0] + nx * yaricap;
+          L.z = adaYeri[1] + nz * yaricap;
+          var iceri = Math.min(0, (L.hiz + L.vx) * nx + L.vz * nz);
+          L.vx -= iceri * nx; L.vz -= iceri * nz;
+        }
+      }
       // Batma bir yay gibi: asagi itilir, salinarak yerine doner.
       // Tutulan sudan kalkar, ustune gelinen biraz batar.
       var hedefY = L === tutulan ? 0.3 : L === ustteki ? -0.03 : 0;
