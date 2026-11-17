@@ -2,6 +2,7 @@
 // Tek WebGL2 shader; derleme yok, bagimlilik yok. WebGL2 yoksa serit gorunmez.
 (function () {
   var tuval = document.querySelector("canvas.su");
+  var ada = document.querySelector(".akdenizos-ada");
   if (!tuval) return;
   var gl = tuval.getContext("webgl2", { antialias: false });
   if (!gl) { tuval.style.display = "none"; return; }
@@ -43,6 +44,7 @@
 "uniform vec2 coz;\n" +
 "uniform float zaman,tanY,oran;\n" +
 "uniform vec3 kam,ileri,yukari;\n" +
+"uniform vec3 adaSu;\n" +
 "uniform vec4 lpos[" + N + "];\n" +
 "uniform mat3 lrot[" + N + "];\n" +
 "uniform vec4 dalga[" + D + "];\n" +
@@ -98,6 +100,11 @@ vec3 halka(vec2 w){
     float a=u*16.-zaman*2.4;
     r+=vec3(k*sin(a),k*16.*cos(a)*v/u);
   }
+  // Kiyiya ulasan su adanin cevresinde kirilir.
+  vec2 av=w-adaSu.xy; float au=length(av)+1e-4;
+  float ak=.004*exp(-abs(au-adaSu.z)*3.)*step(.01,adaSu.z);
+  float aa=(au-adaSu.z)*14.-zaman*1.5;
+  r+=vec3(ak*sin(aa),ak*14.*cos(aa)*av/au);
   return r;
 }
 // Imlec ve tiklamanin dalgalari: merkezden yayilan, sonumlenen halka paketi.
@@ -283,7 +290,7 @@ void main(){
   gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
 
   var U = {};
-  ["coz", "zaman", "tanY", "oran", "kam", "ileri", "yukari", "lpos", "lrot", "dalga"].forEach(function (a) {
+  ["coz", "zaman", "tanY", "oran", "kam", "ileri", "yukari", "adaSu", "lpos", "lrot", "dalga"].forEach(function (a) {
     U[a] = gl.getUniformLocation(prog, a);
   });
   gl.uniform1f(U.tanY, TAN);
@@ -315,9 +322,16 @@ void main(){
 
   var pos = new Float32Array(N * 4), rot = new Float32Array(N * 9), en = 1, boy = 1;
   var onceki = null;
+  var adaDeniz = [0, 0, 0];
 
   function guncelle(t, dt) {
     var yariEn = TAN * en / boy;
+    var adaYeri = null;
+    if (ada) {
+      var adaKutu = ada.getBoundingClientRect();
+      adaYeri = suyaIndir({ clientX: adaKutu.left + adaKutu.width / 2, clientY: adaKutu.top + adaKutu.height * 0.8 });
+      if (adaYeri) adaDeniz = [adaYeri[0], adaYeri[1], adaKutu.width / tuval.clientHeight * TAN * adaYeri[1] * 0.7];
+    }
     // Logolar ust uste binmesin: yakinlasan cift birbirini hafifce iter.
     for (var a = 0; a < N; a++) for (var b = a + 1; b < N; b++) {
       var A = LOGOLAR[a], B = LOGOLAR[b], dx = B.x - A.x, dz = B.z - A.z, d = Math.hypot(dx, dz);
@@ -336,6 +350,16 @@ void main(){
       if (L === tutulan && hedef) {
         L.vx = Math.max(-4, Math.min(4, (hedef[0] - L.x) * 10)) - L.hiz;
         L.vz = Math.max(-4, Math.min(4, (hedef[1] - L.z) * 10));
+      }
+      // Ada sabittir; serbest logolar kiyinin etrafindan akar.
+      if (adaYeri && L !== tutulan) {
+        var ax = L.x - adaYeri[0], az = L.z - adaYeri[1];
+        var uzaklik = Math.hypot(ax, az);
+        if (uzaklik < 1.35 && uzaklik > 0.001) {
+          var itis = (1.35 - uzaklik) * 12 * dt;
+          L.vx += ax / uzaklik * itis;
+          L.vz += az / uzaklik * itis;
+        }
       }
       L.x += (L.hiz + L.vx) * dt;
       L.z = Math.min(Math.max(L.z + L.vz * dt, 3.8), 20);
@@ -366,6 +390,7 @@ void main(){
   function ciz(t, dt) {
     guncelle(t, dt);
     gl.uniform1f(U.zaman, t);
+    gl.uniform3fv(U.adaSu, adaDeniz);
     gl.uniform4fv(U.lpos, pos);
     gl.uniformMatrix3fv(U.lrot, false, rot);
     gl.uniform4fv(U.dalga, dalgaVeri);
