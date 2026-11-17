@@ -58,4 +58,4 @@ karşılama animasyonu durur. Sohbet dökümü sayfayı uzatmaz.
 
 `assets/akdenizos-ada.svg` ada ve palmiye çizimi, `assets/efe-ada.webp`
 fotoğraf referansıyla oluşturulan gravür figürüdür. Kayıt adresi
-`https://akdenizos.org/#katil` olarak tanımlıdır.
+`https://akdenizos.org/` olarak tanımlıdır.
