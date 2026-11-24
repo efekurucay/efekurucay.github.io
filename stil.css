@@ -310,6 +310,7 @@ details ul { margin: .3em 0 .2em; }
 .ada-soru.dctc :focus-visible { outline: 2px solid var(--halka); outline-offset: 3px; }
 .ada-balon { overflow-wrap: anywhere; }
 
+html:has(.gorunum-baslik) { scrollbar-gutter: stable; }
 .gorunum-baslik {
   display: flex;
   align-items: center;
@@ -331,6 +332,7 @@ nav.gorunum {
 .gorunum a {
   display: grid;
   place-items: center;
+  min-inline-size: 5ch;
   min-height: 2rem;
   padding-inline: .7em;
   border-radius: 3px;
@@ -341,31 +343,12 @@ nav.gorunum {
   font-weight: 700;
 }
 
-body.agent {
-  max-width: 58rem;
+main.agent {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-.agent-ust, .agent-kontroller, .agent-kimlik {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: .65rem 1rem;
-}
-.agent-ust {
-  justify-content: space-between;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--cizgi);
-}
-.agent-kimlik { text-decoration: none; font-size: .875rem; }
-.agent-kimlik:hover { text-decoration: underline; }
-.agent-dil { gap: .65em; margin: 0; font-size: .8125rem; color: var(--soluk); }
-.agent-dil a[aria-current="page"] { color: var(--metin); text-decoration: underline; }
-.agent main {
-  max-width: 82ch;
-  padding-block: clamp(2rem, 6vw, 4.5rem);
+  padding-block-start: 1.2rem;
   line-height: 1.75;
 }
-.agent main h1, .agent main h2 {
+.agent h2 {
   margin: 0 0 1.5em;
   font-size: 1em;
   line-height: inherit;
