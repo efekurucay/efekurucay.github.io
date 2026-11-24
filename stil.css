@@ -309,3 +309,79 @@ details ul { margin: .3em 0 .2em; }
 .ada-soru.dctc button:disabled { cursor: wait; opacity: .5; }
 .ada-soru.dctc :focus-visible { outline: 2px solid var(--halka); outline-offset: 3px; }
 .ada-balon { overflow-wrap: anywhere; }
+
+.gorunum-baslik {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .6em 1em;
+}
+.gorunum-baslik h1 { margin: 0; }
+nav.gorunum {
+  flex: none;
+  flex-wrap: nowrap;
+  gap: 2px;
+  margin: 0;
+  padding: 2px;
+  border: 1px solid var(--sinir);
+  border-radius: 6px;
+  font: .8125rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.gorunum a {
+  display: grid;
+  place-items: center;
+  min-height: 2rem;
+  padding-inline: .7em;
+  border-radius: 3px;
+}
+.gorunum a[aria-current="page"] {
+  background: var(--birincil);
+  color: var(--zemin);
+  font-weight: 700;
+}
+
+body.agent {
+  max-width: 58rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.agent-ust, .agent-kontroller, .agent-kimlik {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .65rem 1rem;
+}
+.agent-ust {
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--cizgi);
+}
+.agent-kimlik { text-decoration: none; font-size: .875rem; }
+.agent-kimlik:hover { text-decoration: underline; }
+.agent-dil { gap: .65em; margin: 0; font-size: .8125rem; color: var(--soluk); }
+.agent-dil a[aria-current="page"] { color: var(--metin); text-decoration: underline; }
+.agent main {
+  max-width: 82ch;
+  padding-block: clamp(2rem, 6vw, 4.5rem);
+  line-height: 1.75;
+}
+.agent main h1, .agent main h2 {
+  margin: 0 0 1.5em;
+  font-size: 1em;
+  line-height: inherit;
+}
+.agent-alinti { margin: 0 0 2.25em; font-style: normal; }
+.agent-alinti p { margin: 0; }
+.agent-kaynaklar + .agent-kaynaklar { margin-top: 2.25em; }
+.agent-kaynaklar ul { margin: 0; padding: 0; list-style: none; }
+.agent-alinti, .agent-kaynaklar li {
+  display: grid;
+  grid-template-columns: 1ch minmax(0, 1fr);
+  gap: 1ch;
+  text-wrap: pretty;
+}
+.agent-kaynaklar li + li { margin-top: .3em; }
+@media (forced-colors: active) {
+  .gorunum a[aria-current="page"] { outline: 1px solid currentColor; outline-offset: -2px; }
+  .gorunum a[aria-current="page"]:focus-visible { outline-offset: 2px; }
+}
